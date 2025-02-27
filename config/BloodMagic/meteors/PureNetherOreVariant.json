@@ -1,0 +1,32 @@
+{
+  "ores": [
+    "OREDICT:oreNetherrackNetherQuartz:150",
+    "OREDICT:oreNetherrackSulfur:100",
+    "OREDICT:oreNetherrackSphalerite:100",
+    "OREDICT:oreNetherrackThorium:100",
+    "OREDICT:oreNetherrackEmerald:50",
+    "OREDICT:oreNetherrackBeryllium:100",
+    "OREDICT:oreNetherrackIron:75",
+    "OREDICT:oreNetherrackChalcopyrite:75",
+    "OREDICT:oreNetherrackPyrite:75",
+    "OREDICT:oreNetherrackCopper:100",
+    "OREDICT:oreNetherrackTetrahedrite:125",
+    "OREDICT:oreNetherrackStibnite:75",
+    "OREDICT:oreNetherrackTantalite:75",
+    "OREDICT:oreNetherrackPyrolusite:75",
+    "OREDICT:oreNetherrackGrossular:50",
+    "OREDICT:oreNetherrackSpessartine:50",
+    "OREDICT:oreNetherrackQuartzite:75",
+    "OREDICT:oreNetherrackBarite:75",
+    "OREDICT:oreNetherrackRedstone:100",
+    "OREDICT:oreNetherrackRuby:75",
+    "OREDICT:oreNetherrackCinnabar:70",
+    "OREDICT:oreNetherrackCertusQuartz:100",
+    "OREDICT:oreNetherrackFirestone:20"
+  ],
+  "radius": 18,
+  "cost": 1200000,
+  "focusModId": "gregtech",
+  "focusName": "gt.blockmachines",
+  "focusMeta": 482
+}

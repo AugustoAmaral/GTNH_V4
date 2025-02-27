@@ -1,0 +1,27 @@
+{
+  "ores": [
+    "OREDICT:oreEndstoneBlackPlutonium:100",
+    "OREDICT:oreEndstoneCosmicNeutronium:5",
+    "OREDICT:oreEndstoneYttrium:75",
+    "OREDICT:oreEndstoneGallium:75",
+    "OREDICT:oreEndstoneMysteriousCrystal:25",
+    "OREDICT:oreEndstoneDeepIron:150",
+    "OREDICT:oreEndstoneNaquadah:125",
+    "OREDICT:oreEndstoneNaquadahEnriched:75",
+    "OREDICT:oreEndstoneNaquadria:50",
+    "OREDICT:oreEndstoneUranium235:25",
+    "OREDICT:oreEndstonePlutonium241:25",
+    "OREDICT:oreEndstoneUranium:50",
+    "OREDICT:oreEndstonePlutonium:50",
+    "OREDICT:oreEndstoneSamarium:25",
+    "OREDICT:oreEndstoneNetherStar:10",
+    "OREDICT:oreEndstoneNeutronium:10",
+    "OREDICT:oreEndstoneNiobium:75",
+    "OREDICT:oreEndstoneBorax:75"
+  ],
+  "radius": 22,
+  "cost": 100000000,
+  "focusModId": "gregtech",
+  "focusName": "gt.blockmachines",
+  "focusMeta": 10951
+}

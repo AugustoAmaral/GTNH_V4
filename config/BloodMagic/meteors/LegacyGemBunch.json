@@ -1,0 +1,32 @@
+{
+  "ores": [
+    "OREDICT:oreBlackgraniteDiamond:100",
+    "OREDICT:oreBlackgraniteEmerald:50",
+    "OREDICT:oreBlackgraniteRuby:50",
+    "OREDICT:oreBlackgraniteSapphire:25",
+    "OREDICT:oreBlackgraniteGreenSapphire:25",
+    "OREDICT:oreBlackgraniteOlivine:25",
+    "OREDICT:oreBlackgraniteTopaz:25",
+    "OREDICT:oreBlackgraniteTanzanite:25",
+    "OREDICT:oreBlackgraniteAmethyst:25",
+    "OREDICT:oreBlackgraniteOpal:25",
+    "OREDICT:oreBlackgraniteJasper:25",
+    "OREDICT:oreBlackgraniteBlueTopaz:25",
+    "OREDICT:oreBlackgraniteGarnetRed:25",
+    "OREDICT:oreBlackgraniteGarnetYellow:25",
+    "OREDICT:oreBlackgraniteJade:25",
+    "OREDICT:oreBlackgraniteVinteum:25",
+    "OREDICT:oreBlackgraniteLapis:50",
+    "OREDICT:oreBlackgraniteLazurite:50",
+    "OREDICT:oreBlackgraniteNetherStar:1"
+  ],
+  "filler": [
+    "OREDICT:stoneGraniteBlack:499"
+  ],
+  "radius": 12,
+  "cost": 500000,
+  "focusModId": "gregtech",
+  "focusName": "gt.metaitem.01",
+  "focusMeta": 24347,
+  "fillerChance": 44
+}

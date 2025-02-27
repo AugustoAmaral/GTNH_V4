@@ -1,0 +1,19 @@
+{
+  "ores": [
+    "OREDICT:oreMarbleBauxite:175",
+    "OREDICT:oreMarbleIlmenite:125",
+    "OREDICT:oreMarbleAluminium:75",
+    "OREDICT:oreMarbleChromite:50",
+    "OREDICT:oreMarbleUvarovite:75",
+    "OREDICT:oreMarblePerlite:50",
+    "OREDICT:oreMarbleBastnasite:100",
+    "OREDICT:oreMarbleNeodymium:75",
+    "OREDICT:oreMarbleMonazite:75",
+    "OREDICT:oreMarbleMeteoricIron:75"
+  ],
+  "radius": 16,
+  "cost": 2000000,
+  "focusModId": "gregtech",
+  "focusName": "gt.metaitem.01",
+  "focusMeta": 32682
+}
