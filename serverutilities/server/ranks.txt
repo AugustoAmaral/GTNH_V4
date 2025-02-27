@@ -1,0 +1,43 @@
+// For more info visit https://github.com/GTNewHorizons/ServerUtilities
+
+[player]
+priority: 1
+default_player_rank: true
+serverutilities.claims.max_chunks: 100
+serverutilities.chunkloader.max_chunks: 50
+serverutilities.homes.max: 1
+serverutilities.homes.warmup: 60s
+serverutilities.homes.cooldown: 7200s
+
+[vip]
+priority: 20
+serverutilities.chat.name_format: <&bVIP {name}&r>
+serverutilities.claims.max_chunks: 500
+serverutilities.chunkloader.max_chunks: 100
+serverutilities.homes.max: 1
+serverutilities.homes.warmup: 5s
+serverutilities.homes.cooldown: 3600s
+serverutilities.homes.cross_dim: true
+
+[cm]
+priority: 3
+power: 80
+serverutilities.chat.name_format: <&6{name}&r>
+serverutilities.claims.max_chunks: 1000
+serverutilities.chunkloader.max_chunks: 500
+serverutilities.homes.max: 1
+serverutilities.homes.warmup: 10s
+serverutilities.homes.cooldown: 600s
+serverutilities.homes.cross_dim: true
+
+[admin]
+priority: 100
+default_op_rank: true
+serverutilities.chat.name_format: <&2{name}&r>
+serverutilities.claims.max_chunks: 5000
+serverutilities.chunkloader.max_chunks: 1000
+serverutilities.claims.bypass_limits: true
+serverutilities.homes.max: 100
+serverutilities.homes.warmup: 0s
+serverutilities.homes.cooldown: 0s
+serverutilities.homes.cross_dim: true

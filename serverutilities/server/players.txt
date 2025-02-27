@@ -1,0 +1,34 @@
+// For more info visit https://github.com/GTNewHorizons/ServerUtilities
+
+// Hyulles
+[6c0083a1f57746c185cdd7b4975932c9]
+parent: cm
+
+// FakeForgePlayer
+[069be1413c1b45c3b3b160d3f9fcd236]
+parent: vip
+example.permission_with_value: 150
+
+// Augustym_
+[49e1b2a9d73e4a53972698afa31cb8a9]
+parent: cm
+
+// herobrainbraga
+[59885135c7a24d45b554625602c74866]
+parent: cm
+
+// RedSmelterDemon
+[3f4be91de2b4432bba2dae289c46c6a0]
+parent: cm
+
+// Ravara
+[7800f48a78384eb7950f43ec1aa76cf7]
+parent: cm
+
+// Sazamaki
+[d539d89856484a3cb9d9e0b63400f72a]
+parent: cm
+
+// SpykeTiger
+[659130171b1048ecb71108e1be1d6730]
+parent: cm
