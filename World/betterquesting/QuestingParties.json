@@ -1,0 +1,48 @@
+{
+	"parties:9": {
+		"0:10": {
+			"members:9": {
+				"0:10": {
+					"uuid:8": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
+					"status:8": "MEMBER"
+				},
+				"1:10": {
+					"uuid:8": "6c0083a1-f577-46c1-85cd-d7b4975932c9",
+					"status:8": "OWNER"
+				}
+			},
+			"partyID:3": 0,
+			"properties:10": {
+				"betterquesting:10": {
+					"name:8": "PT-BR"
+				}
+			}
+		},
+		"1:10": {
+			"members:9": {
+				"0:10": {
+					"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+					"status:8": "MEMBER"
+				},
+				"1:10": {
+					"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+					"status:8": "MEMBER"
+				},
+				"2:10": {
+					"uuid:8": "49e1b2a9-d73e-4a53-9726-98afa31cb8a9",
+					"status:8": "OWNER"
+				},
+				"3:10": {
+					"uuid:8": "59885135-c7a2-4d45-b554-625602c74866",
+					"status:8": "MEMBER"
+				}
+			},
+			"partyID:3": 1,
+			"properties:10": {
+				"betterquesting:10": {
+					"name:8": "Time"
+				}
+			}
+		}
+	}
+}

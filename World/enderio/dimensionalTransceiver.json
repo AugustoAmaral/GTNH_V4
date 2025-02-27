@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Main Rf Powerline",
+    "type": 0
+  },
+  {
+    "name": "Main storage",
+    "type": 1
+  },
+  {
+    "name": "Main Rf powerline",
+    "type": 2
+  }
+]
