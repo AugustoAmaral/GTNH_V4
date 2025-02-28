@@ -2260,8 +2260,10 @@ languagefile {
     S:bw.werkstoff.10117.name=Naquadah Based Liquid Fuel MkVI (Depleted)
     S:bw.werkstoff.11000.name=Hafnium
     S:bw.werkstoff.11001.name=Low-Purity Hafnium
+    S:bw.werkstoff.11003.name=Hafnium Tetrachloride
     S:bw.werkstoff.11004.name=Hafnium Tetrachloride Solution
     S:bw.werkstoff.11007.name=Zirconium
+    S:bw.werkstoff.11009.name=Zirconium Tetrachloride
     S:bw.werkstoff.11010.name=Zirconium Tetrachloride Solution
     S:bw.werkstoff.11011.name=Hafnia-Zirconia Blend
     S:bw.werkstoff.11012.name=Iodine
@@ -2278,8 +2280,10 @@ languagefile {
     S:bw.werkstoff.11027.name=Cerium Oxalate
     S:bw.werkstoff.11028.name=Cerium (III) Oxide
     S:bw.werkstoff.11029.name=Cerium-Rich Mixture
+    S:bw.werkstoff.11030.name=Cooled Monazite Rare Earth Concentrate
     S:bw.werkstoff.11032.name=Heterogenous Halogenic Monazite Rare Earth Mixture
     S:bw.werkstoff.11033.name=Saturated Monazite Rare Earth
+    S:bw.werkstoff.11034.name=Samaric Residue
     S:bw.werkstoff.11036.name=Ammonium Nitrate Solution
     S:bw.werkstoff.11038.name=Thorium-Phosphate Concentrate
     S:bw.werkstoff.11039.name=Uranium Filtrate
