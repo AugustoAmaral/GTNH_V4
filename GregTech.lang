@@ -2243,6 +2243,7 @@ languagefile {
     S:bw.werkstoff.10097.name=MAR-Ce-M200 Steel
     S:bw.werkstoff.10098.name=Lithium Chloride
     S:bw.werkstoff.10099.name=Signalium
+    S:bw.werkstoff.10100.name=Lumiinessence
     S:bw.werkstoff.10101.name=Lumiium
     S:bw.werkstoff.10102.name=Artherium-Sn
     S:bw.werkstoff.10103.name=Tanmolyium Beta-C
@@ -2298,6 +2299,7 @@ languagefile {
     S:bw.werkstoff.11107.name=Bastnasite Rare Earth Oxides
     S:bw.werkstoff.11109.name=Gangue
     S:bw.werkstoff.11110.name=Roasted Rare Earth Oxides
+    S:bw.werkstoff.11112.name=Cerium-Oxidised Rare Earth Oxides
     S:bw.werkstoff.11114.name=Nitrogenated Bastnasite Rarer Earth Oxides
     S:bw.werkstoff.11115.name=Bastnasite Rarer Earth Oxide Suspension
     S:bw.werkstoff.11116.name=Samaric Rare Earth Concentrate
