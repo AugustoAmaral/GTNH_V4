@@ -2262,6 +2262,7 @@ languagefile {
     S:bw.werkstoff.11001.name=Low-Purity Hafnium
     S:bw.werkstoff.11003.name=Hafnium Tetrachloride
     S:bw.werkstoff.11004.name=Hafnium Tetrachloride Solution
+    S:bw.werkstoff.11006.name=Hafnium Runoff
     S:bw.werkstoff.11007.name=Zirconium
     S:bw.werkstoff.11009.name=Zirconium Tetrachloride
     S:bw.werkstoff.11010.name=Zirconium Tetrachloride Solution
@@ -2272,6 +2273,7 @@ languagefile {
     S:bw.werkstoff.11016.name=Diluted Monazite Sulfate
     S:bw.werkstoff.11017.name=Nitrogenated Monazite Rare Earth Concentrate
     S:bw.werkstoff.11018.name=Nitric Monazite Leached Concentrate
+    S:bw.werkstoff.11019.name=Monazite Sulfate
     S:bw.werkstoff.11020.name=Acidic Monazite Powder
     S:bw.werkstoff.11021.name=Monazite Rare Earth Filtrate
     S:bw.werkstoff.11023.name=Monazite Rare Earth Hydroxide Concentrate
@@ -2285,6 +2287,7 @@ languagefile {
     S:bw.werkstoff.11033.name=Saturated Monazite Rare Earth
     S:bw.werkstoff.11034.name=Samaric Residue
     S:bw.werkstoff.11036.name=Ammonium Nitrate Solution
+    S:bw.werkstoff.11037.name=Thorium-Phosphate Cake
     S:bw.werkstoff.11038.name=Thorium-Phosphate Concentrate
     S:bw.werkstoff.11039.name=Uranium Filtrate
     S:bw.werkstoff.11042.name=Seaweed Concentrate
