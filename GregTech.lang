@@ -2284,6 +2284,7 @@ languagefile {
     S:bw.werkstoff.11028.name=Cerium (III) Oxide
     S:bw.werkstoff.11029.name=Cerium-Rich Mixture
     S:bw.werkstoff.11030.name=Cooled Monazite Rare Earth Concentrate
+    S:bw.werkstoff.11031.name=MonaziteRarer Earth Sediment
     S:bw.werkstoff.11032.name=Heterogenous Halogenic Monazite Rare Earth Mixture
     S:bw.werkstoff.11033.name=Saturated Monazite Rare Earth
     S:bw.werkstoff.11034.name=Samaric Residue
@@ -2298,6 +2299,7 @@ languagefile {
     S:bw.werkstoff.11046.name=Nitric-Leached Monazite Mixture
     S:bw.werkstoff.11047.name=Europium Oxide
     S:bw.werkstoff.11048.name=Europium Sulfide
+    S:bw.werkstoff.11050.name=Europium III Oxide
     S:bw.werkstoff.11100.name=Muddy Bastnasite Rare Earth Solution
     S:bw.werkstoff.11102.name=Sodiumfluorosilicate
     S:bw.werkstoff.11103.name=Steam-Cracked Bastnasite Mud
