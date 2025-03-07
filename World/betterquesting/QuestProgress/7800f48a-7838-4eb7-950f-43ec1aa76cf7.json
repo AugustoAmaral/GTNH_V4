@@ -22671,6 +22671,22 @@
 			"questIDLow:4": 136,
 			"tasks:9": {
 				"0:10": {
+					"completeUsers:9": {
+						"0:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+					},
+					"userProgress:9": {
+						"0:10": {
+							"data:11": [
+								1,
+								1
+							],
+							"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+						}
+					},
+					"index:3": 0,
+					"taskID:8": "bq_standard:retrieval"
+				},
+				"1:10": {
 					"completeUsers:9": {},
 					"userProgress:9": {
 						"0:10": {
@@ -22681,12 +22697,6 @@
 							"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
 						}
 					},
-					"index:3": 0,
-					"taskID:8": "bq_standard:retrieval"
-				},
-				"1:10": {
-					"completeUsers:9": {},
-					"userProgress:9": {},
 					"index:3": 1,
 					"taskID:8": "bq_standard:retrieval"
 				},
