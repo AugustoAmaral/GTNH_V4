@@ -2260,10 +2260,12 @@ languagefile {
     S:bw.werkstoff.10117.name=Naquadah Based Liquid Fuel MkVI (Depleted)
     S:bw.werkstoff.11000.name=Hafnium
     S:bw.werkstoff.11001.name=Low-Purity Hafnium
+    S:bw.werkstoff.11002.name=Hafnia
     S:bw.werkstoff.11003.name=Hafnium Tetrachloride
     S:bw.werkstoff.11004.name=Hafnium Tetrachloride Solution
     S:bw.werkstoff.11006.name=Hafnium Runoff
     S:bw.werkstoff.11007.name=Zirconium
+    S:bw.werkstoff.11008.name=Zirconia
     S:bw.werkstoff.11009.name=Zirconium Tetrachloride
     S:bw.werkstoff.11010.name=Zirconium Tetrachloride Solution
     S:bw.werkstoff.11011.name=Hafnia-Zirconia Blend
