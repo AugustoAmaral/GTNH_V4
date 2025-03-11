@@ -2632,6 +2632,7 @@ languagefile {
     S:defc.casing.7.name=Naquadah Alloy Fusion Casing
     S:defc.casing.8.name=Bloody Ichorium Fusion Casing
     S:defc.casing.9.name=Draconium Fusion Casing
+    S:drop.oil=Oil Drop
     S:enchantment.damage.endermen=Disjunction
     S:enchantment.damage.radioactivity=Radioactivity
     S:enchantment.protection.hazmat=Hazmat
