@@ -8456,11 +8456,13 @@
 			"questIDLow:4": 3076,
 			"tasks:9": {
 				"0:10": {
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"userProgress:9": {
 						"0:10": {
 							"data:11": [
-								0
+								32
 							],
 							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730"
 						}
