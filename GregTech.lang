@@ -2154,6 +2154,7 @@ languagefile {
     S:bw.werkstoff.00103.tooltip=
     S:bw.werkstoff.00104.name=Fluorophlogopite
     S:bw.werkstoff.00104.tooltip=
+    S:bw.werkstoff.10001.name=Graphite-Uranium Mixture
     S:bw.werkstoff.10002.name=Uranium Based Liquid Fuel
     S:bw.werkstoff.10003.name=Uranium Based Liquid Fuel (Excited State)
     S:bw.werkstoff.10004.name=Uranium Based Liquid Fuel (Depleted)
