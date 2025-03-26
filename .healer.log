@@ -3,3 +3,5 @@ Wed Mar 26 09:59:00 UTC 2025 Processing context: jdk.internal.loader.ClassLoader
 Wed Mar 26 09:59:00 UTC 2025 Processing context: com.gtnewhorizons.retrofuturabootstrap.RfbSystemClassLoader@7ba4f24f@1990651973
 Wed Mar 26 09:59:00 UTC 2025 Processing context: net.minecraft.launchwrapper.LaunchClassLoader@1356d4d4@1664998412
 Wed Mar 26 09:59:00 UTC 2025 Replaced factory
+Wed Mar 26 14:34:27 UTC 2025 Accepting new context post launch
+Wed Mar 26 14:34:27 UTC 2025 Processing context: net.minecraft.launchwrapper.LaunchClassLoader@1356d4d4@1494549479
