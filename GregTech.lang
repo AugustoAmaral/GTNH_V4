@@ -2638,6 +2638,7 @@ languagefile {
     S:defc.casing.8.name=Bloody Ichorium Fusion Casing
     S:defc.casing.9.name=Draconium Fusion Casing
     S:"drop.hot coolant"=Hot Coolant Drop
+    S:"drop.lapis coolant"=Lapis Coolant Drop
     S:drop.oil=Oil Drop
     S:enchantment.damage.endermen=Disjunction
     S:enchantment.damage.radioactivity=Radioactivity
