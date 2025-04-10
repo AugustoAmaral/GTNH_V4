@@ -2640,6 +2640,7 @@ languagefile {
     S:"drop.hot coolant"=Hot Coolant Drop
     S:"drop.lapis coolant"=Lapis Coolant Drop
     S:drop.oil=Oil Drop
+    S:drop.oxygen=Oxygen Drop
     S:enchantment.damage.endermen=Disjunction
     S:enchantment.damage.radioactivity=Radioactivity
     S:enchantment.protection.hazmat=Hazmat
