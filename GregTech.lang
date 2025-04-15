@@ -214,6 +214,7 @@ languagefile {
     S:Interaction_DESCRIPTION_Index_113=Outputs only Items
     S:Interaction_DESCRIPTION_Index_114=Outputs only misc. Fluids
     S:Interaction_DESCRIPTION_Index_115=Outputs nothing
+    S:Interaction_DESCRIPTION_Index_115.3=currently none, will be locked to the next that is put in (or use fluid cell to lock)
     S:Interaction_DESCRIPTION_Index_122=Emit Redstone if slots contain something
     S:Interaction_DESCRIPTION_Index_123=Don't emit Redstone
     S:Interaction_DESCRIPTION_Index_124.1=Blacklist Mode
