@@ -25,9 +25,9 @@ local config = {
     autoSpreadThreshold = 54,
 
     -- Maximum Growth for crops on the working farm
-    workingMaxGrowth = 21,
+    workingMaxGrowth = 23,
     -- Maximum Resistance for crops on the working farm
-    workingMaxResistance = 2,
+    workingMaxResistance = 0,
     -- Maximum Growth for crops on the storage farm
     storageMaxGrowth = 23,
     -- Maximum Resistance for crops on the storage farm
