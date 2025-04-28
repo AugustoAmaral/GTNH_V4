@@ -33,10 +33,10 @@ serverutilities.homes.cross_dim: true
 [admin]
 priority: 100
 default_op_rank: true
-serverutilities.chat.name_format: <&2{name}&r>
+serverutilities.chat.name_format: <&9{name}&r>
 serverutilities.claims.max_chunks: 5000
-serverutilities.chunkloader.max_chunks: 1000
-serverutilities.claims.bypass_limits: true
+serverutilities.chunkloader.max_chunks: 1250
+serverutilities.claims.bypass_limits: false
 serverutilities.homes.max: 100
 serverutilities.homes.warmup: 0s
 serverutilities.homes.cooldown: 0s
