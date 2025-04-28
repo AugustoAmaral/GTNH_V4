@@ -4174,6 +4174,7 @@ languagefile {
     S:gt.Volumetric_Flask.name=Volumetric flask
     S:gt.Volumetric_Flask_32k.name=Gigantic Volumetric Flask
     S:gt.Volumetric_Flask_8k.name=Large Volumetric Flask
+    S:gt.Volumetric_Flask_Infinite.name=Klein Bottle
     S:gt.WirelessHeadphones.name=Wireless Headphones
     S:gt.behaviour.cover_copy_paste=Can copy/paste cover data.
     S:gt.behaviour.hoe=Can till Dirt
@@ -6983,6 +6984,7 @@ languagefile {
     S:gt.blockmachines.gtpp.multimachine.steam.washer.name=Steam Purifier
     S:gt.blockmachines.hatch.air.intake.tier.00.name=Air Intake Hatch
     S:gt.blockmachines.hatch.air.intake.tier.01.name=Extreme Air Intake Hatch
+    S:gt.blockmachines.hatch.blackholeutility.name=Black Hole Utility Hatch
     S:gt.blockmachines.hatch.capacitor.tier.03.name=Capacitor Hatch
     S:gt.blockmachines.hatch.catalysts.name=Catalyst Housing
     S:gt.blockmachines.hatch.certain.tier.07.name=Uncertainty Resolver
