@@ -1,0 +1,11 @@
+{
+  "id": "unbreakable_tconstruct_tool",
+  "_condition": "Handled via code (NHCore)",
+  "page": "GT New Horizons",
+  "x": 7,
+  "y": 6,
+  "icon": {
+    "registryName": "TConstruct:hammer",
+    "nbt": "{InfiTool: {RenderExtra: 11, RenderHead: 10, RenderHandle: 8, RenderAccessory: 11}}"
+  }
+}

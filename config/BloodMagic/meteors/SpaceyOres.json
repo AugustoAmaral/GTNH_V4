@@ -1,0 +1,23 @@
+{
+  "ores": [
+    "OREDICT:oreBlackgraniteNaquadah:100",
+    "OREDICT:oreBlackgraniteNaquadahEnriched:25",
+    "OREDICT:oreBlackgraniteDeepIron:50",
+    "OREDICT:oreBlackgraniteQuantium:50",
+    "OREDICT:oreBlackgraniteArdite:50",
+    "OREDICT:oreBlackgraniteDraconium:50",
+    "OREDICT:oreBlackgraniteAdamantium:25",
+    "OREDICT:oreBlackgraniteNeodymium:75",
+    "OREDICT:oreBlackgraniteMonazite:75",
+    "OREDICT:oreBlackgraniteMeteoricIron:125"
+  ],
+  "filler": [
+    "OREDICT:stoneGraniteBlack:250"
+  ],
+  "radius": 16,
+  "cost": 1500000,
+  "focusModId": "gregtech",
+  "focusName": "gt.metaitem.01",
+  "focusMeta": 32674,
+  "fillerChance": 28
+}

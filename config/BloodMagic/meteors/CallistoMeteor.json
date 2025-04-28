@@ -1,0 +1,30 @@
+{
+  "ores": [
+    "OREDICT:oreMarbleTopaz:50",
+    "OREDICT:oreMarbleBlueTopaz:50",
+    "OREDICT:oreMarbleChromite:75",
+    "OREDICT:oreMarbleUvarovite:125",
+    "OREDICT:oreMarbleTungstate:45",
+    "OREDICT:oreMarbleScheelite:45",
+    "OREDICT:oreMarbleLithium:30",
+    "OREDICT:oreMarbleAlduorite:10",
+    "OREDICT:oreMarblePalladium:35",
+    "OREDICT:oreMarbleChrome:50",
+    "OREDICT:oreMarblePlatinum:65",
+    "OREDICT:oreMarbleNickel:100",
+    "OREDICT:oreMarbleIridium:50",
+    "OREDICT:oreMarbleLedox:50",
+    "OREDICT:oreMarbleUranium:10",
+    "OREDICT:oreMarblePlutonium:1",
+    "OREDICT:oreMarbleCallistoIce:125"
+  ],
+  "filler": [
+    "OREDICT:rockCallisto:350"
+  ],
+  "radius": 20,
+  "cost": 1000000,
+  "focusModId": "gregtech",
+  "focusName": "gt.metaitem.01",
+  "focusMeta": 32464,
+  "fillerChance": 27
+}
