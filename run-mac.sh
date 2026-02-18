@@ -40,10 +40,10 @@ should_restart() {
 log_message "=== Iniciando servidor GTNH V4 com auto-restart (macOS) ==="
 log_message "Script PID: $$"
 
-# Configura Java 8
-JAVA_HOME="$(/usr/libexec/java_home -v 1.8 2>/dev/null)"
+# Configura Java 21
+JAVA_HOME="$(/usr/libexec/java_home -v 21 2>/dev/null)"
 if [ -z "$JAVA_HOME" ]; then
-    log_message "ERRO: Java 8 não encontrado! Instale com: brew install --cask zulu8"
+    log_message "ERRO: Java 21 não encontrado! Instale com: brew install --cask zulu@21"
     exit 1
 fi
 log_message "Usando Java: $JAVA_HOME"
@@ -52,13 +52,11 @@ log_message "Usando Java: $JAVA_HOME"
 while true; do
     log_message "Iniciando servidor... (Crash count: $crash_count)"
 
-    # Executa o servidor GTNH V4 com Java 8
-    "$JAVA_HOME/bin/java" -Xms6G -Xmx20G \
-        -XX:+UseStringDeduplication \
-        -XX:+UseCompressedOops \
-        -XX:+UseCodeCacheFlushing \
+    # Executa o servidor GTNH V4 com Java 21 + lwjgl3ify
+    "$JAVA_HOME/bin/java" -Xms8G -Xmx16G \
         -Dfml.readTimeout=180 \
-        -jar minecraftJarFile.jar nogui
+        @java9args.txt \
+        -jar lwjgl3ify-forgePatches.jar nogui
 
     # Captura o código de saída
     exit_code=$?
