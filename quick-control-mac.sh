@@ -15,6 +15,7 @@ case "$1" in
         echo "  s    - Status completo (servidor + backup)"
         echo "  start- Inicia servidor e backup"
         echo "  stop - Para servidor e backup"
+        echo "  kill - Forca encerramento imediato"
         echo "  r    - Reinicia servidor e backup"
         echo "  log  - Logs do servidor"
         echo "  blog - Logs do backup"
@@ -34,6 +35,10 @@ case "$1" in
 
     "stop")
         $CONTROL_SCRIPT stop-all
+        ;;
+
+    "kill")
+        $CONTROL_SCRIPT kill
         ;;
 
     "r"|"restart")

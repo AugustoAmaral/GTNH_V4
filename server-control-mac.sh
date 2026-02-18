@@ -10,6 +10,7 @@ BACKUP_SCREEN_NAME="gtnh_backup"
 RESTART_LOG="$SCRIPT_DIR/restart.log"
 BACKUP_LOG="$SCRIPT_DIR/backup.log"
 AUTOBACKUP_SCRIPT="$SCRIPT_DIR/autobackup.py"
+SERVER_JAR="lwjgl3ify-forgePatches.jar"
 
 # Verifica se o comando screen está instalado
 check_screen() {
@@ -20,28 +21,119 @@ check_screen() {
     fi
 }
 
+# Verifica se uma screen session específica existe (match exato)
+screen_exists() {
+    screen -list 2>/dev/null | grep -qE "[0-9]+\.$1[[:space:]]"
+}
+
+# Encontra PIDs do processo Java do servidor
+find_server_pids() {
+    pgrep -f "$SERVER_JAR" 2>/dev/null
+}
+
+# Encontra PIDs do run-mac.sh
+find_runner_pids() {
+    pgrep -f "run-mac.sh" 2>/dev/null
+}
+
 case "$1" in
     start)
         check_screen
+        # Verifica se já há um servidor rodando
+        if screen_exists "$SCREEN_NAME"; then
+            echo "Servidor já está rodando na screen '$SCREEN_NAME'!"
+            exit 1
+        fi
+        server_pids=$(find_server_pids)
+        if [ -n "$server_pids" ]; then
+            echo "AVISO: Processo Java do servidor já está rodando (PID: $server_pids)"
+            echo "Use '$0 stop' para parar primeiro, ou '$0 kill' para forçar."
+            exit 1
+        fi
         echo "Iniciando servidor GTNH V4..."
         cd "$SCRIPT_DIR"
         screen -dmS "$SCREEN_NAME" ./run-mac.sh
         sleep 3
-        echo "Servidor iniciado em screen session '$SCREEN_NAME'"
-        echo "Use 'screen -r $SCREEN_NAME' para acessar o console"
-        echo "Use Ctrl+A, D para desconectar sem parar o servidor"
+        if screen_exists "$SCREEN_NAME"; then
+            echo "Servidor iniciado em screen session '$SCREEN_NAME'"
+            echo "Use 'screen -r $SCREEN_NAME' para acessar o console"
+            echo "Use Ctrl+A, D para desconectar sem parar o servidor"
+        else
+            echo "ERRO: Falha ao iniciar servidor. Verifique os logs."
+        fi
         ;;
 
     stop)
         echo "Parando servidor..."
-        screen -S "$SCREEN_NAME" -X stuff "stop$(printf '\r')"
-        echo "Comando stop enviado. Aguardando encerramento..."
-        sleep 10
-        if screen -list | grep -q "$SCREEN_NAME"; then
-            echo "Servidor ainda rodando. Forcando encerramento..."
-            screen -S "$SCREEN_NAME" -X quit
+
+        # Tenta enviar comando stop via screen
+        if screen_exists "$SCREEN_NAME"; then
+            screen -S "$SCREEN_NAME" -X stuff "stop$(printf '\r')"
+            echo "Comando 'stop' enviado ao servidor. Aguardando encerramento..."
+
+            # Aguarda até 30 segundos pelo encerramento gracioso
+            for i in $(seq 1 30); do
+                if [ -z "$(find_server_pids)" ]; then
+                    echo "Servidor encerrado graciosamente."
+                    break
+                fi
+                sleep 1
+            done
+        else
+            echo "Screen session '$SCREEN_NAME' não encontrada."
         fi
-        echo "Servidor parado."
+
+        # Se o Java ainda está rodando, mata o processo
+        server_pids=$(find_server_pids)
+        if [ -n "$server_pids" ]; then
+            echo "Processo Java ainda rodando (PID: $server_pids). Enviando SIGTERM..."
+            kill $server_pids 2>/dev/null
+            sleep 5
+            # Se ainda não morreu, SIGKILL
+            server_pids=$(find_server_pids)
+            if [ -n "$server_pids" ]; then
+                echo "Processo não respondeu. Enviando SIGKILL..."
+                kill -9 $server_pids 2>/dev/null
+                sleep 2
+            fi
+        fi
+
+        # Mata o run-mac.sh para evitar auto-restart
+        runner_pids=$(find_runner_pids)
+        if [ -n "$runner_pids" ]; then
+            echo "Parando script de auto-restart (PID: $runner_pids)..."
+            kill $runner_pids 2>/dev/null
+            sleep 2
+        fi
+
+        # Limpa screen session se ainda existir
+        if screen_exists "$SCREEN_NAME"; then
+            screen -S "$SCREEN_NAME" -X quit 2>/dev/null
+        fi
+
+        # Verificação final
+        if [ -z "$(find_server_pids)" ]; then
+            echo "Servidor parado com sucesso."
+        else
+            echo "ERRO: Não foi possível parar o servidor. Use '$0 kill' para forçar."
+        fi
+        ;;
+
+    kill)
+        echo "Forcando encerramento do servidor..."
+        server_pids=$(find_server_pids)
+        runner_pids=$(find_runner_pids)
+        if [ -n "$server_pids" ] || [ -n "$runner_pids" ]; then
+            [ -n "$runner_pids" ] && kill -9 $runner_pids 2>/dev/null
+            [ -n "$server_pids" ] && kill -9 $server_pids 2>/dev/null
+            sleep 2
+            if screen_exists "$SCREEN_NAME"; then
+                screen -S "$SCREEN_NAME" -X quit 2>/dev/null
+            fi
+            echo "Processos eliminados."
+        else
+            echo "Nenhum processo do servidor encontrado."
+        fi
         ;;
 
     restart)
@@ -52,13 +144,26 @@ case "$1" in
         ;;
 
     status)
-        if screen -list | grep -q "$SCREEN_NAME"; then
-            echo "Servidor RODANDO (session: $SCREEN_NAME)"
-            if lsof -i :25565 | grep -q LISTEN; then
+        echo "=== Status do Servidor ==="
+        server_pids=$(find_server_pids)
+        has_screen=false
+        screen_exists "$SCREEN_NAME" && has_screen=true
+
+        if [ -n "$server_pids" ]; then
+            echo "Servidor RODANDO (PID: $server_pids)"
+            if $has_screen; then
+                echo "Screen session: $SCREEN_NAME"
+            else
+                echo "AVISO: Rodando SEM screen session (iniciado manualmente?)"
+            fi
+            if lsof -i :25565 2>/dev/null | grep -q LISTEN; then
                 echo "Porta 25565 ABERTA"
             else
                 echo "Porta 25565 FECHADA (servidor ainda iniciando?)"
             fi
+        elif $has_screen; then
+            echo "Screen session '$SCREEN_NAME' existe mas Java não está rodando"
+            echo "O servidor pode estar iniciando ou ter crashado"
         else
             echo "Servidor PARADO"
         fi
@@ -86,12 +191,17 @@ case "$1" in
         ;;
 
     console)
-        if screen -list | grep -q "$SCREEN_NAME"; then
+        if screen_exists "$SCREEN_NAME"; then
             echo "Conectando ao console do servidor..."
             echo "Use Ctrl+A, D para desconectar sem parar o servidor"
             screen -r "$SCREEN_NAME"
         else
-            echo "Servidor não está rodando!"
+            echo "Servidor não está rodando em screen!"
+            server_pids=$(find_server_pids)
+            if [ -n "$server_pids" ]; then
+                echo "AVISO: Servidor rodando fora do screen (PID: $server_pids)"
+                echo "Use '$0 stop' para parar e '$0 start' para iniciar via screen."
+            fi
         fi
         ;;
 
@@ -108,7 +218,7 @@ case "$1" in
         check_screen
         echo "Iniciando sistema de backup automatico..."
         cd "$SCRIPT_DIR"
-        if screen -list | grep -q "$BACKUP_SCREEN_NAME"; then
+        if screen_exists "$BACKUP_SCREEN_NAME"; then
             echo "Sistema de backup já está rodando!"
             exit 1
         fi
@@ -121,7 +231,7 @@ case "$1" in
         screen -dmS "$BACKUP_SCREEN_NAME" python3 "$AUTOBACKUP_SCRIPT"
         sleep 2
 
-        if screen -list | grep -q "$BACKUP_SCREEN_NAME"; then
+        if screen_exists "$BACKUP_SCREEN_NAME"; then
             echo "Sistema de backup iniciado em screen session '$BACKUP_SCREEN_NAME'"
             echo "Use 'screen -r $BACKUP_SCREEN_NAME' para acessar o console do backup"
         else
@@ -131,11 +241,11 @@ case "$1" in
 
     backup-stop)
         echo "Parando sistema de backup..."
-        if screen -list | grep -q "$BACKUP_SCREEN_NAME"; then
+        if screen_exists "$BACKUP_SCREEN_NAME"; then
             screen -S "$BACKUP_SCREEN_NAME" -X quit
             sleep 2
 
-            if ! screen -list | grep -q "$BACKUP_SCREEN_NAME"; then
+            if ! screen_exists "$BACKUP_SCREEN_NAME"; then
                 echo "Sistema de backup parado"
             else
                 echo "Falha ao parar sistema de backup"
@@ -143,14 +253,25 @@ case "$1" in
         else
             echo "Sistema de backup não está rodando"
         fi
+        # Mata processos de backup órfãos
+        backup_pids=$(pgrep -f "autobackup.py" 2>/dev/null)
+        if [ -n "$backup_pids" ]; then
+            echo "Matando processos de backup órfãos (PID: $backup_pids)..."
+            kill $backup_pids 2>/dev/null
+        fi
         ;;
 
     backup-status)
         echo "=== Status do Sistema de Backup ==="
-        if screen -list | grep -q "$BACKUP_SCREEN_NAME"; then
+        if screen_exists "$BACKUP_SCREEN_NAME"; then
             echo "Sistema de backup RODANDO (session: $BACKUP_SCREEN_NAME)"
         else
-            echo "Sistema de backup PARADO"
+            backup_pids=$(pgrep -f "autobackup.py" 2>/dev/null)
+            if [ -n "$backup_pids" ]; then
+                echo "Sistema de backup RODANDO sem screen (PID: $backup_pids)"
+            else
+                echo "Sistema de backup PARADO"
+            fi
         fi
 
         if [ -f "$BACKUP_LOG" ]; then
@@ -170,7 +291,7 @@ case "$1" in
         ;;
 
     backup-console)
-        if screen -list | grep -q "$BACKUP_SCREEN_NAME"; then
+        if screen_exists "$BACKUP_SCREEN_NAME"; then
             echo "Conectando ao console do sistema de backup..."
             echo "Use Ctrl+A, D para desconectar sem parar o backup"
             screen -r "$BACKUP_SCREEN_NAME"
@@ -211,11 +332,12 @@ case "$1" in
         ;;
 
     *)
-        echo "Uso: $0 {start|stop|restart|status|logs|console|clear-crashes|backup-start|backup-stop|backup-status|backup-logs|backup-console|start-all|stop-all|restart-all|status-all}"
+        echo "Uso: $0 {start|stop|restart|kill|status|logs|console|clear-crashes|backup-start|backup-stop|backup-status|backup-logs|backup-console|start-all|stop-all|restart-all|status-all}"
         echo ""
         echo "Comandos do Servidor:"
         echo "  start         - Inicia o servidor"
-        echo "  stop          - Para o servidor"
+        echo "  stop          - Para o servidor (gracioso + force)"
+        echo "  kill          - Forca encerramento imediato"
         echo "  restart       - Reinicia o servidor"
         echo "  status        - Mostra status do servidor"
         echo "  logs          - Mostra logs recentes do servidor"

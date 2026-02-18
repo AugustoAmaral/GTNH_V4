@@ -74,7 +74,6 @@ while true; do
         -XX:+PerfDisableSharedMem \
         -XX:+DisableExplicitGC \
         -XX:+UseCompressedOops \
-        -Xlog:gc*:file=gc.log:time,uptime:filecount=3,filesize=10M \
         -Dfml.readTimeout=180 \
         @java9args.txt \
         -jar lwjgl3ify-forgePatches.jar nogui
