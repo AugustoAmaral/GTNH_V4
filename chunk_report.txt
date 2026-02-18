@@ -1,0 +1,409 @@
+================================================================================
+CHUNK CLAIMS & LOADING REPORT
+Generated: 2026-02-18
+================================================================================
+
+================================================================================
+TEAM: HYU
+  Owner: Sazamaki
+  Color: blue
+  Members: Ravara (ally), Augustym_ (ally)
+  Total Claimed Chunks: 1144
+  Total Force-Loaded Chunks: 1144
+  >>> ACTION: ALL 1144 LOADED CHUNKS WERE UNLOADED <<<
+  Dimensions Used: 25
+
+  --- Nether (DIM -1) ---
+      Chunks: 15 claimed, 15 loaded
+      >>> UNLOADED 15 chunks <<<
+
+      Region 1: 15 chunks [UNLOADED]
+        Chunk range: (-14, 41) to (-10, 43)
+        Teleport to center: /tp @p -184 100 680
+        Loaded: 15/15 chunks
+
+  --- Overworld (DIM 0) ---
+      Chunks: 248 claimed, 248 loaded
+      >>> UNLOADED 248 chunks <<<
+
+      Region 1: 247 chunks [UNLOADED]
+        Chunk range: (-106, 330) to (-90, 346)
+        Teleport to center: /tp @p -1560 100 5416
+        Loaded: 247/247 chunks
+
+      Region 2: 1 chunks [UNLOADED]
+        Chunk range: (-84, 322) to (-84, 322)
+        Teleport to center: /tp @p -1336 100 5160
+        Loaded: 1/1 chunks
+          Chunk (-84, 322) -> Block (-1336, ~, 5160) [WAS LOADED -> UNLOADED]
+
+  --- End (DIM 1) ---
+      Chunks: 9 claimed, 9 loaded
+      >>> UNLOADED 9 chunks <<<
+
+      Region 1: 9 chunks [UNLOADED]
+        Chunk range: (-1, -1) to (1, 1)
+        Teleport to center: /tp @p 8 100 8
+        Loaded: 9/9 chunks
+
+  --- Space Station (DIM 2) ---
+      Chunks: 1 claimed, 1 loaded
+      >>> UNLOADED 1 chunks <<<
+
+      Region 1: 1 chunks [UNLOADED]
+        Chunk range: (0, 0) to (0, 0)
+        Teleport to center: /tp @p 8 100 8
+        Loaded: 1/1 chunks
+          Chunk (0, 0) -> Block (8, ~, 8) [WAS LOADED -> UNLOADED]
+
+  --- DIM 3 ---
+      Chunks: 24 claimed, 24 loaded
+      >>> UNLOADED 24 chunks <<<
+
+      Region 1: 24 chunks [UNLOADED]
+        Chunk range: (-4, -2) to (3, 0)
+        Teleport to center: /tp @p 0 100 -8
+        Loaded: 24/24 chunks
+
+  --- DIM 4 ---
+      Chunks: 12 claimed, 12 loaded
+      >>> UNLOADED 12 chunks <<<
+
+      Region 1: 12 chunks [UNLOADED]
+        Chunk range: (-2, -2) to (0, 1)
+        Teleport to center: /tp @p -8 100 0
+        Loaded: 12/12 chunks
+
+  --- DIM 5 ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-1, -1) to (0, 0)
+        Teleport to center: /tp @p 0 100 0
+        Loaded: 4/4 chunks
+          Chunk (-1, -1) -> Block (-8, ~, -8) [WAS LOADED -> UNLOADED]
+          Chunk (-1, 0) -> Block (-8, ~, 8) [WAS LOADED -> UNLOADED]
+          Chunk (0, -1) -> Block (8, ~, -8) [WAS LOADED -> UNLOADED]
+          Chunk (0, 0) -> Block (8, ~, 8) [WAS LOADED -> UNLOADED]
+
+  --- DIM 6 ---
+      Chunks: 8 claimed, 8 loaded
+      >>> UNLOADED 8 chunks <<<
+
+      Region 1: 8 chunks [UNLOADED]
+        Chunk range: (-1, -2) to (0, 1)
+        Teleport to center: /tp @p 0 100 0
+        Loaded: 8/8 chunks
+          Chunk (-1, -2) -> Block (-8, ~, -24) [WAS LOADED -> UNLOADED]
+          Chunk (-1, -1) -> Block (-8, ~, -8) [WAS LOADED -> UNLOADED]
+          Chunk (-1, 0) -> Block (-8, ~, 8) [WAS LOADED -> UNLOADED]
+          Chunk (-1, 1) -> Block (-8, ~, 24) [WAS LOADED -> UNLOADED]
+          Chunk (0, -2) -> Block (8, ~, -24) [WAS LOADED -> UNLOADED]
+          Chunk (0, -1) -> Block (8, ~, -8) [WAS LOADED -> UNLOADED]
+          Chunk (0, 0) -> Block (8, ~, 8) [WAS LOADED -> UNLOADED]
+          Chunk (0, 1) -> Block (8, ~, 24) [WAS LOADED -> UNLOADED]
+
+  --- Twilight Forest (DIM 7) ---
+      Chunks: 9 claimed, 9 loaded
+      >>> UNLOADED 9 chunks <<<
+
+      Region 1: 9 chunks [UNLOADED]
+        Chunk range: (-103, 323) to (-101, 325)
+        Teleport to center: /tp @p -1624 100 5192
+        Loaded: 9/9 chunks
+
+  --- Moon (DIM 28) ---
+      Chunks: 9 claimed, 9 loaded
+      >>> UNLOADED 9 chunks <<<
+
+      Region 1: 9 chunks [UNLOADED]
+        Chunk range: (-111, -376) to (-109, -374)
+        Teleport to center: /tp @p -1752 100 -5992
+        Loaded: 9/9 chunks
+
+  --- Mars (DIM 29) ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-69, 411) to (-68, 412)
+        Teleport to center: /tp @p -1088 100 6592
+        Loaded: 4/4 chunks
+          Chunk (-69, 411) -> Block (-1096, ~, 6584) [WAS LOADED -> UNLOADED]
+          Chunk (-69, 412) -> Block (-1096, ~, 6600) [WAS LOADED -> UNLOADED]
+          Chunk (-68, 411) -> Block (-1080, ~, 6584) [WAS LOADED -> UNLOADED]
+          Chunk (-68, 412) -> Block (-1080, ~, 6600) [WAS LOADED -> UNLOADED]
+
+  --- Venus (DIM 31) ---
+      Chunks: 1 claimed, 1 loaded
+      >>> UNLOADED 1 chunks <<<
+
+      Region 1: 1 chunks [UNLOADED]
+        Chunk range: (-99, 332) to (-99, 332)
+        Teleport to center: /tp @p -1576 100 5320
+        Loaded: 1/1 chunks
+          Chunk (-99, 332) -> Block (-1576, ~, 5320) [WAS LOADED -> UNLOADED]
+
+  --- Mercury (DIM 32) ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-77, 331) to (-76, 332)
+        Teleport to center: /tp @p -1216 100 5312
+        Loaded: 4/4 chunks
+          Chunk (-77, 331) -> Block (-1224, ~, 5304) [WAS LOADED -> UNLOADED]
+          Chunk (-77, 332) -> Block (-1224, ~, 5320) [WAS LOADED -> UNLOADED]
+          Chunk (-76, 331) -> Block (-1208, ~, 5304) [WAS LOADED -> UNLOADED]
+          Chunk (-76, 332) -> Block (-1208, ~, 5320) [WAS LOADED -> UNLOADED]
+
+  --- Neptune (DIM 36) ---
+      Chunks: 8 claimed, 8 loaded
+      >>> UNLOADED 8 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-85, 355) to (-84, 356)
+        Teleport to center: /tp @p -1344 100 5696
+        Loaded: 4/4 chunks
+          Chunk (-85, 355) -> Block (-1352, ~, 5688) [WAS LOADED -> UNLOADED]
+          Chunk (-85, 356) -> Block (-1352, ~, 5704) [WAS LOADED -> UNLOADED]
+          Chunk (-84, 355) -> Block (-1336, ~, 5688) [WAS LOADED -> UNLOADED]
+          Chunk (-84, 356) -> Block (-1336, ~, 5704) [WAS LOADED -> UNLOADED]
+
+      Region 2: 4 chunks [UNLOADED]
+        Chunk range: (-85, 379) to (-84, 380)
+        Teleport to center: /tp @p -1344 100 6080
+        Loaded: 4/4 chunks
+          Chunk (-85, 379) -> Block (-1352, ~, 6072) [WAS LOADED -> UNLOADED]
+          Chunk (-85, 380) -> Block (-1352, ~, 6088) [WAS LOADED -> UNLOADED]
+          Chunk (-84, 379) -> Block (-1336, ~, 6072) [WAS LOADED -> UNLOADED]
+          Chunk (-84, 380) -> Block (-1336, ~, 6088) [WAS LOADED -> UNLOADED]
+
+  --- Europa (DIM 39) ---
+      Chunks: 9 claimed, 9 loaded
+      >>> UNLOADED 9 chunks <<<
+
+      Region 1: 9 chunks [UNLOADED]
+        Chunk range: (-90, 333) to (-88, 335)
+        Teleport to center: /tp @p -1416 100 5352
+        Loaded: 9/9 chunks
+
+  --- Triton (DIM 45) ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-97, 343) to (-96, 344)
+        Teleport to center: /tp @p -1536 100 5504
+        Loaded: 4/4 chunks
+          Chunk (-97, 343) -> Block (-1544, ~, 5496) [WAS LOADED -> UNLOADED]
+          Chunk (-97, 344) -> Block (-1544, ~, 5512) [WAS LOADED -> UNLOADED]
+          Chunk (-96, 343) -> Block (-1528, ~, 5496) [WAS LOADED -> UNLOADED]
+          Chunk (-96, 344) -> Block (-1528, ~, 5512) [WAS LOADED -> UNLOADED]
+
+  --- Enceladus (DIM 47) ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-93, 419) to (-92, 420)
+        Teleport to center: /tp @p -1472 100 6720
+        Loaded: 4/4 chunks
+          Chunk (-93, 419) -> Block (-1480, ~, 6712) [WAS LOADED -> UNLOADED]
+          Chunk (-93, 420) -> Block (-1480, ~, 6728) [WAS LOADED -> UNLOADED]
+          Chunk (-92, 419) -> Block (-1464, ~, 6712) [WAS LOADED -> UNLOADED]
+          Chunk (-92, 420) -> Block (-1464, ~, 6728) [WAS LOADED -> UNLOADED]
+
+  --- Deimos (DIM 49) ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-77, 363) to (-76, 364)
+        Teleport to center: /tp @p -1216 100 5824
+        Loaded: 4/4 chunks
+          Chunk (-77, 363) -> Block (-1224, ~, 5816) [WAS LOADED -> UNLOADED]
+          Chunk (-77, 364) -> Block (-1224, ~, 5832) [WAS LOADED -> UNLOADED]
+          Chunk (-76, 363) -> Block (-1208, ~, 5816) [WAS LOADED -> UNLOADED]
+          Chunk (-76, 364) -> Block (-1208, ~, 5832) [WAS LOADED -> UNLOADED]
+
+  --- Last Millenium (DIM 63) ---
+      Chunks: 13 claimed, 13 loaded
+      >>> UNLOADED 13 chunks <<<
+
+      Region 1: 9 chunks [UNLOADED]
+        Chunk range: (-86, 347) to (-84, 349)
+        Teleport to center: /tp @p -1352 100 5576
+        Loaded: 9/9 chunks
+
+      Region 2: 4 chunks [UNLOADED]
+        Chunk range: (-77, 387) to (-76, 388)
+        Teleport to center: /tp @p -1216 100 6208
+        Loaded: 4/4 chunks
+          Chunk (-77, 387) -> Block (-1224, ~, 6200) [WAS LOADED -> UNLOADED]
+          Chunk (-77, 388) -> Block (-1224, ~, 6216) [WAS LOADED -> UNLOADED]
+          Chunk (-76, 387) -> Block (-1208, ~, 6200) [WAS LOADED -> UNLOADED]
+          Chunk (-76, 388) -> Block (-1208, ~, 6216) [WAS LOADED -> UNLOADED]
+
+  --- Promised Land (DIM 64) ---
+      Chunks: 1 claimed, 1 loaded
+      >>> UNLOADED 1 chunks <<<
+
+      Region 1: 1 chunks [UNLOADED]
+        Chunk range: (-81, 395) to (-81, 395)
+        Teleport to center: /tp @p -1288 100 6328
+        Loaded: 1/1 chunks
+          Chunk (-81, 395) -> Block (-1288, ~, 6328) [WAS LOADED -> UNLOADED]
+
+  --- DIM 84 ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (-94, 326) to (-93, 327)
+        Teleport to center: /tp @p -1488 100 5232
+        Loaded: 4/4 chunks
+          Chunk (-94, 326) -> Block (-1496, ~, 5224) [WAS LOADED -> UNLOADED]
+          Chunk (-94, 327) -> Block (-1496, ~, 5240) [WAS LOADED -> UNLOADED]
+          Chunk (-93, 326) -> Block (-1480, ~, 5224) [WAS LOADED -> UNLOADED]
+          Chunk (-93, 327) -> Block (-1480, ~, 5240) [WAS LOADED -> UNLOADED]
+
+  --- DIM 93 ---
+      Chunks: 9 claimed, 9 loaded
+      >>> UNLOADED 9 chunks <<<
+
+      Region 1: 9 chunks [UNLOADED]
+        Chunk range: (40, 24) to (42, 26)
+        Teleport to center: /tp @p 664 100 408
+        Loaded: 9/9 chunks
+
+  --- DIM 94 ---
+      Chunks: 4 claimed, 4 loaded
+      >>> UNLOADED 4 chunks <<<
+
+      Region 1: 4 chunks [UNLOADED]
+        Chunk range: (0, 0) to (1, 1)
+        Teleport to center: /tp @p 16 100 16
+        Loaded: 4/4 chunks
+          Chunk (0, 0) -> Block (8, ~, 8) [WAS LOADED -> UNLOADED]
+          Chunk (0, 1) -> Block (8, ~, 24) [WAS LOADED -> UNLOADED]
+          Chunk (1, 0) -> Block (24, ~, 8) [WAS LOADED -> UNLOADED]
+          Chunk (1, 1) -> Block (24, ~, 24) [WAS LOADED -> UNLOADED]
+
+  --- Personal Dim 181 (DIM 181) ---
+      Chunks: 636 claimed, 636 loaded
+      >>> UNLOADED 636 chunks <<<
+
+      Region 1: 636 chunks [UNLOADED]
+        Chunk range: (-10, -26) to (18, 8)
+        Teleport to center: /tp @p 72 100 -136
+        Loaded: 636/636 chunks
+
+  --- Personal Dim 182 (DIM 182) ---
+      Chunks: 100 claimed, 100 loaded
+      >>> UNLOADED 100 chunks <<<
+
+      Region 1: 100 chunks [UNLOADED]
+        Chunk range: (5, -26) to (14, -17)
+        Teleport to center: /tp @p 160 100 -336
+        Loaded: 100/100 chunks
+
+
+================================================================================
+TEAM: CDF
+  Owner: Augustym_
+  Color: purple
+  Members: Sazamaki (ally), Hyulles (ally)
+  Total Claimed Chunks: 882
+  Total Force-Loaded Chunks: 501
+  (No changes made - this is your team)
+  Dimensions Used: 6
+
+  --- Nether (DIM -1) ---
+      Chunks: 11 claimed, 11 loaded
+
+      Region 1: 9 chunks [LOADED]
+        Chunk range: (-24, -48) to (-22, -46)
+        Teleport to center: /tp @p -360 100 -744
+        Loaded: 9/9 chunks
+
+      Region 2: 1 chunks [LOADED]
+        Chunk range: (-23, -65) to (-23, -65)
+        Teleport to center: /tp @p -360 100 -1032
+        Loaded: 1/1 chunks
+          Chunk (-23, -65) -> Block (-360, ~, -1032) [LOADED]
+
+      Region 3: 1 chunks [LOADED]
+        Chunk range: (-14, -65) to (-14, -65)
+        Teleport to center: /tp @p -216 100 -1032
+        Loaded: 1/1 chunks
+          Chunk (-14, -65) -> Block (-216, ~, -1032) [LOADED]
+
+  --- Overworld (DIM 0) ---
+      Chunks: 78 claimed, 75 loaded
+
+      Region 1: 51 chunks [LOADED]
+        Chunk range: (-123, -389) to (-115, -380)
+        Teleport to center: /tp @p -1896 100 -6144
+        Loaded: 49/51 chunks
+
+      Region 2: 16 chunks [LOADED]
+        Chunk range: (-123, -383) to (-120, -380)
+        Teleport to center: /tp @p -1936 100 -6096
+        Loaded: 16/16 chunks
+
+      Region 3: 1 chunks [LOADED]
+        Chunk range: (-116, -373) to (-116, -373)
+        Teleport to center: /tp @p -1848 100 -5960
+        Loaded: 1/1 chunks
+          Chunk (-116, -373) -> Block (-1848, ~, -5960) [LOADED]
+
+      Region 4: 10 chunks [LOADED]
+        Chunk range: (181, 36) to (186, 38)
+        Teleport to center: /tp @p 2944 100 600
+        Loaded: 9/10 chunks
+
+  --- End (DIM 1) ---
+      Chunks: 9 claimed, 0 loaded
+
+      Region 1: 9 chunks [NOT LOADED]
+        Chunk range: (-105, -210) to (-103, -208)
+        Teleport to center: /tp @p -1656 100 -3336
+        Loaded: 0/9 chunks
+
+  --- Space Station (DIM 2) ---
+      Chunks: 1 claimed, 1 loaded
+
+      Region 1: 1 chunks [LOADED]
+        Chunk range: (2, 0) to (2, 0)
+        Teleport to center: /tp @p 40 100 8
+        Loaded: 1/1 chunks
+          Chunk (2, 0) -> Block (40, ~, 8) [LOADED]
+
+  --- Personal Dim 180 (DIM 180) ---
+      Chunks: 720 claimed, 351 loaded
+
+      Region 1: 720 chunks [LOADED]
+        Chunk range: (-14, -30) to (10, 6)
+        Teleport to center: /tp @p -24 100 -184
+        Loaded: 351/720 chunks
+
+  --- Personal Dim 182 (DIM 182) ---
+      Chunks: 63 claimed, 63 loaded
+
+      Region 1: 63 chunks [LOADED]
+        Chunk range: (3, 14) to (12, 23)
+        Teleport to center: /tp @p 128 100 304
+        Loaded: 63/63 chunks
+
+
+================================================================================
+SUMMARY
+================================================================================
+  HYU (Sazamaki): 1144 claimed, 1144 loaded -> UNLOADED
+  CDF (Augustym_): 882 claimed, 501 loaded -> UNCHANGED
+
+Note: Chunks remain CLAIMED (assigned) to their teams.
+Only the force-loading flag was removed from team HYU.
+To re-enable loading, the team owner can use the chunk loading UI in-game.
