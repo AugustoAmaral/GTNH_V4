@@ -53,7 +53,27 @@ while true; do
     log_message "Iniciando servidor... (Crash count: $crash_count)"
 
     # Executa o servidor GTNH V4 com Java 21 + lwjgl3ify
-    "$JAVA_HOME/bin/java" -Xms8G -Xmx16G \
+    "$JAVA_HOME/bin/java" \
+        -Xms6G -Xmx10G \
+        -XX:+UseG1GC \
+        -XX:+UnlockExperimentalVMOptions \
+        -XX:G1NewSizePercent=30 \
+        -XX:G1MaxNewSizePercent=40 \
+        -XX:G1HeapRegionSize=16M \
+        -XX:G1ReservePercent=20 \
+        -XX:G1HeapWastePercent=5 \
+        -XX:G1MixedGCCountTarget=4 \
+        -XX:InitiatingHeapOccupancyPercent=20 \
+        -XX:G1MixedGCLiveThresholdPercent=90 \
+        -XX:MaxGCPauseMillis=130 \
+        -XX:SurvivorRatio=32 \
+        -XX:MaxTenuringThreshold=1 \
+        -XX:+AlwaysPreTouch \
+        -XX:+UseStringDeduplication \
+        -XX:+ParallelRefProcEnabled \
+        -XX:+PerfDisableSharedMem \
+        -XX:+DisableExplicitGC \
+        -XX:+UseCompressedOops \
         -Dfml.readTimeout=180 \
         @java9args.txt \
         -jar lwjgl3ify-forgePatches.jar nogui
