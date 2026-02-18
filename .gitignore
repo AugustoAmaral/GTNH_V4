@@ -3,3 +3,7 @@ backups/
 logs/
 config/galacticgreg/GalacticGreg.cfg
 *.cache
+restart.log
+backup.log
+*.pyc
+__pycache__/
