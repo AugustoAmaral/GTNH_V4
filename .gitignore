@@ -7,3 +7,4 @@ restart.log
 backup.log
 *.pyc
 __pycache__/
+World*.zip

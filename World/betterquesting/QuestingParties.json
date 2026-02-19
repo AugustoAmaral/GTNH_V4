@@ -11,12 +11,12 @@
 					"status:8": "OWNER"
 				}
 			},
-			"partyID:3": 0,
 			"properties:10": {
 				"betterquesting:10": {
 					"name:8": "PT-BR"
 				}
-			}
+			},
+			"partyID:3": 0
 		},
 		"1:10": {
 			"members:9": {
@@ -37,12 +37,12 @@
 					"status:8": "MEMBER"
 				}
 			},
-			"partyID:3": 1,
 			"properties:10": {
 				"betterquesting:10": {
 					"name:8": "Time"
 				}
-			}
+			},
+			"partyID:3": 1
 		}
 	}
 }
