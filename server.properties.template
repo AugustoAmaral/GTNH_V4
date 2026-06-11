@@ -1,12 +1,14 @@
 #Minecraft server properties
-#Sat Feb 28 01:49:09 UTC 2026
+#Rendered by 'gtnh start' from server.properties.template — edit the TEMPLATE, not this file.
 allow-flight=true
 allow-nether=true
 announce-player-achievements=true
 difficulty=3
 enable-command-block=true
 enable-query=false
-enable-rcon=false
+enable-rcon=true
+rcon.port=@RCON_PORT@
+rcon.password=@RCON_PASSWORD@
 force-gamemode=false
 gamemode=0
 generate-structures=true

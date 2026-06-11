@@ -58,6 +58,16 @@ t "lock empty active exits 2"        2 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$T
 contains "lock held includes released_clean" "held oracle false" env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/oracle.json" mac
 rm -rf "$TMPLOCK"
 
+# ── Task 6: properties render ─────────────────────────────────
+TMPPROP="$(mktemp -d)"
+t "render with password succeeds" 0 env GTNH_NO_ENV=1 RCON_PASSWORD=s3cret RCON_PORT=25575 \
+  "$GTNH" _render-properties server.properties.template "$TMPPROP/out.properties"
+contains "rendered file has the password" "rcon.password=s3cret" cat "$TMPPROP/out.properties"
+contains "rendered file enables rcon"     "enable-rcon=true"     cat "$TMPPROP/out.properties"
+contains "rendered file has the port"     "rcon.port=25575"      cat "$TMPPROP/out.properties"
+t "render without password fails" 1 env GTNH_NO_ENV=1 RCON_PASSWORD= "$GTNH" _render-properties server.properties.template "$TMPPROP/out2.properties"
+rm -rf "$TMPPROP"
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]

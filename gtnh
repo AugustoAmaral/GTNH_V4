@@ -33,9 +33,7 @@ MC_PORT=25565
 RESTART_LOG="$SERVER_DIR/restart.log"
 # shellcheck disable=SC2034
 STOP_SENTINEL="$SERVER_DIR/.stop-requested"
-# shellcheck disable=SC2034
 PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
-# shellcheck disable=SC2034
 PROPERTIES_FILE="$SERVER_DIR/server.properties"
 # shellcheck disable=SC2034
 MAINTENANCE_LOG="$SERVER_DIR/maintenance.log"
@@ -97,6 +95,14 @@ lock_write() { # lock_write <active> <released_clean true|false> <commit-message
   mv "$tmp" "$LOCK_FILE" || { rm -f "$tmp"; return 1; }
   git -C "$SERVER_DIR" add "$LOCK_FILE" \
     && git -C "$SERVER_DIR" commit -m "$3" -- "$LOCK_FILE" >/dev/null
+}
+
+### ── server.properties rendering ──────────────────────────────
+render_properties() { # render_properties [template] [output]
+  local tmpl="${1:-$PROPERTIES_TEMPLATE}" out="${2:-$PROPERTIES_FILE}"
+  [ -f "$tmpl" ] || die "template not found: $tmpl"
+  [ -n "${RCON_PASSWORD:-}" ] || die "RCON_PASSWORD not set (.env) — refusing to render server.properties"
+  sed -e "s|@RCON_PORT@|$RCON_PORT|g" -e "s|@RCON_PASSWORD@|$RCON_PASSWORD|g" "$tmpl" > "$out"
 }
 
 ### ── Low-level process helpers ────────────────────────────────
@@ -186,5 +192,6 @@ case "${1:-help}" in
   doctor)         cmd_doctor ;;
   _notify)        notify "🔧" "${2:-test message from gtnh}" ;;
   _lock-check)    lock_state "${2:?usage: gtnh _lock-check <file> <host-id>}" "${3:?host-id required}" ;;
+  _render-properties) render_properties "${2:-}" "${3:-}" ;;
   *)              usage >&2; exit 1 ;;
 esac
