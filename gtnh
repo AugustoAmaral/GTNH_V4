@@ -71,6 +71,31 @@ notify() { # notify <emoji> <message> — best-effort; NEVER fails the caller
     "$DISCORD_WEBHOOK_URL" >/dev/null 2>&1 || true
 }
 
+### ── Host lock (state/active-host.json) ───────────────────────
+lock_state() { # lock_state <file> <host-id>
+  # prints: "free" | "self" | "held <holder> <released_clean>" | "invalid"
+  # exit:    0        0        1                                  2
+  local file="$1" host="$2" active released
+  active="$(jq -r '.active' "$file" 2>/dev/null)" || { echo "invalid"; return 2; }
+  case "$active" in ""|null) echo "invalid"; return 2 ;; esac
+  if [ "$active" = "none" ]; then echo "free"; return 0; fi
+  if [ "$active" = "$host" ]; then echo "self"; return 0; fi
+  released="$(jq -r '.released_clean' "$file" 2>/dev/null)"
+  echo "held $active $released"
+  return 1
+}
+
+# lock_write has no callers yet — Tasks 12+ (start/handover/takeover) use it.
+lock_write() { # lock_write <active> <released_clean true|false> <commit-message>
+  local tmp
+  tmp="$(mktemp)" || return 1
+  jq -n --arg a "$1" --argjson r "$2" \
+    '{active: $a, since: (now | todate), released_clean: $r}' > "$tmp" || { rm -f "$tmp"; return 1; }
+  mv "$tmp" "$LOCK_FILE" || return 1
+  git -C "$SERVER_DIR" add "$LOCK_FILE" \
+    && git -C "$SERVER_DIR" commit -m "$3" -- "$LOCK_FILE" >/dev/null
+}
+
 ### ── Low-level process helpers ────────────────────────────────
 # Patterns are anchored to avoid pgrep -f false positives (e.g. an editor or
 # rsync with the jar path in its argv). The runner pattern matches only the
@@ -157,5 +182,6 @@ case "${1:-help}" in
   help|-h|--help) usage ;;
   doctor)         cmd_doctor ;;
   _notify)        notify "🔧" "${2:-test message from gtnh}" ;;
+  _lock-check)    lock_state "${2:?usage: gtnh _lock-check <file> <host-id>}" "${3:?host-id required}" ;;
   *)              usage >&2; exit 1 ;;
 esac
