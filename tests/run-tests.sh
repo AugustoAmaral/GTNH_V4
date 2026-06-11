@@ -74,6 +74,10 @@ contains "rendered file keeps verbatim lines" "level-name=World" cat "$TMPPROP/o
 t "failed renders leave no output file" 1 test -e "$TMPPROP/out3.properties"
 rm -rf "$TMPPROP"
 
+# ── Task 7: rcon ──────────────────────────────────────────────
+t "gtnh cmd without args fails"                     1 env GTNH_NO_ENV=1 "$GTNH" cmd
+t "gtnh cmd fails cleanly (no mcrcon or no server)" 1 env GTNH_NO_ENV=1 RCON_PASSWORD=x "$GTNH" cmd "list"
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]

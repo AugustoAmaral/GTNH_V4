@@ -117,6 +117,22 @@ render_properties() { # render_properties [template] [output]
   mv "$tmp" "$out" || { rm -f "$tmp"; die "could not move rendered file into place"; }
 }
 
+### ── RCON ─────────────────────────────────────────────────────
+can_rcon() { has mcrcon && [ -n "${RCON_PASSWORD:-}" ]; }
+
+rcon_cmd() { # rcon_cmd <command> — against localhost; returns mcrcon's status
+  can_rcon || return 1
+  tmo mcrcon -H 127.0.0.1 -P "$RCON_PORT" -p "$RCON_PASSWORD" "$1" 2>/dev/null
+}
+
+cmd_cmd() {
+  [ -n "${1:-}" ] || die 'usage: gtnh cmd "<command>"'
+  has mcrcon || die "mcrcon not installed — run 'gtnh doctor' for instructions"
+  [ -n "${RCON_PASSWORD:-}" ] || die "RCON_PASSWORD not set in .env"
+  server_running || die "server is not running"
+  rcon_cmd "$1" || die "RCON command failed — is the server fully started with RCON enabled?"
+}
+
 ### ── Low-level process helpers ────────────────────────────────
 # Patterns are anchored to avoid pgrep -f false positives (e.g. an editor or
 # rsync with the jar path in its argv). The runner pattern matches only the
@@ -205,5 +221,7 @@ case "${1:-help}" in
   _notify)        notify "🔧" "${2:-test message from gtnh}" ;;
   _lock-check)    lock_state "${2:?usage: gtnh _lock-check <file> <host-id>}" "${3:?host-id required}" ;;
   _render-properties) render_properties "${2:-}" "${3:-}" ;;
+  cmd)            shift; cmd_cmd "${1:-}" ;;
+  tps)            cmd_cmd "forge tps" ;;
   *)              usage >&2; exit 1 ;;
 esac
