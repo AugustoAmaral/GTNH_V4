@@ -99,10 +99,22 @@ lock_write() { # lock_write <active> <released_clean true|false> <commit-message
 
 ### ── server.properties rendering ──────────────────────────────
 render_properties() { # render_properties [template] [output]
-  local tmpl="${1:-$PROPERTIES_TEMPLATE}" out="${2:-$PROPERTIES_FILE}"
+  local tmpl="${1:-$PROPERTIES_TEMPLATE}" out="${2:-$PROPERTIES_FILE}" tmp
   [ -f "$tmpl" ] || die "template not found: $tmpl"
   [ -n "${RCON_PASSWORD:-}" ] || die "RCON_PASSWORD not set (.env) — refusing to render server.properties"
-  sed -e "s|@RCON_PORT@|$RCON_PORT|g" -e "s|@RCON_PASSWORD@|$RCON_PASSWORD|g" "$tmpl" > "$out"
+  # | & \ would be interpreted by the sed replacement and corrupt the file silently
+  case "$RCON_PASSWORD" in
+    *[\\\|\&]*) die "RCON_PASSWORD must not contain | & or \\ — pick another password" ;;
+  esac
+  # temp+mv so a failed render can never leave a truncated server.properties
+  tmp="$out.tmp.$$"
+  sed -e "s|@RCON_PORT@|$RCON_PORT|g" -e "s|@RCON_PASSWORD@|$RCON_PASSWORD|g" "$tmpl" > "$tmp" \
+    || { rm -f "$tmp"; die "render failed"; }
+  if grep -q '@RCON_' "$tmp"; then
+    rm -f "$tmp"
+    die "render left unsubstituted placeholders"
+  fi
+  mv "$tmp" "$out" || { rm -f "$tmp"; die "could not move rendered file into place"; }
 }
 
 ### ── Low-level process helpers ────────────────────────────────

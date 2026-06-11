@@ -66,6 +66,12 @@ contains "rendered file has the password" "rcon.password=s3cret" cat "$TMPPROP/o
 contains "rendered file enables rcon"     "enable-rcon=true"     cat "$TMPPROP/out.properties"
 contains "rendered file has the port"     "rcon.port=25575"      cat "$TMPPROP/out.properties"
 t "render without password fails" 1 env GTNH_NO_ENV=1 RCON_PASSWORD= "$GTNH" _render-properties server.properties.template "$TMPPROP/out2.properties"
+t "render rejects sed-hostile password" 1 env GTNH_NO_ENV=1 'RCON_PASSWORD=pa&ss' \
+  "$GTNH" _render-properties server.properties.template "$TMPPROP/out3.properties"
+t "render with missing template fails" 1 env GTNH_NO_ENV=1 RCON_PASSWORD=s3cret \
+  "$GTNH" _render-properties /nonexistent.template "$TMPPROP/out4.properties"
+contains "rendered file keeps verbatim lines" "level-name=World" cat "$TMPPROP/out.properties"
+t "failed renders leave no output file" 1 test -e "$TMPPROP/out3.properties"
 rm -rf "$TMPPROP"
 
 echo "---"
