@@ -8,3 +8,11 @@ backup.log
 *.pyc
 __pycache__/
 World*.zip
+.env
+crash-reports/
+*.log
+.DS_Store
+*.hprof
+hs_err_pid*
+lastUpdate.txt
+.stop-requested
