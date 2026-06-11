@@ -24,14 +24,12 @@ RCON_PORT="${RCON_PORT:-25575}"
 SCREEN_NAME="gtnh"
 SERVER_JAR="lwjgl3ify-forgePatches.jar"
 LOCK_FILE="$SERVER_DIR/state/active-host.json"
-# The variables below have no consumers yet — later tasks (start/stop/restart,
-# template render, backup, maintenance) use them. SC2034 suppressed per line
-# until those tasks land; do not delete.
+# The variables below have no consumers yet — later tasks (stop/restart,
+# backup, maintenance) use them. SC2034 suppressed per line until those
+# tasks land; do not delete.
 # shellcheck disable=SC2034
 MC_PORT=25565
-# shellcheck disable=SC2034
 RESTART_LOG="$SERVER_DIR/restart.log"
-# shellcheck disable=SC2034
 STOP_SENTINEL="$SERVER_DIR/.stop-requested"
 PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
 PROPERTIES_FILE="$SERVER_DIR/server.properties"
@@ -152,6 +150,118 @@ server_running() { [ -n "$(server_pids)" ]; }
 # backslashes will be mangled; prefer RCON for anything non-trivial.
 screen_stuff()   { screen -S "$SCREEN_NAME" -X stuff "$1$(printf '\r')"; }
 
+### ── Typed confirmation (force paths, unverifiable peer) ──────
+confirm_typed() { # confirm_typed <warning-text>
+  echo "" >&2
+  echo "$1" >&2
+  printf "Type this host's id (%s) to proceed: " "$HOST_ID" >&2
+  local ans
+  read -r ans
+  [ "$ans" = "$HOST_ID" ] || die "confirmation mismatch — aborting"
+}
+
+### ── start / run-loop ─────────────────────────────────────────
+cmd_start() {
+  local force="${1:-}"
+  has screen || die "screen not installed"
+  screen_exists && die "server already running in screen '$SCREEN_NAME'"
+  server_running && die "server java process already running (PID: $(server_pids | tr '\n' ' ')) — use 'gtnh stop' or 'gtnh kill'"
+
+  local state rc
+  state="$(lock_state "$LOCK_FILE" "$HOST_ID")"; rc=$?
+  if [ "$rc" -eq 0 ] && [ "$state" = "self" ]; then
+    : # we own the lock — normal start
+  elif [ "$rc" -eq 0 ] && [ "$state" = "free" ]; then
+    die "lock is unclaimed (active=none) — run 'gtnh takeover' to claim it before starting"
+  else
+    if [ "$force" = "--force" ]; then
+      confirm_typed "Lock state is '$state'. Forcing a start here risks SPLIT-BRAIN (two hosts writing the world)."
+      notify "⚠️" "FORCED start (lock: $state)"
+    else
+      die "lock state is '$state' — run 'gtnh handover' on the active host first, or 'gtnh start --force'"
+    fi
+  fi
+
+  render_properties
+  rm -f "$STOP_SENTINEL"
+  cd "$SERVER_DIR" || die "cd failed"
+  screen -dmS "$SCREEN_NAME" "$SCRIPT_PATH" _run-loop
+  sleep 3
+  if screen_exists; then
+    info "server starting in screen '$SCREEN_NAME' — 'gtnh console' to attach"
+    notify "🟢" "server starting"
+  else
+    die "failed to start — check $RESTART_LOG"
+  fi
+}
+
+log_restart() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$RESTART_LOG"; }
+
+cmd_run_loop() {
+  cd "$SERVER_DIR" || exit 1
+  local jb
+  # shellcheck disable=SC2015  # error branch intentionally runs when either check fails
+  jb="$(java_bin)" && [ -x "$jb" ] || { log_restart "ERROR: java 21 not found"; exit 1; }
+  rm -f "$STOP_SENTINEL" # stale sentinel from a previous unclean sequence
+  # Crash counter: max 5 crashes, where each crash within 5 minutes of the
+  # previous one increments the count. (The old run.sh updated last_crash_time
+  # before measuring the window, so the counter never reset — this implements
+  # the intended 5-in-a-5-minute-window semantics.)
+  local max_crashes=5 crash_window=300 crash_count=0 last_crash_time=0
+  local exit_code now
+  log_restart "=== gtnh run-loop starting on $HOST_ID (PID $$, java: $jb) ==="
+  while true; do
+    log_restart "Starting server... (crash count: $crash_count)"
+    "$jb" \
+        -Xms6G -Xmx10G \
+        -XX:+UseG1GC \
+        -XX:+UnlockExperimentalVMOptions \
+        -XX:G1NewSizePercent=30 \
+        -XX:G1MaxNewSizePercent=40 \
+        -XX:G1HeapRegionSize=16M \
+        -XX:G1ReservePercent=20 \
+        -XX:G1HeapWastePercent=5 \
+        -XX:G1MixedGCCountTarget=4 \
+        -XX:InitiatingHeapOccupancyPercent=20 \
+        -XX:G1MixedGCLiveThresholdPercent=90 \
+        -XX:MaxGCPauseMillis=130 \
+        -XX:SurvivorRatio=32 \
+        -XX:MaxTenuringThreshold=1 \
+        -XX:+AlwaysPreTouch \
+        -XX:+UseStringDeduplication \
+        -XX:+ParallelRefProcEnabled \
+        -XX:+PerfDisableSharedMem \
+        -XX:+DisableExplicitGC \
+        -XX:+UseCompressedOops \
+        -Dfml.readTimeout=180 \
+        @java9args.txt \
+        -jar "$SERVER_JAR" nogui
+    exit_code=$?
+    if [ -f "$STOP_SENTINEL" ]; then
+      log_restart "Stop requested — exiting run-loop (java exit code: $exit_code)."
+      rm -f "$STOP_SENTINEL"
+      break
+    fi
+    if [ "$exit_code" -eq 0 ]; then
+      log_restart "Server exited normally. Ending run-loop."
+      break
+    fi
+    now=$(date +%s)
+    if [ $((now - last_crash_time)) -gt "$crash_window" ]; then crash_count=0; fi
+    crash_count=$((crash_count + 1))
+    last_crash_time=$now
+    log_restart "CRASH detected! Exit code: $exit_code (crash #$crash_count)"
+    if [ "$crash_count" -ge "$max_crashes" ]; then
+      log_restart "Too many consecutive crashes ($crash_count). Auto-restart stopped."
+      notify "🚨" "auto-restart gave up after $crash_count crashes — server is DOWN"
+      break
+    fi
+    log_restart "Restarting in 10s..."
+    sleep 10
+  done
+  log_restart "=== run-loop finished ==="
+}
+
 ### ── doctor ───────────────────────────────────────────────────
 cmd_doctor() {
   local rc=0 jb v val
@@ -227,5 +337,7 @@ case "${1:-help}" in
   _rcon)          shift; rcon_cmd "${1:-}" ;;
   cmd)            shift; cmd_cmd "$*" ;;
   tps)            cmd_cmd "forge tps" ;;
+  start)          cmd_start "${2:-}" ;;
+  _run-loop)      cmd_run_loop ;;
   *)              usage >&2; exit 1 ;;
 esac
