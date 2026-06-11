@@ -10,6 +10,8 @@ SERVER_DIR="$(dirname "$SCRIPT_PATH")"
 OS="$(uname -s)" # Linux | Darwin
 
 # Per-machine config and secrets. GTNH_NO_ENV=1 skips it (used by tests).
+# .env is EXECUTED as shell and its vars are exported to all children
+# (including the java server process) — keep it chmod 600, owner-only.
 if [ -z "${GTNH_NO_ENV:-}" ] && [ -f "$SERVER_DIR/.env" ]; then
   set -a
   # shellcheck disable=SC1091  # .env is per-machine and gitignored; not available to lint
@@ -46,6 +48,7 @@ die()  { echo "ERROR: $*" >&2; exit 1; }
 warn() { echo "WARN: $*" >&2; }
 info() { echo "$*"; }
 has()  { command -v "$1" >/dev/null 2>&1; }
+# tmo only works for external binaries (timeout execs); never wrap shell functions.
 tmo()  { # run with a 10s timeout where a timeout binary exists (Linux); plain otherwise (Mac)
   if has timeout; then timeout 10 "$@"; elif has gtimeout; then gtimeout 10 "$@"; else "$@"; fi
 }
@@ -61,10 +64,19 @@ java_bin() {
 }
 
 ### ── Low-level process helpers ────────────────────────────────
+# Patterns are anchored to avoid pgrep -f false positives (e.g. an editor or
+# rsync with the jar path in its argv). The runner pattern matches only the
+# bash process executing the loop, NOT the SCREEN daemon that hosts it —
+# screen cleanup is done separately via 'screen -X quit'.
+# NOTE: matching is still argv-substring based; never call these from inside
+# a process whose own argv contains the pattern (command substitution forks
+# inherit argv, and bash 3.2 has no $BASHPID to self-exclude).
 screen_exists()  { screen -list 2>/dev/null | grep -qE "[0-9]+\.${SCREEN_NAME}[[:space:]]"; }
-server_pids()    { pgrep -f "$SERVER_JAR" 2>/dev/null; }
-runner_pids()    { pgrep -f "gtnh _run-loop" 2>/dev/null | grep -v "^$$\$" || true; }
+server_pids()    { pgrep -f "java .*-jar $SERVER_JAR" 2>/dev/null; }
+runner_pids()    { pgrep -f "bash .*gtnh _run-loop" 2>/dev/null; }
 server_running() { [ -n "$(server_pids)" ]; }
+# screen's 'stuff' interprets backslash escapes — console commands containing
+# backslashes will be mangled; prefer RCON for anything non-trivial.
 screen_stuff()   { screen -S "$SCREEN_NAME" -X stuff "$1$(printf '\r')"; }
 
 ### ── doctor ───────────────────────────────────────────────────
@@ -100,14 +112,16 @@ cmd_doctor() {
   if [ -f "$SERVER_DIR/.env" ]; then
     echo "  ok       .env present"
     for v in HOST_ID DISCORD_WEBHOOK_URL RCON_PASSWORD PEER_HOST CF_API_TOKEN CF_ZONE_ID CF_RECORD_ID CF_RECORD_NAME; do
-      eval "val=\${$v:-}"
+      val="${!v:-}"
       if [ -n "$val" ]; then echo "  ok       .env: $v"; else echo "  missing  .env: $v"; fi
     done
   else
     echo "  MISSING  .env — cp .env.example .env and fill it in"
     rc=1
   fi
-  if jq -e . "$LOCK_FILE" >/dev/null 2>&1; then
+  if ! has jq; then
+    echo "  skip     lock check (jq missing)"
+  elif jq -e . "$LOCK_FILE" >/dev/null 2>&1; then
     echo "  ok       lock: $(jq -c . "$LOCK_FILE")"
   else
     echo "  BROKEN   lock file missing/invalid: $LOCK_FILE"
@@ -134,5 +148,5 @@ EOF
 case "${1:-help}" in
   help|-h|--help) usage ;;
   doctor)         cmd_doctor ;;
-  *)              usage; exit 1 ;;
+  *)              usage >&2; exit 1 ;;
 esac
