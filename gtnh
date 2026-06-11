@@ -24,15 +24,13 @@ RCON_PORT="${RCON_PORT:-25575}"
 SCREEN_NAME="gtnh"
 SERVER_JAR="lwjgl3ify-forgePatches.jar"
 LOCK_FILE="$SERVER_DIR/state/active-host.json"
-# The variables below have no consumers yet — later tasks (stop/restart,
-# backup, maintenance) use them. SC2034 suppressed per line until those
-# tasks land; do not delete.
-# shellcheck disable=SC2034
 MC_PORT=25565
 RESTART_LOG="$SERVER_DIR/restart.log"
 STOP_SENTINEL="$SERVER_DIR/.stop-requested"
 PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
 PROPERTIES_FILE="$SERVER_DIR/server.properties"
+# MAINTENANCE_LOG has no consumer yet — the maintenance task uses it. SC2034
+# suppressed until that task lands; do not delete.
 # shellcheck disable=SC2034
 MAINTENANCE_LOG="$SERVER_DIR/maintenance.log"
 
@@ -199,6 +197,7 @@ log_restart() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$RESTART_LOG"
 
 cmd_run_loop() {
   cd "$SERVER_DIR" || exit 1
+  server_running && { log_restart "ERROR: server java already running — refusing to start a second instance"; exit 1; }
   local jb
   # shellcheck disable=SC2015  # error branch intentionally runs when either check fails
   jb="$(java_bin)" && [ -x "$jb" ] || { log_restart "ERROR: java 21 not found"; exit 1; }
@@ -260,6 +259,138 @@ cmd_run_loop() {
     sleep 10
   done
   log_restart "=== run-loop finished ==="
+}
+
+### ── stop / kill / status / logs / console ───────────────────
+cmd_stop() {
+  if ! server_running && ! screen_exists; then
+    info "server is not running"
+    rm -f "$STOP_SENTINEL"
+    return 0
+  fi
+  # Sentinel FIRST: from this point the run-loop will not restart java,
+  # no matter how java exits. This closes the inherited stop/auto-restart race.
+  touch "$STOP_SENTINEL"
+  info "stopping server..."
+  if server_running; then
+    if can_rcon && rcon_cmd "stop" >/dev/null 2>&1; then
+      info "sent 'stop' via RCON"
+    elif screen_exists; then
+      screen_stuff "stop"
+      info "sent 'stop' via screen console"
+    fi
+    local i
+    # shellcheck disable=SC2034  # i is a pure iteration counter, never read
+    for i in $(seq 1 30); do
+      server_running || break
+      sleep 1
+    done
+  fi
+  if server_running; then
+    warn "java still alive after 30s — sending SIGTERM"
+    # shellcheck disable=SC2046  # intentional word-splitting: one kill arg per PID
+    kill $(server_pids) 2>/dev/null
+    sleep 5
+    if server_running; then
+      warn "no response — sending SIGKILL"
+      # shellcheck disable=SC2046  # intentional word-splitting: one kill arg per PID
+      kill -9 $(server_pids) 2>/dev/null
+      sleep 2
+    fi
+  fi
+  # Cleanup only: java is dead and the sentinel already prevents restarts.
+  local rp
+  rp="$(runner_pids)"
+  # shellcheck disable=SC2086  # intentional word-splitting: one kill arg per PID
+  [ -n "$rp" ] && kill $rp 2>/dev/null
+  sleep 1
+  screen_exists && screen -S "$SCREEN_NAME" -X quit 2>/dev/null
+  rm -f "$STOP_SENTINEL"
+  server_running && die "could not stop the server — use 'gtnh kill'"
+  info "server stopped"
+  notify "🔴" "server stopped"
+}
+
+cmd_kill() {
+  touch "$STOP_SENTINEL"
+  local rp sp
+  rp="$(runner_pids)"; sp="$(server_pids)"
+  if [ -z "$rp" ] && [ -z "$sp" ]; then
+    info "no server processes found"
+  else
+    # shellcheck disable=SC2086  # intentional word-splitting: one kill arg per PID
+    [ -n "$rp" ] && kill -9 $rp 2>/dev/null
+    # shellcheck disable=SC2086  # intentional word-splitting: one kill arg per PID
+    [ -n "$sp" ] && kill -9 $sp 2>/dev/null
+    sleep 2
+    info "processes killed"
+    notify "🔴" "server force-killed"
+  fi
+  screen_exists && screen -S "$SCREEN_NAME" -X quit 2>/dev/null
+  rm -f "$STOP_SENTINEL"
+}
+
+cmd_status() {
+  echo "=== GTNH status — host '$HOST_ID' ==="
+  local sp tps
+  sp="$(server_pids | tr '\n' ' ')"
+  if [ -n "$sp" ]; then
+    echo "server: RUNNING (PID: $sp)"
+    if screen_exists; then echo "screen: $SCREEN_NAME"; else echo "screen: MISSING (started manually?)"; fi
+    if [ "$OS" = "Darwin" ]; then
+      if lsof -iTCP:"$MC_PORT" -sTCP:LISTEN >/dev/null 2>&1; then echo "port $MC_PORT: OPEN"; else echo "port $MC_PORT: closed (still starting?)"; fi
+    else
+      if ss -tuln 2>/dev/null | grep -q ":$MC_PORT "; then echo "port $MC_PORT: OPEN"; else echo "port $MC_PORT: closed (still starting?)"; fi
+    fi
+    if can_rcon && tps="$(rcon_cmd 'forge tps' 2>/dev/null)"; then
+      echo "tps:"; printf '%s\n' "$tps" | head -8
+    fi
+  elif screen_exists; then
+    echo "server: screen '$SCREEN_NAME' exists but java is not running (starting or crashed)"
+  else
+    echo "server: STOPPED"
+  fi
+  if jq -e . "$LOCK_FILE" >/dev/null 2>&1; then
+    echo "lock: $(jq -r '"active=\(.active) since=\(.since) released_clean=\(.released_clean)"' "$LOCK_FILE")"
+  else
+    echo "lock: UNREADABLE ($LOCK_FILE)"
+  fi
+  if [ -f "$RESTART_LOG" ]; then
+    echo "--- restart.log (last 5) ---"
+    tail -5 "$RESTART_LOG"
+  fi
+}
+
+cmd_logs() {
+  if [ -f "$RESTART_LOG" ]; then
+    echo "=== restart.log ==="; tail -20 "$RESTART_LOG"; echo ""
+  fi
+  echo "=== logs/latest.log ==="
+  if [ -f "$SERVER_DIR/logs/latest.log" ]; then
+    tail -20 "$SERVER_DIR/logs/latest.log"
+  else
+    echo "(no server log found)"
+  fi
+}
+
+cmd_console() {
+  if screen_exists; then
+    info "attaching — Ctrl+A, D to detach without stopping the server"
+    screen -r "$SCREEN_NAME"
+  else
+    warn "no screen session '$SCREEN_NAME'"
+    server_running && warn "server is running OUTSIDE screen (PID: $(server_pids | tr '\n' ' '))"
+    exit 1
+  fi
+}
+
+cmd_clear_crashes() {
+  if [ -f "$RESTART_LOG" ]; then
+    rm "$RESTART_LOG"
+    info "restart log cleared (note: a RUNNING loop keeps its in-memory crash counter)"
+  else
+    info "no restart log found"
+  fi
 }
 
 ### ── doctor ───────────────────────────────────────────────────
@@ -339,5 +470,12 @@ case "${1:-help}" in
   tps)            cmd_cmd "forge tps" ;;
   start)          cmd_start "${2:-}" ;;
   _run-loop)      cmd_run_loop ;;
+  stop)           cmd_stop ;;
+  kill)           cmd_kill ;;
+  restart)        cmd_stop; sleep 5; cmd_start "${2:-}" ;;
+  status)         cmd_status ;;
+  logs)           cmd_logs ;;
+  console)        cmd_console ;;
+  clear-crashes)  cmd_clear_crashes ;;
   *)              usage >&2; exit 1 ;;
 esac
