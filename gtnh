@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+# gtnh — unified control CLI for the GTNH V4 dual-host Minecraft server.
+# Single file by design. Must stay bash 3.2 compatible (the Mac ships 3.2).
+# Spec: docs/superpowers/specs/2026-06-11-gtnh-dual-host-control-design.md
+set -u
+
+### ── Environment detection (the ONLY machine-specific block) ──
+SCRIPT_PATH="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
+SERVER_DIR="$(dirname "$SCRIPT_PATH")"
+OS="$(uname -s)" # Linux | Darwin
+
+# Per-machine config and secrets. GTNH_NO_ENV=1 skips it (used by tests).
+if [ -z "${GTNH_NO_ENV:-}" ] && [ -f "$SERVER_DIR/.env" ]; then
+  set -a
+  # shellcheck disable=SC1091  # .env is per-machine and gitignored; not available to lint
+  . "$SERVER_DIR/.env"
+  set +a
+fi
+
+HOST_ID="${HOST_ID:-$(hostname -s)}"
+RCON_PORT="${RCON_PORT:-25575}"
+SCREEN_NAME="gtnh"
+SERVER_JAR="lwjgl3ify-forgePatches.jar"
+LOCK_FILE="$SERVER_DIR/state/active-host.json"
+# The variables below have no consumers yet — later tasks (start/stop/restart,
+# template render, backup, maintenance) use them. SC2034 suppressed per line
+# until those tasks land; do not delete.
+# shellcheck disable=SC2034
+MC_PORT=25565
+# shellcheck disable=SC2034
+RESTART_LOG="$SERVER_DIR/restart.log"
+# shellcheck disable=SC2034
+STOP_SENTINEL="$SERVER_DIR/.stop-requested"
+# shellcheck disable=SC2034
+PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
+# shellcheck disable=SC2034
+PROPERTIES_FILE="$SERVER_DIR/server.properties"
+# shellcheck disable=SC2034
+MAINTENANCE_LOG="$SERVER_DIR/maintenance.log"
+
+### ── Helpers ──────────────────────────────────────────────────
+# Some helpers below have no callers yet: later tasks (start/stop/restart,
+# takeover, backup) consume them. Do not delete. (shellcheck 0.9.0 does not
+# flag unused functions; if a newer version flags SC2329, suppress per function.)
+die()  { echo "ERROR: $*" >&2; exit 1; }
+warn() { echo "WARN: $*" >&2; }
+info() { echo "$*"; }
+has()  { command -v "$1" >/dev/null 2>&1; }
+tmo()  { # run with a 10s timeout where a timeout binary exists (Linux); plain otherwise (Mac)
+  if has timeout; then timeout 10 "$@"; elif has gtimeout; then gtimeout 10 "$@"; else "$@"; fi
+}
+
+java_bin() {
+  if [ "$OS" = "Darwin" ]; then
+    local home
+    home="$(/usr/libexec/java_home -v 21 2>/dev/null)" || return 1
+    echo "$home/bin/java"
+  else
+    echo "/usr/lib/jvm/java-21-openjdk-arm64/bin/java"
+  fi
+}
+
+### ── Low-level process helpers ────────────────────────────────
+screen_exists()  { screen -list 2>/dev/null | grep -qE "[0-9]+\.${SCREEN_NAME}[[:space:]]"; }
+server_pids()    { pgrep -f "$SERVER_JAR" 2>/dev/null; }
+runner_pids()    { pgrep -f "gtnh _run-loop" 2>/dev/null | grep -v "^$$\$" || true; }
+server_running() { [ -n "$(server_pids)" ]; }
+screen_stuff()   { screen -S "$SCREEN_NAME" -X stuff "$1$(printf '\r')"; }
+
+### ── doctor ───────────────────────────────────────────────────
+cmd_doctor() {
+  local rc=0 jb v val
+  echo "gtnh doctor — host '$HOST_ID' ($OS)"
+  if jb="$(java_bin)" && [ -x "$jb" ]; then
+    echo "  ok       java 21: $jb"
+  else
+    if [ "$OS" = "Darwin" ]; then
+      echo "  MISSING  java 21 — brew install --cask zulu@21"
+    else
+      echo "  MISSING  java 21 — sudo apt install openjdk-21-jdk"
+    fi
+    rc=1
+  fi
+  for v in jq screen git curl; do
+    if has "$v"; then echo "  ok       $v"; else echo "  MISSING  $v (required)"; rc=1; fi
+  done
+  if has mcrcon; then echo "  ok       mcrcon"; else
+    if [ "$OS" = "Darwin" ]; then
+      echo "  missing  mcrcon — brew install mcrcon (RCON commands unavailable until installed)"
+    else
+      echo "  missing  mcrcon — build from github.com/Tiiffi/mcrcon, see OPERATIONS.md"
+    fi
+  fi
+  if has nc; then echo "  ok       nc"; else
+    echo "  missing  nc — sudo apt install netcat-openbsd (takeover peer probe degraded)"
+  fi
+  if has tailscale; then echo "  ok       tailscale"; else
+    echo "  missing  tailscale — https://tailscale.com/install.sh (peer reachability check degraded)"
+  fi
+  if [ -f "$SERVER_DIR/.env" ]; then
+    echo "  ok       .env present"
+    for v in HOST_ID DISCORD_WEBHOOK_URL RCON_PASSWORD PEER_HOST CF_API_TOKEN CF_ZONE_ID CF_RECORD_ID CF_RECORD_NAME; do
+      eval "val=\${$v:-}"
+      if [ -n "$val" ]; then echo "  ok       .env: $v"; else echo "  missing  .env: $v"; fi
+    done
+  else
+    echo "  MISSING  .env — cp .env.example .env and fill it in"
+    rc=1
+  fi
+  if jq -e . "$LOCK_FILE" >/dev/null 2>&1; then
+    echo "  ok       lock: $(jq -c . "$LOCK_FILE")"
+  else
+    echo "  BROKEN   lock file missing/invalid: $LOCK_FILE"
+    rc=1
+  fi
+  return "$rc"
+}
+
+### ── usage / dispatch ─────────────────────────────────────────
+usage() {
+  cat <<'EOF'
+gtnh — GTNH V4 dual-host server control
+
+Process:  start [--force] | stop | restart | kill | status | logs | console | clear-crashes
+RCON:     cmd "<command>" | tps
+Backup:   backup | maintenance
+Hosts:    handover | takeover [--force] | dns-update [--dry-run]
+Setup:    doctor
+
+See OPERATIONS.md for the runbook.
+EOF
+}
+
+case "${1:-help}" in
+  help|-h|--help) usage ;;
+  doctor)         cmd_doctor ;;
+  *)              usage; exit 1 ;;
+esac
