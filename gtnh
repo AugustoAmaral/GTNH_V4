@@ -257,6 +257,11 @@ cmd_run_loop() {
     fi
     log_restart "Restarting in 10s..."
     sleep 10
+    if [ -f "$STOP_SENTINEL" ]; then
+      log_restart "Stop requested during restart pause — exiting run-loop."
+      rm -f "$STOP_SENTINEL"
+      break
+    fi
   done
   log_restart "=== run-loop finished ==="
 }
@@ -326,6 +331,7 @@ cmd_kill() {
     info "processes killed"
     notify "🔴" "server force-killed"
   fi
+  server_running && warn "a java process survived SIGKILL (D-state?) — check manually"
   screen_exists && screen -S "$SCREEN_NAME" -X quit 2>/dev/null
   rm -f "$STOP_SENTINEL"
 }
