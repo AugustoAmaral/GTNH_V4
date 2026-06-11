@@ -399,6 +399,79 @@ cmd_clear_crashes() {
   fi
 }
 
+### ── backup ───────────────────────────────────────────────────
+clean_stale_index_lock() { # clean_stale_index_lock [repo-dir]
+  local dir="${1:-$SERVER_DIR}" lock
+  lock="$dir/.git/index.lock"
+  [ -f "$lock" ] || return 0
+  if pgrep -x git >/dev/null 2>&1; then
+    warn "a git process is running — leaving index.lock alone"
+    return 0
+  fi
+  if [ -n "$(find "$lock" -mmin +30 2>/dev/null)" ]; then
+    warn "removing stale .git/index.lock (older than 30 minutes)"
+    rm -f "$lock"
+  fi
+}
+
+staged_size_guard() { # checks staged files in CWD repo; fails if any exceeds 90MB
+  local limit=$((90 * 1024 * 1024)) f size bad=""
+  while IFS= read -r -d '' f; do
+    [ -f "$f" ] || continue
+    if [ "$OS" = "Darwin" ]; then size=$(stat -f %z "$f"); else size=$(stat -c %s "$f"); fi
+    [ "$size" -gt "$limit" ] && bad="$bad $f ($((size / 1024 / 1024))MB)"
+  done < <(git diff --cached --name-only -z)
+  [ -z "$bad" ] && return 0
+  echo "ERROR: staged file(s) over 90MB:$bad" >&2
+  echo "GitHub rejects blobs over 100MB — committing would break every future push." >&2
+  echo "See OPERATIONS.md ('Oversized staged file')." >&2
+  return 1
+}
+
+cmd_backup() {
+  cd "$SERVER_DIR" || die "cd failed"
+  local active
+  active="$(jq -r '.active' "$LOCK_FILE" 2>/dev/null || echo none)"
+  if [ "$active" != "none" ] && [ "$active" != "null" ] && [ "$active" != "$HOST_ID" ]; then
+    exit 0 # another host owns the world — never commit from here
+  fi
+  clean_stale_index_lock
+  SAVED_OFF=0
+  # The trap fires save-on ONLY if this run issued save-off — a stopped-server
+  # backup never touches RCON, including on exit.
+  trap 'if [ "${SAVED_OFF:-0}" = "1" ]; then rcon_cmd "save-on" >/dev/null 2>&1 || true; fi' EXIT
+  if server_running && can_rcon; then
+    if rcon_cmd "save-off" >/dev/null 2>&1; then
+      SAVED_OFF=1
+      rcon_cmd "save-all flush" >/dev/null 2>&1 || true
+      sleep 15
+    else
+      warn "save-off failed — backing up without pausing saves"
+    fi
+  fi
+  git add -A
+  if git diff --cached --quiet; then
+    exit 0 # nothing to back up
+  fi
+  if ! staged_size_guard; then
+    notify "🚨" "backup ABORTED before commit: staged file over 90MB — see OPERATIONS.md"
+    die "backup aborted — changes remain staged for the next run"
+  fi
+  local ts
+  ts="$(date '+%Y-%m-%dT%H:%M')"
+  if ! git commit -m "Auto backup - $ts" >/dev/null; then
+    notify "🔴" "backup commit FAILED — changes remain staged"
+    die "git commit failed — changes remain staged for the next run"
+  fi
+  info "backup committed: $(git rev-parse --short HEAD)"
+  if ! git push >/dev/null 2>&1; then
+    notify "🟠" "backup committed locally but push FAILED — retrying next run"
+    warn "push failed — the commit exists locally only"
+    exit 1
+  fi
+  info "pushed"
+}
+
 ### ── doctor ───────────────────────────────────────────────────
 cmd_doctor() {
   local rc=0 jb v val
@@ -472,6 +545,8 @@ case "${1:-help}" in
   _lock-check)    lock_state "${2:?usage: gtnh _lock-check <file> <host-id>}" "${3:?host-id required}" ;;
   _render-properties) render_properties "${2:-}" "${3:-}" ;;
   _rcon)          shift; rcon_cmd "${1:-}" ;;
+  _staged-guard)      staged_size_guard ;;
+  _clean-index-lock)  clean_stale_index_lock "${2:-}" ;;
   cmd)            shift; cmd_cmd "$*" ;;
   tps)            cmd_cmd "forge tps" ;;
   start)          cmd_start "${2:-}" ;;
@@ -483,5 +558,6 @@ case "${1:-help}" in
   logs)           cmd_logs ;;
   console)        cmd_console ;;
   clear-crashes)  cmd_clear_crashes ;;
+  backup)             cmd_backup ;;
   *)              usage >&2; exit 1 ;;
 esac

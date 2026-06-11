@@ -84,6 +84,24 @@ chmod +x "$TMPRCON/mcrcon"
 t "rcon_cmd propagates mcrcon exit status" 42 env GTNH_NO_ENV=1 RCON_PASSWORD=x PATH="$TMPRCON:$PATH" "$GTNH" _rcon list
 rm -rf "$TMPRCON"
 
+# ── Task 10: backup units ─────────────────────────────────────
+TMPREPO="$(mktemp -d)"
+( cd "$TMPREPO" && git init -q . && git config user.email t@t && git config user.name t \
+  && echo small > small.txt && git add small.txt )
+t "size guard passes small files" 0 env GTNH_NO_ENV=1 sh -c "cd '$TMPREPO' && '$PWD/gtnh' _staged-guard"
+( cd "$TMPREPO" && truncate -s 100M big.bin && git add big.bin )
+t "size guard rejects >90MB file" 1 env GTNH_NO_ENV=1 sh -c "cd '$TMPREPO' && '$PWD/gtnh' _staged-guard"
+contains "size guard names the file" "big.bin" env GTNH_NO_ENV=1 sh -c "cd '$TMPREPO' && '$PWD/gtnh' _staged-guard"
+mkdir -p "$TMPREPO/lockdir/.git"
+touch "$TMPREPO/lockdir/.git/index.lock"
+touch -t 202601010000 "$TMPREPO/lockdir/.git/index.lock"
+t "stale index.lock removed"     0 env GTNH_NO_ENV=1 "$GTNH" _clean-index-lock "$TMPREPO/lockdir"
+t "stale index.lock is gone"     1 test -f "$TMPREPO/lockdir/.git/index.lock"
+touch "$TMPREPO/lockdir/.git/index.lock"
+t "fresh index.lock kept"        0 env GTNH_NO_ENV=1 "$GTNH" _clean-index-lock "$TMPREPO/lockdir"
+t "fresh index.lock still there" 0 test -f "$TMPREPO/lockdir/.git/index.lock"
+rm -rf "$TMPREPO"
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]
