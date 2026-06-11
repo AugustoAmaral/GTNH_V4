@@ -32,7 +32,10 @@ server.properties.template  # versioned template; real file becomes untracked
 deploy/
   gtnh-backup.service       # systemd oneshot (Linux)
   gtnh-backup.timer         # systemd hourly timer (Linux)
+  gtnh-maintenance.service  # systemd oneshot — weekly git gc (Linux)
+  gtnh-maintenance.timer    # systemd weekly timer (Linux)
   com.gtnh.backup.plist     # launchd agent (Mac)
+  com.gtnh.maintenance.plist # launchd agent — weekly git gc (Mac)
 OPERATIONS.md               # runbook
 docs/superpowers/specs/     # this spec
 ```
@@ -54,8 +57,8 @@ Single detection block at the top of the script — zero machine-specific paths 
 Semantics preserved from the current scripts:
 
 - `gtnh start` — validates the lock first (refuses if another host is active; see Lock section), refuses if a `gtnh` screen session or server java process already exists, renders `server.properties` from the template (see RCON section), then `screen -dmS gtnh ./gtnh _run-loop`.
-- `gtnh _run-loop` (internal) — the auto-restart loop, absorbed from `run*.sh`: JVM flags preserved byte-for-byte (`-Xms6G -Xmx10G`, tuned G1GC set, `-Dfml.readTimeout=180`, `@java9args.txt`, `-jar lwjgl3ify-forgePatches.jar nogui`), crash counter max 5 within a 5-minute window, 10s pause between restarts, `restart.log` logging. When the counter blows out: Discord notification, loop exits.
-- `gtnh stop` — graceful: `stop` via RCON, falling back to `screen -X stuff "stop\r"`; wait up to 30s; then SIGTERM the java process, 5s, SIGKILL; kill the runner loop to prevent ghost auto-restart; clean up the screen session; final verification.
+- `gtnh _run-loop` (internal) — the auto-restart loop, absorbed from `run*.sh`: JVM flags preserved byte-for-byte (`-Xms6G -Xmx10G`, tuned G1GC set, `-Dfml.readTimeout=180`, `@java9args.txt`, `-jar lwjgl3ify-forgePatches.jar nogui`), crash counter max 5 within a 5-minute window, 10s pause between restarts, `restart.log` logging. When the counter blows out: Discord notification, loop exits. Removes a stale stop sentinel at startup; after java exits — with any exit code — if the sentinel exists, the loop logs "stop requested", removes the sentinel, and exits without restarting.
+- `gtnh stop` — **first writes the stop sentinel** (`.stop-requested` in `SERVER_DIR`, gitignored), which tells the run-loop never to restart from this point on regardless of java's exit code. This closes a race inherited from the current scripts: a SIGTERM'd java exits non-zero, which the loop treats as a crash and restarts within ~10s while the old stop path was still working its way to killing the runner. Killing the runner *before* java is not the fix — java is the runner's child inside the screen window, and the window closing would SIGHUP java mid-save. With the sentinel in place, the rest is unchanged: graceful `stop` via RCON, falling back to `screen -X stuff "stop\r"`; wait up to 30s; then SIGTERM the java process, 5s, SIGKILL; after java is confirmed dead, kill any remaining runner process and clean up the screen session (cleanup only — the sentinel already prevents restarts); final verification.
 - `gtnh kill` — immediate SIGKILL of runner + java, screen cleanup.
 - `gtnh restart` — stop + start.
 - `gtnh status` — process PID, screen session, port 25565 (`ss` on Linux / `lsof` on Mac), lock state (who is active, since when), TPS via RCON when the server is up, last `restart.log` lines.
@@ -76,19 +79,31 @@ Replaces all three legacy backup implementations. Sequence:
 
 1. **Ownership gate:** read the lock; if `active` is the *other* host, exit 0 silently. The inactive machine never commits the world — this makes it safe to leave the timer enabled on both machines.
 2. Remove `.git/index.lock` older than 30 minutes (after checking no live git process owns it).
-3. If the server is running: `save-off` → `save-all flush` → sleep 15s, via RCON. A `trap ... EXIT` guarantees `save-on` always runs — on commit failure, Ctrl+C, or script error. If the server is not running, skip the RCON part entirely.
+3. If the server is running: `save-off` → `save-all flush` → sleep 15s, via RCON. A `trap ... EXIT` guarantees `save-on` always runs — on commit failure, Ctrl+C, or script error. The trap issues `save-on` **only when this backup actually issued `save-off`** (tracked via a flag variable): backups with the server stopped never touch RCON, including in the trap, so they exit clean without RCON noise in logs or exit code.
 4. `git add -A`; if nothing is staged → exit silently, no empty commit.
-5. `git commit -m "Auto backup - <ISO timestamp>"`. On failure: Discord notification, exit 1 (trap has already restored `save-on`); changes remain staged and the next run picks them up naturally (recovery semantics documented in OPERATIONS.md).
-6. **Push on every backup** (preserves current behavior; protects against machine loss and keeps the remote fresh for takeover). Push failure is non-fatal: Discord notification, non-zero exit, natural retry next hour.
-7. `lastUpdate.txt` is retired: no longer appended (commit timestamps carry that information) and removed from tracking.
+5. **Staged-size guard:** if any staged file exceeds 90MB, abort before committing, with a Discord alert naming the file. GitHub rejects blobs over 100MB, and committing one would make every subsequent push fail *permanently* — a failure mode the hourly retry does not cover. Aborting before the commit keeps the changes staged, with the same recovery semantics as a commit failure; the operator runbook for this case lives in OPERATIONS.md (untrack the file if it is noise, or revisit the remote strategy if it is world data).
+6. `git commit -m "Auto backup - <ISO timestamp>"`. On failure: Discord notification, exit 1 (trap has already restored `save-on`); changes remain staged and the next run picks them up naturally (recovery semantics documented in OPERATIONS.md).
+7. **Push on every backup** (preserves current behavior; protects against machine loss and keeps the remote fresh for takeover). Push failure is non-fatal: Discord notification, non-zero exit, natural retry next hour.
+8. `lastUpdate.txt` is retired: no longer appended (commit timestamps carry that information) and removed from tracking.
 
 **Scheduling** — no screen sessions: Linux → `deploy/gtnh-backup.timer` (hourly, `Persistent=true`) triggering `deploy/gtnh-backup.service` (oneshot, `User=ubuntu`, runs `gtnh backup`); Mac → `deploy/com.gtnh.backup.plist` LaunchAgent with `StartInterval=3600`. Install commands documented in OPERATIONS.md; Linux install is part of the sudo provisioning block.
 
 ## .gitignore and tracking cleanup
 
-Add: `.env`, `crash-reports/`, `*.log` (covers `gc.log*`, `.healer.log`, `minetweaker.log`), `.DS_Store`, `*.hprof`, `hs_err_pid*`, `lastUpdate.txt`. Keep existing entries.
+Add: `.env`, `crash-reports/`, `*.log` (covers `gc.log*`, `.healer.log`, `minetweaker.log`), `.DS_Store`, `*.hprof`, `hs_err_pid*`, `lastUpdate.txt`, `.stop-requested`. Keep existing entries.
 
-Already-tracked noise requires `git rm --cached` (files stay on disk and in history) in a dedicated, revertible commit: `gc.log`, `gc.log.0`, `gc.log.1`, `.healer.log`, `minetweaker.log`, `.DS_Store`, `lastUpdate.txt`, `chunk_report.txt`. `server.properties` is also untracked, but in rollout step 3, together with its template (per the RCON section).
+Already-tracked noise requires `git rm --cached` (files stay on disk and in history) in a dedicated, revertible commit: `gc.log`, `gc.log.0`, `gc.log.1`, `.healer.log`, `minetweaker.log`, `.DS_Store`, `lastUpdate.txt`, `chunk_report.txt`, and `coretweaks/cache/*` — the `*.cache` ignore rule already exists in `.gitignore`, but `jarDiscoverer.cache` (85MB) and `classTransformerLite.cache` (40MB) were added before the rule and are tracked; the 85MB one is the single biggest GitHub-100MB-limit risk in the repo today and is regenerable cache. `server.properties` is also untracked, but in rollout step 3, together with its template (per the RCON section).
+
+## Repo growth and remote strategy
+
+The remote is GitHub (`git@github.com:AugustoAmaral/GTNH_V4.git`). Measured on 2026-06-11: `.git` is **50GB**, `World/` is 4.7GB, the largest region file is 19MB (`World/region/r.-4.10.mca`), the largest tracked file is the 85MB coretweaks cache above. Hourly binary snapshots make history growth unbounded; this is already material — it is why cloning onto a fresh machine is slow — and GitHub's per-blob hard limit (100MB) plus its repo-size expectations make the push-fails-permanently scenario a real, if not imminent, risk (region files have ~5x headroom today).
+
+Mitigations in Phase 1:
+
+- Untrack the coretweaks caches (cleanup commit above) — removes the only near-limit blob.
+- **Staged-size guard** in `gtnh backup` (>90MB → alert + abort before commit; see Backup section).
+- **`gtnh maintenance`**, scheduled weekly on both machines (systemd timer / launchd): runs `git gc`, logs `.git` and pack sizes to `maintenance.log`. It only touches the local `.git`, so no ownership gate is needed; scheduled at a quiet hour to avoid contending with a running backup for git locks.
+- OPERATIONS.md gets a **long-term strategy** section with the two options and their trade-offs, decision deferred (not Phase-1 blocking): (a) periodic history truncation — every N months, archive the old history to a `git bundle` kept off-machine and restart history from a fresh root commit, keeping recent rollback granularity; (b) self-hosted remote without size limits — noting explicitly that a bare repo on the machine that runs the server is *not* an off-machine backup; it would have to live on the other machine or a third location to keep loss protection.
 
 ## Lock and handover/takeover
 
@@ -111,7 +126,11 @@ While a host runs the server: `active=<host>, released_clean=false`. Only a clea
 1. Working tree must be clean — dirty tree on an inactive machine is an anomaly to resolve manually; abort.
 2. `git pull --ff-only`; divergence → abort with instructions.
 3. Lock validation: `active` must be `none` or self (re-takeover is idempotent). If `released_clean=false` (previous owner died without releasing), require `--force`.
-4. **Anti-split-brain probe:** `nc -z -w 5 $PEER_HOST 25565`; if the port answers, abort even when the lock says `none`. If `nc` or `PEER_HOST` is unavailable, print a prominent warning and continue (documented limitation).
+4. **Anti-split-brain probe**, distinguishing its failure modes because each demands a different operator action:
+   - Port 25565 answers on `PEER_HOST` → **abort**, even when the lock says `none`.
+   - Peer reachable (ping/`tailscale ping` succeeds) and port closed → safe signal, proceed.
+   - Peer **unreachable** on the tailnet → warning saying exactly that ("could not reach the peer — verify manually that the other machine is not running the server") and require typed confirmation to proceed.
+   - `nc` **not installed** or `PEER_HOST` unset → warning naming the missing tool/variable and its install/setup command, and require typed confirmation to proceed.
 5. Claim: write `active=<self>, since=now, released_clean=false` → commit → **push, which must succeed before any side effect**. The lock only counts once published. On push failure: remove the local claim commit, restore the previous lock JSON, do NOT start the server, clear error message.
 6. `gtnh dns-update` — DNS failure does not block the start (players just resolve the old IP until fixed): warning + Discord, continue.
 7. `gtnh start` + Discord "🟢 takeover completed by `<host>`".
@@ -154,7 +173,7 @@ Single `notify()` function: message format `<emoji> [host] text`, `curl` POST to
 2. `gtnh` CLI + `.env.example` + initial `state/active-host.json` (`none`).
 3. `server.properties.template` + untrack `server.properties`.
 4. `deploy/` units (systemd + launchd).
-5. `OPERATIONS.md` (daily flow, handover both directions, world rollback to a specific commit with the server stopped, backup-failure runbook).
+5. `OPERATIONS.md` (daily flow, handover both directions, world rollback to a specific commit with the server stopped, backup-failure runbook, oversized-staged-file runbook, long-term repo growth strategy).
 6. Oracle provisioning, each sudo block with explicit confirmation: `netcat-openbsd`, `mcrcon` (source build or binary), `tailscale` (install + interactive `tailscale up` done by Augusto).
 7. Mac side (by Augusto): `git pull`, create `.env`, `gtnh doctor` lists what is missing (`brew install mcrcon` etc.), install the LaunchAgent.
 
