@@ -428,6 +428,16 @@ staged_size_guard() { # checks staged files in CWD repo; fails if any exceeds 90
   return 1
 }
 
+backup_push() { # push to origin; failure reason stays visible in the journal/terminal
+  if git push; then
+    info "pushed"
+    return 0
+  fi
+  notify "🟠" "backup push FAILED — commits remain local, will retry next run"
+  warn "push failed — commits exist locally only"
+  return 1
+}
+
 cmd_backup() {
   cd "$SERVER_DIR" || die "cd failed"
   local active
@@ -443,15 +453,21 @@ cmd_backup() {
   if server_running && can_rcon; then
     if rcon_cmd "save-off" >/dev/null 2>&1; then
       SAVED_OFF=1
+      # 1.7.10 ignores the 'flush' argument (it's 1.9+); harmless — the sleep below drains async IO
       rcon_cmd "save-all flush" >/dev/null 2>&1 || true
       sleep 15
     else
       warn "save-off failed — backing up without pausing saves"
     fi
   fi
-  git add -A
+  git add -A || { notify "🔴" "backup: git add FAILED — backups are NOT happening"; die "git add failed"; }
   if git diff --cached --quiet; then
-    exit 0 # nothing to back up
+    # nothing new — but commits stranded by an earlier push failure still need publishing
+    if [ "$(git rev-list --count '@{u}..HEAD' 2>/dev/null || echo 0)" -gt 0 ]; then
+      info "no new changes; pushing pending commits"
+      backup_push || exit 1
+    fi
+    exit 0
   fi
   if ! staged_size_guard; then
     notify "🚨" "backup ABORTED before commit: staged file over 90MB — see OPERATIONS.md"
@@ -464,12 +480,7 @@ cmd_backup() {
     die "git commit failed — changes remain staged for the next run"
   fi
   info "backup committed: $(git rev-parse --short HEAD)"
-  if ! git push >/dev/null 2>&1; then
-    notify "🟠" "backup committed locally but push FAILED — retrying next run"
-    warn "push failed — the commit exists locally only"
-    exit 1
-  fi
-  info "pushed"
+  backup_push || exit 1
 }
 
 ### ── doctor ───────────────────────────────────────────────────
