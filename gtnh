@@ -87,11 +87,14 @@ lock_state() { # lock_state <file> <host-id>
 
 # lock_write has no callers yet — Tasks 12+ (start/handover/takeover) use it.
 lock_write() { # lock_write <active> <released_clean true|false> <commit-message>
+  # NOTE: failure is not a no-op — the lock file may already be rewritten
+  # locally when the git commit fails. Callers handle this (takeover re-runs
+  # hit the dirty-tree guard; handover re-runs sweep it into the backup).
   local tmp
-  tmp="$(mktemp)" || return 1
+  tmp="$(mktemp "$LOCK_FILE.XXXXXX")" || return 1 # same dir as LOCK_FILE → mv stays atomic
   jq -n --arg a "$1" --argjson r "$2" \
     '{active: $a, since: (now | todate), released_clean: $r}' > "$tmp" || { rm -f "$tmp"; return 1; }
-  mv "$tmp" "$LOCK_FILE" || return 1
+  mv "$tmp" "$LOCK_FILE" || { rm -f "$tmp"; return 1; }
   git -C "$SERVER_DIR" add "$LOCK_FILE" \
     && git -C "$SERVER_DIR" commit -m "$3" -- "$LOCK_FILE" >/dev/null
 }
@@ -154,7 +157,7 @@ cmd_doctor() {
   fi
   if ! has jq; then
     echo "  skip     lock check (jq missing)"
-  elif jq -e . "$LOCK_FILE" >/dev/null 2>&1; then
+  elif jq -e 'type == "object" and has("active")' "$LOCK_FILE" >/dev/null 2>&1; then
     echo "  ok       lock: $(jq -c . "$LOCK_FILE")"
   else
     echo "  BROKEN   lock file missing/invalid: $LOCK_FILE"

@@ -44,6 +44,8 @@ TMPLOCK="$(mktemp -d)"
 printf '{"active":"none","since":"2026-06-11T00:00:00Z","released_clean":true}'   > "$TMPLOCK/free.json"
 printf '{"active":"oracle","since":"2026-06-11T00:00:00Z","released_clean":false}' > "$TMPLOCK/oracle.json"
 printf 'not json' > "$TMPLOCK/broken.json"
+printf '{"since":"2026-06-11T00:00:00Z","released_clean":true}' > "$TMPLOCK/nokey.json"
+printf '{"active":"","since":"2026-06-11T00:00:00Z","released_clean":true}' > "$TMPLOCK/empty.json"
 t "lock free"                     0 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/free.json" oracle
 contains "lock free prints free" "free" env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/free.json" oracle
 t "lock self"                     0 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/oracle.json" oracle
@@ -51,6 +53,9 @@ contains "lock self prints self" "self" env GTNH_NO_ENV=1 "$GTNH" _lock-check "$
 t "lock held by other exits 1"    1 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/oracle.json" mac
 contains "lock held names holder" "held oracle" env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/oracle.json" mac
 t "broken lock exits 2"           2 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/broken.json" oracle
+t "lock missing active key exits 2"  2 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/nokey.json" oracle
+t "lock empty active exits 2"        2 env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/empty.json" oracle
+contains "lock held includes released_clean" "held oracle false" env GTNH_NO_ENV=1 "$GTNH" _lock-check "$TMPLOCK/oracle.json" mac
 rm -rf "$TMPLOCK"
 
 echo "---"
