@@ -35,6 +35,9 @@ t "help exits 0"            0 env GTNH_NO_ENV=1 "$GTNH" help
 t "unknown command exits 1" 1 env GTNH_NO_ENV=1 "$GTNH" frobnicate
 contains "help lists takeover" "takeover" env GTNH_NO_ENV=1 "$GTNH" help
 
+# ── Task 4: notify ────────────────────────────────────────────
+t "notify without webhook is a silent no-op" 0 env GTNH_NO_ENV=1 "$GTNH" _notify "test"
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]

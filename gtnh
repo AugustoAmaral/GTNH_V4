@@ -63,6 +63,14 @@ java_bin() {
   fi
 }
 
+### ── Discord notifications ────────────────────────────────────
+notify() { # notify <emoji> <message> — best-effort; NEVER fails the caller
+  [ -n "${DISCORD_WEBHOOK_URL:-}" ] || return 0
+  curl -fsS --max-time 10 -H 'Content-Type: application/json' \
+    -d "$(jq -n --arg c "$1 [$HOST_ID] $2" '{content: $c}')" \
+    "$DISCORD_WEBHOOK_URL" >/dev/null 2>&1 || true
+}
+
 ### ── Low-level process helpers ────────────────────────────────
 # Patterns are anchored to avoid pgrep -f false positives (e.g. an editor or
 # rsync with the jar path in its argv). The runner pattern matches only the
@@ -148,5 +156,6 @@ EOF
 case "${1:-help}" in
   help|-h|--help) usage ;;
   doctor)         cmd_doctor ;;
+  _notify)        notify "🔧" "${2:-test message from gtnh}" ;;
   *)              usage >&2; exit 1 ;;
 esac
