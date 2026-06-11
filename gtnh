@@ -115,14 +115,17 @@ render_properties() { # render_properties [template] [output]
     die "render left unsubstituted placeholders"
   fi
   mv "$tmp" "$out" || { rm -f "$tmp"; die "could not move rendered file into place"; }
+  chmod 600 "$out"
 }
 
 ### ── RCON ─────────────────────────────────────────────────────
 can_rcon() { has mcrcon && [ -n "${RCON_PASSWORD:-}" ]; }
 
-rcon_cmd() { # rcon_cmd <command> — against localhost; returns mcrcon's status
+rcon_cmd() { # rcon_cmd <command> — quiet primitive: nonzero on unavailability, timeout (124) or mcrcon failure; never dies
+  # TODO(Task 15): once the installed mcrcon build is confirmed >=0.7.2, pass the
+  # password via MCRCON_PASS env instead of argv (visible in /proc/*/cmdline).
   can_rcon || return 1
-  tmo mcrcon -H 127.0.0.1 -P "$RCON_PORT" -p "$RCON_PASSWORD" "$1" 2>/dev/null
+  tmo mcrcon -H 127.0.0.1 -P "$RCON_PORT" -p "$RCON_PASSWORD" "$1"
 }
 
 cmd_cmd() {
@@ -221,7 +224,8 @@ case "${1:-help}" in
   _notify)        notify "🔧" "${2:-test message from gtnh}" ;;
   _lock-check)    lock_state "${2:?usage: gtnh _lock-check <file> <host-id>}" "${3:?host-id required}" ;;
   _render-properties) render_properties "${2:-}" "${3:-}" ;;
-  cmd)            shift; cmd_cmd "${1:-}" ;;
+  _rcon)          shift; rcon_cmd "${1:-}" ;;
+  cmd)            shift; cmd_cmd "$*" ;;
   tps)            cmd_cmd "forge tps" ;;
   *)              usage >&2; exit 1 ;;
 esac

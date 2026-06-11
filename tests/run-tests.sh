@@ -77,6 +77,12 @@ rm -rf "$TMPPROP"
 # ── Task 7: rcon ──────────────────────────────────────────────
 t "gtnh cmd without args fails"                     1 env GTNH_NO_ENV=1 "$GTNH" cmd
 t "gtnh cmd fails cleanly (no mcrcon or no server)" 1 env GTNH_NO_ENV=1 RCON_PASSWORD=x "$GTNH" cmd "list"
+t "rcon_cmd unconfigured returns 1 quietly" 1 env GTNH_NO_ENV=1 RCON_PASSWORD= "$GTNH" _rcon list
+TMPRCON="$(mktemp -d)"
+printf '#!/bin/sh\nexit 42\n' > "$TMPRCON/mcrcon"
+chmod +x "$TMPRCON/mcrcon"
+t "rcon_cmd propagates mcrcon exit status" 42 env GTNH_NO_ENV=1 RCON_PASSWORD=x PATH="$TMPRCON:$PATH" "$GTNH" _rcon list
+rm -rf "$TMPRCON"
 
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
