@@ -136,9 +136,16 @@ growth but does not stop it. When clone/push pain gets real, pick one:
 1. Clone the repo, `cp .env.example .env`, fill it in, `chmod 600 .env`.
 2. `./gtnh doctor` and install what it lists.
    - Oracle/Linux: `sudo apt install netcat-openbsd`; mcrcon: see below.
-   - Mac: `brew install mcrcon`, and `brew install coreutils` (provides
-     gtimeout — without it, `gtnh stop`/RCON calls have NO timeout and can
-     hang on a frozen JVM).
+   - Mac: `brew install coreutils` (provides gtimeout — without it,
+     `gtnh stop`/RCON calls have NO timeout and can hang on a frozen JVM).
+   - Mac mcrcon: NOT in homebrew core anymore — build from source like on
+     Oracle (step 4) and `cp /tmp/mcrcon/mcrcon /opt/homebrew/bin/` (no sudo
+     needed, skip `make install`).
+   - Mac java 21 without sudo (the zulu@21 cask runs a pkg installer that
+     prompts for an admin password): `brew install openjdk@21 && ln -sfn
+     /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk
+     ~/Library/Java/JavaVirtualMachines/openjdk-21.jdk` — java_home scans
+     the user-level JVM dir, which is all `gtnh` needs.
 3. Schedule backups + maintenance:
    - Linux: `sudo cp deploy/gtnh-backup.* deploy/gtnh-maintenance.* /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now gtnh-backup.timer gtnh-maintenance.timer`
    - The systemd units hardcode `User=ubuntu` and `/home/ubuntu/GTNH_V4` —
@@ -152,7 +159,11 @@ growth but does not stop it. When clone/push pain gets real, pick one:
   in. That matches the server itself (screen dies at logout) — but it means
   commits made before a logout may stay unpushed until the next login.
 - Sleep stops BOTH the server and the backups. When the Mac is the active
-  host, keep it awake (`caffeinate -is` or Amphetamine).
+  host, keep it awake — tie it to the run-loop so it self-clears on stop:
+  `nohup caffeinate -is -w $(pgrep -f 'gtnh _run-loop') >/dev/null 2>&1 &`.
+- The peer probe needs Tailscale RUNNING locally ("Tailscale is stopped" =
+  every probe reports unreachable, even when the peer is fine). A relayed
+  (DERP) pong counts as reachable — the probe passes `--until-direct=false`.
 
 ## Security notes
 
