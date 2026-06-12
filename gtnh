@@ -19,7 +19,10 @@ if [ -z "${GTNH_NO_ENV:-}" ] && [ -f "$SERVER_DIR/.env" ]; then
   set +a
 fi
 
-HOST_ID="${HOST_ID:-$(hostname -s)}"
+if [ -z "${HOST_ID:-}" ]; then
+  HOST_ID="$(hostname -s)"
+  echo "WARN: HOST_ID not set (.env missing?) — falling back to hostname '$HOST_ID'; lock/backup decisions depend on it" >&2
+fi
 # die() is defined further down and this case runs NOW, at load time — fail raw.
 case "$HOST_ID" in none|null|"") echo "ERROR: invalid HOST_ID '$HOST_ID' — set HOST_ID in .env" >&2; exit 1 ;; esac
 RCON_PORT="${RCON_PORT:-25575}"
@@ -31,12 +34,9 @@ RESTART_LOG="$SERVER_DIR/restart.log"
 STOP_SENTINEL="$SERVER_DIR/.stop-requested"
 PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
 PROPERTIES_FILE="$SERVER_DIR/server.properties"
-MAINTENANCE_LOG="$SERVER_DIR/maintenance.log"
+MAINTENANCE_LOG="${MAINTENANCE_LOG:-$SERVER_DIR/maintenance.log}"
 
 ### ── Helpers ──────────────────────────────────────────────────
-# Some helpers below have no callers yet: later tasks (start/stop/restart,
-# takeover, backup) consume them. Do not delete. (shellcheck 0.9.0 does not
-# flag unused functions; if a newer version flags SC2329, suppress per function.)
 die()  { echo "ERROR: $*" >&2; exit 1; }
 warn() { echo "WARN: $*" >&2; }
 info() { echo "$*"; }
@@ -78,7 +78,6 @@ lock_state() { # lock_state <file> <host-id>
   return 1
 }
 
-# lock_write has no callers yet — Tasks 12+ (start/handover/takeover) use it.
 lock_write() { # lock_write <active> <released_clean true|false> <commit-message>
   # NOTE: failure is not a no-op — the lock file may already be rewritten
   # locally when the git commit fails. Callers handle this (takeover re-runs
@@ -198,7 +197,7 @@ cmd_run_loop() {
   server_running && { log_restart "ERROR: server java already running — refusing to start a second instance"; exit 1; }
   local jb
   # shellcheck disable=SC2015  # error branch intentionally runs when either check fails
-  jb="$(java_bin)" && [ -x "$jb" ] || { log_restart "ERROR: java 21 not found"; exit 1; }
+  jb="$(java_bin)" && [ -x "$jb" ] || { log_restart "ERROR: java 21 not found — sudo apt install openjdk-21-jdk (Linux) / brew install --cask zulu@21 (Mac)"; exit 1; }
   rm -f "$STOP_SENTINEL" # stale sentinel from a previous unclean sequence
   # Crash counter: max 5 crashes, where each crash within 5 minutes of the
   # previous one increments the count. (The old run.sh updated last_crash_time
@@ -439,6 +438,8 @@ backup_push() { # push to origin; failure reason stays visible in the journal/te
 cmd_backup() {
   cd "$SERVER_DIR" || die "cd failed"
   local active
+  # Deliberately fail-OPEN (unlike lock_state): an unreadable lock must not
+  # silently stop backups; worst case is a push conflict that alerts us.
   active="$(jq -r '.active' "$LOCK_FILE" 2>/dev/null || echo none)"
   if [ "$active" != "none" ] && [ "$active" != "null" ] && [ "$active" != "$HOST_ID" ]; then
     exit 0 # another host owns the world — never commit from here
@@ -457,6 +458,8 @@ cmd_backup() {
     else
       warn "save-off failed — backing up without pausing saves"
     fi
+  elif server_running; then
+    warn "server is RUNNING but RCON is unavailable — hot backup without save-off (check mcrcon/.env)"
   fi
   git add -A || { notify "🔴" "backup: git add FAILED — backups are NOT happening"; die "git add failed"; }
   if git diff --cached --quiet; then
@@ -467,8 +470,10 @@ cmd_backup() {
     fi
     exit 0
   fi
-  if ! staged_size_guard; then
-    notify "🚨" "backup ABORTED before commit: staged file over 90MB — see OPERATIONS.md"
+  local guard_out
+  if ! guard_out="$(staged_size_guard 2>&1)"; then
+    printf '%s\n' "$guard_out" >&2
+    notify "🚨" "backup ABORTED before commit: $(printf '%s' "$guard_out" | head -1) — see OPERATIONS.md"
     die "backup aborted — changes remain staged for the next run"
   fi
   local ts
@@ -501,6 +506,8 @@ cmd_dns_update() { # [--dry-run]
   api="https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records/$CF_RECORD_ID"
   current="$(curl -fsS --max-time 10 -H "Authorization: Bearer $CF_API_TOKEN" "$api" | jq -r '.result.content')" \
     || die "could not read the current DNS record from Cloudflare"
+  # shellcheck disable=SC2015  # die intentionally runs when either check fails
+  [ -n "$current" ] && [ "$current" != "null" ] || die "could not read the current DNS record from Cloudflare (empty response)"
   if [ "$current" = "$ip" ]; then
     info "DNS already current: $CF_RECORD_NAME -> $ip"
     return 0
@@ -717,7 +724,7 @@ usage() {
   cat <<'EOF'
 gtnh — GTNH V4 dual-host server control
 
-Process:  start [--force] | stop | restart | kill | status | logs | console | clear-crashes
+Process:  start [--force] | stop | restart [--force] | kill | status | logs | console | clear-crashes
 RCON:     cmd "<command>" | tps
 Backup:   backup | maintenance
 Hosts:    handover | takeover [--force] | dns-update [--dry-run]

@@ -46,6 +46,17 @@ update DNS -> start -> Discord.
   minutes to bind the port while booting — if the peer might be mid-boot,
   wait or check it directly before confirming.
 
+## Emergency: origin (GitHub) unreachable
+
+`takeover` needs pull+push, and `start` refuses a `none` lock — so with
+GitHub down nobody can claim. If you MUST start anyway (you have verified
+the other machine yourself):
+1. On the chosen machine: edit `state/active-host.json` to
+   `{"active": "<this-host-id>", "since": "<now>", "released_clean": false}`.
+2. `git add state/active-host.json && git commit -m "Manual claim (origin down)"`.
+3. `gtnh start` (lock now says self).
+4. When GitHub returns, `gtnh backup` publishes the claim with the next push.
+
 ## Rollback the world to a specific commit (server STOPPED)
 
 1. `gtnh stop` (on the active machine).

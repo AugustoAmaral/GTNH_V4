@@ -142,7 +142,7 @@ TMPGC="$(mktemp -d)"
 printf '#!/bin/sh\nif [ "$1" = "gc" ]; then echo "fatal: gc shim"; exit 128; fi\nexec /usr/bin/git "$@"\n' > "$TMPGC/git"
 printf '#!/bin/sh\nprintf "50G\\t.git\\n"\n' > "$TMPGC/du"
 chmod +x "$TMPGC/git" "$TMPGC/du"
-t "maintenance fails loudly when gc fails" 1 env GTNH_NO_ENV=1 DISCORD_WEBHOOK_URL= PATH="$TMPGC:$PATH" "$GTNH" maintenance
+t "maintenance fails loudly when gc fails" 1 env GTNH_NO_ENV=1 DISCORD_WEBHOOK_URL= MAINTENANCE_LOG="$TMPGC/maintenance.log" PATH="$TMPGC:$PATH" "$GTNH" maintenance
 rm -rf "$TMPGC"
 
 echo "---"
