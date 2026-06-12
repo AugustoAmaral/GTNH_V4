@@ -83,6 +83,12 @@ printf '#!/bin/sh\nexit 42\n' > "$TMPRCON/mcrcon"
 chmod +x "$TMPRCON/mcrcon"
 t "rcon_cmd propagates mcrcon exit status" 42 env GTNH_NO_ENV=1 RCON_PASSWORD=x PATH="$TMPRCON:$PATH" "$GTNH" _rcon list
 rm -rf "$TMPRCON"
+TMPRCON2="$(mktemp -d)"
+# shellcheck disable=SC2016  # $MCRCON_PASS must reach the shim unexpanded
+printf '#!/bin/sh\n[ "$MCRCON_PASS" = "sekret" ] || exit 9\nexit 0\n' > "$TMPRCON2/mcrcon"
+chmod +x "$TMPRCON2/mcrcon"
+t "rcon_cmd passes password via MCRCON_PASS env" 0 env GTNH_NO_ENV=1 RCON_PASSWORD=sekret PATH="$TMPRCON2:$PATH" "$GTNH" _rcon list
+rm -rf "$TMPRCON2"
 
 # ── Task 10: backup units ─────────────────────────────────────
 TMPREPO="$(mktemp -d)"

@@ -117,10 +117,9 @@ render_properties() { # render_properties [template] [output]
 can_rcon() { has mcrcon && [ -n "${RCON_PASSWORD:-}" ]; }
 
 rcon_cmd() { # rcon_cmd <command> — quiet primitive: nonzero on unavailability, timeout (124) or mcrcon failure; never dies
-  # TODO(Task 15): once the installed mcrcon build is confirmed >=0.7.2, pass the
-  # password via MCRCON_PASS env instead of argv (visible in /proc/*/cmdline).
   can_rcon || return 1
-  tmo mcrcon -H 127.0.0.1 -P "$RCON_PORT" -p "$RCON_PASSWORD" "$1"
+  # password via env (mcrcon >=0.7.2), not argv — argv is visible in /proc/*/cmdline
+  MCRCON_PASS="$RCON_PASSWORD" tmo mcrcon -H 127.0.0.1 -P "$RCON_PORT" "$1"
 }
 
 cmd_cmd() {
@@ -688,6 +687,9 @@ cmd_doctor() {
   fi
   if has tailscale; then echo "  ok       tailscale"; else
     echo "  missing  tailscale — https://tailscale.com/install.sh (peer reachability check degraded)"
+  fi
+  if [ "$OS" = "Darwin" ] && ! has gtimeout && ! has timeout; then
+    echo "  missing  gtimeout — brew install coreutils (without it, RCON calls and stop have NO timeout and can hang on a frozen JVM)"
   fi
   if [ -f "$SERVER_DIR/.env" ]; then
     echo "  ok       .env present"
