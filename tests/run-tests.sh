@@ -102,6 +102,10 @@ t "fresh index.lock kept"        0 env GTNH_NO_ENV=1 "$GTNH" _clean-index-lock "
 t "fresh index.lock still there" 0 test -f "$TMPREPO/lockdir/.git/index.lock"
 rm -rf "$TMPREPO"
 
+# ── Task 11: dns ──────────────────────────────────────────────
+t "dns-update without config fails" 1 env GTNH_NO_ENV=1 "$GTNH" dns-update --dry-run
+contains "dns-update lists missing vars" "CF_API_TOKEN" env GTNH_NO_ENV=1 "$GTNH" dns-update --dry-run
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]

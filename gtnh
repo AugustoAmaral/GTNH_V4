@@ -483,6 +483,39 @@ cmd_backup() {
   backup_push || exit 1
 }
 
+### ── Cloudflare DNS ───────────────────────────────────────────
+cmd_dns_update() { # [--dry-run]
+  local dry=0 missing="" v val ip api current body resp
+  [ "${1:-}" = "--dry-run" ] && dry=1
+  for v in CF_API_TOKEN CF_ZONE_ID CF_RECORD_ID CF_RECORD_NAME; do
+    val="${!v:-}"
+    [ -n "$val" ] || missing="$missing $v"
+  done
+  [ -z "$missing" ] || die "missing in .env:$missing"
+  ip="$(curl -fsS --max-time 10 https://api.ipify.org 2>/dev/null)" \
+    || ip="$(curl -fsS --max-time 10 https://ifconfig.me 2>/dev/null)" \
+    || die "could not discover the public IP"
+  api="https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records/$CF_RECORD_ID"
+  current="$(curl -fsS --max-time 10 -H "Authorization: Bearer $CF_API_TOKEN" "$api" | jq -r '.result.content')" \
+    || die "could not read the current DNS record from Cloudflare"
+  if [ "$current" = "$ip" ]; then
+    info "DNS already current: $CF_RECORD_NAME -> $ip"
+    return 0
+  fi
+  if [ "$dry" -eq 1 ]; then
+    info "[dry-run] would update $CF_RECORD_NAME: $current -> $ip"
+    return 0
+  fi
+  body="$(jq -n --arg name "$CF_RECORD_NAME" --arg ip "$ip" \
+    '{type: "A", name: $name, content: $ip, ttl: 120, proxied: false}')"
+  resp="$(curl -fsS --max-time 10 -X PUT \
+    -H "Authorization: Bearer $CF_API_TOKEN" -H 'Content-Type: application/json' \
+    -d "$body" "$api")" || die "Cloudflare API PUT failed"
+  printf '%s' "$resp" | jq -e '.success' >/dev/null || die "Cloudflare returned failure: $resp"
+  info "DNS updated: $CF_RECORD_NAME $current -> $ip"
+  notify "🌐" "DNS updated: $CF_RECORD_NAME -> $ip"
+}
+
 ### ── doctor ───────────────────────────────────────────────────
 cmd_doctor() {
   local rc=0 jb v val
@@ -570,5 +603,6 @@ case "${1:-help}" in
   console)        cmd_console ;;
   clear-crashes)  cmd_clear_crashes ;;
   backup)             cmd_backup ;;
+  dns-update)     cmd_dns_update "${2:-}" ;;
   *)              usage >&2; exit 1 ;;
 esac
