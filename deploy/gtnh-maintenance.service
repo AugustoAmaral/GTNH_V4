@@ -6,3 +6,4 @@ Type=oneshot
 User=ubuntu
 WorkingDirectory=/home/ubuntu/GTNH_V4
 ExecStart=/home/ubuntu/GTNH_V4/gtnh maintenance
+TimeoutStartSec=6h

@@ -130,6 +130,15 @@ rm -rf "$TMPCURL"
 # ── Task 12: handover/takeover guards ─────────────────────────
 contains "probe without PEER_HOST says no-config" "no-config" env GTNH_NO_ENV=1 PEER_HOST= "$GTNH" _probe-peer
 
+# ── Task 13: maintenance ──────────────────────────────────────
+TMPGC="$(mktemp -d)"
+# shellcheck disable=SC2016  # $1/$@ must reach the shim unexpanded
+printf '#!/bin/sh\nif [ "$1" = "gc" ]; then echo "fatal: gc shim"; exit 128; fi\nexec /usr/bin/git "$@"\n' > "$TMPGC/git"
+printf '#!/bin/sh\nprintf "50G\\t.git\\n"\n' > "$TMPGC/du"
+chmod +x "$TMPGC/git" "$TMPGC/du"
+t "maintenance fails loudly when gc fails" 1 env GTNH_NO_ENV=1 DISCORD_WEBHOOK_URL= PATH="$TMPGC:$PATH" "$GTNH" maintenance
+rm -rf "$TMPGC"
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]

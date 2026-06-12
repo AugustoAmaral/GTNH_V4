@@ -1,5 +1,6 @@
 [Unit]
 Description=GTNH V4 hourly git backup
+Wants=network-online.target
 After=network-online.target
 
 [Service]
@@ -7,3 +8,4 @@ Type=oneshot
 User=ubuntu
 WorkingDirectory=/home/ubuntu/GTNH_V4
 ExecStart=/home/ubuntu/GTNH_V4/gtnh backup
+TimeoutStartSec=30min

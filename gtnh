@@ -645,13 +645,18 @@ cmd_takeover() {
 ### ── maintenance (weekly git gc) ──────────────────────────────
 cmd_maintenance() {
   cd "$SERVER_DIR" || die "cd failed"
+  local rc=0
   {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] maintenance start"
-    git gc 2>&1
+    git gc || rc=$?
     echo "repo size: $(du -sh .git | cut -f1)"
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] maintenance done"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] maintenance done (gc rc=$rc)"
   } >> "$MAINTENANCE_LOG" 2>&1
   tail -4 "$MAINTENANCE_LOG"
+  if [ "$rc" -ne 0 ]; then
+    notify "🔴" "maintenance: git gc FAILED (rc=$rc) — repo will keep growing until fixed"
+    return 1
+  fi
 }
 
 ### ── doctor ───────────────────────────────────────────────────
