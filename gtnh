@@ -20,6 +20,8 @@ if [ -z "${GTNH_NO_ENV:-}" ] && [ -f "$SERVER_DIR/.env" ]; then
 fi
 
 HOST_ID="${HOST_ID:-$(hostname -s)}"
+# die() is defined further down and this case runs NOW, at load time — fail raw.
+case "$HOST_ID" in none|null|"") echo "ERROR: invalid HOST_ID '$HOST_ID' — set HOST_ID in .env" >&2; exit 1 ;; esac
 RCON_PORT="${RCON_PORT:-25575}"
 SCREEN_NAME="gtnh"
 SERVER_JAR="lwjgl3ify-forgePatches.jar"
@@ -530,7 +532,7 @@ probe_peer() { # prints: open | closed | unreachable | no-config | no-tool
     return 0
   fi
   if has tailscale && tailscale ping -c 1 --timeout 3s "$PEER_HOST" >/dev/null 2>&1; then
-    echo "closed" # peer reachable AND port closed — positively safe
+    echo "closed" # peer reachable AND port closed — as safe as a probe can establish (a BOOTING server may not have bound the port yet)
     return 0
   fi
   echo "unreachable" # port didn't answer but we can't prove the peer is down
@@ -541,9 +543,10 @@ cmd_handover() {
   local state
   state="$(lock_state "$LOCK_FILE" "$HOST_ID")" || true
   case "$state" in
-    self) : ;;
-    free) info "lock already released — re-running the publish steps (idempotent)" ;;
-    *)    die "this host does not hold the lock ($state) — nothing to hand over" ;;
+    self)  : ;;
+    free)  info "lock already released — re-running the publish steps (idempotent)" ;;
+    held*) die "this host does not hold the lock ($state) — nothing to hand over" ;;
+    *)     die "lock file unreadable — fix $LOCK_FILE manually before handing over" ;;
   esac
   if server_running || screen_exists; then
     cmd_stop
@@ -575,7 +578,7 @@ cmd_takeover() {
   [ "${1:-}" = "--force" ] && force=1
   cd "$SERVER_DIR" || die "cd failed"
   [ -z "$(git status --porcelain)" ] \
-    || die "working tree is dirty — an inactive host should be clean; resolve manually before takeover"
+    || die "working tree is dirty — an inactive host should be clean. If a previous takeover died mid-claim, restore the lock with: git checkout -- state/active-host.json"
   git pull --ff-only || die "git pull --ff-only failed (history diverged?) — resolve manually"
 
   state="$(lock_state "$LOCK_FILE" "$HOST_ID")" || true
@@ -611,15 +614,27 @@ cmd_takeover() {
   esac
 
   if [ "$state" != "self" ]; then
+    local prev_sha claim_sha
+    prev_sha="$(git rev-parse HEAD)"
     lock_write "$HOST_ID" false "Takeover: claim by $HOST_ID" || die "could not commit the lock claim"
+    claim_sha="$(git rev-parse HEAD)"
     if ! git push; then
-      # The claim only counts once published. Undo it entirely — safe by
-      # construction: the tree was clean, the commit is ours and unpushed,
-      # and it touches only the lock file.
-      git reset --hard HEAD~1
-      notify "🔴" "takeover push FAILED on $HOST_ID — claim rolled back, server NOT started"
-      die "push failed — claim NOT published and rolled back; fix connectivity and re-run takeover"
+      # The claim only counts once published. Undo it — but only if HEAD is
+      # still exactly our claim commit (a concurrent backup commit would make
+      # a blind reset destroy the wrong commit), and only report the rollback
+      # if the reset itself succeeded.
+      if [ "$(git rev-parse HEAD)" = "$claim_sha" ] && git reset --hard "$prev_sha"; then
+        notify "🔴" "takeover push FAILED on $HOST_ID — claim rolled back, server NOT started"
+        die "push failed — claim NOT published and rolled back; fix connectivity and re-run takeover"
+      fi
+      notify "🔴" "takeover push FAILED on $HOST_ID — claim NOT rolled back, manual repair needed, server NOT started"
+      die "push failed and the claim could not be rolled back safely — inspect 'git log -3' and state/active-host.json, then re-run takeover"
     fi
+  else
+    # Idempotent re-takeover: a previous attempt may have died between commit
+    # and push, leaving a LOCAL self-claim the origin never saw. The claim only
+    # counts once published — push is a no-op when already up to date.
+    git push || die "local claim exists but cannot be published — fix connectivity and re-run takeover; server NOT started"
   fi
 
   "$SCRIPT_PATH" dns-update || {
