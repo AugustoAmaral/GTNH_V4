@@ -31,9 +31,6 @@ RESTART_LOG="$SERVER_DIR/restart.log"
 STOP_SENTINEL="$SERVER_DIR/.stop-requested"
 PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
 PROPERTIES_FILE="$SERVER_DIR/server.properties"
-# MAINTENANCE_LOG has no consumer yet — the maintenance task uses it. SC2034
-# suppressed until that task lands; do not delete.
-# shellcheck disable=SC2034
 MAINTENANCE_LOG="$SERVER_DIR/maintenance.log"
 
 ### ── Helpers ──────────────────────────────────────────────────
@@ -645,6 +642,18 @@ cmd_takeover() {
   notify "🟢" "takeover completed by $HOST_ID"
 }
 
+### ── maintenance (weekly git gc) ──────────────────────────────
+cmd_maintenance() {
+  cd "$SERVER_DIR" || die "cd failed"
+  {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] maintenance start"
+    git gc 2>&1
+    echo "repo size: $(du -sh .git | cut -f1)"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] maintenance done"
+  } >> "$MAINTENANCE_LOG" 2>&1
+  tail -4 "$MAINTENANCE_LOG"
+}
+
 ### ── doctor ───────────────────────────────────────────────────
 cmd_doctor() {
   local rc=0 jb v val
@@ -733,6 +742,7 @@ case "${1:-help}" in
   console)        cmd_console ;;
   clear-crashes)  cmd_clear_crashes ;;
   backup)             cmd_backup ;;
+  maintenance)    cmd_maintenance ;;
   handover)       cmd_handover ;;
   takeover)       cmd_takeover "${2:-}" ;;
   dns-update)     cmd_dns_update "${2:-}" ;;

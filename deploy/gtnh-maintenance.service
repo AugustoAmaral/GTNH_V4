@@ -1,0 +1,8 @@
+[Unit]
+Description=GTNH V4 weekly git gc
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/GTNH_V4
+ExecStart=/home/ubuntu/GTNH_V4/gtnh maintenance
