@@ -521,6 +521,115 @@ cmd_dns_update() { # [--dry-run]
   notify "🌐" "DNS updated: $CF_RECORD_NAME -> $ip"
 }
 
+### ── handover / takeover ──────────────────────────────────────
+probe_peer() { # prints: open | closed | unreachable | no-config | no-tool
+  [ -n "${PEER_HOST:-}" ] || { echo "no-config"; return 0; }
+  has nc || { echo "no-tool"; return 0; }
+  if nc -z -w 5 "$PEER_HOST" "$MC_PORT" >/dev/null 2>&1; then
+    echo "open"
+    return 0
+  fi
+  if has tailscale && tailscale ping -c 1 --timeout 3s "$PEER_HOST" >/dev/null 2>&1; then
+    echo "closed" # peer reachable AND port closed — positively safe
+    return 0
+  fi
+  echo "unreachable" # port didn't answer but we can't prove the peer is down
+}
+
+cmd_handover() {
+  cd "$SERVER_DIR" || die "cd failed"
+  local state
+  state="$(lock_state "$LOCK_FILE" "$HOST_ID")" || true
+  case "$state" in
+    self) : ;;
+    free) info "lock already released — re-running the publish steps (idempotent)" ;;
+    *)    die "this host does not hold the lock ($state) — nothing to hand over" ;;
+  esac
+  if server_running || screen_exists; then
+    cmd_stop
+  fi
+  info "running final backup..."
+  "$SCRIPT_PATH" backup \
+    || die "final backup FAILED — lock NOT released. Fix the backup, then re-run 'gtnh handover'."
+  if [ "$state" = "self" ]; then
+    lock_write "none" true "Handover: release by $HOST_ID" || die "could not commit the lock release"
+  fi
+  if ! git push; then
+    notify "🔴" "handover push FAILED on $HOST_ID — peer must NOT take over yet"
+    {
+      echo ""
+      echo "#############################################################"
+      echo "# PUSH FAILED — the release is NOT published.               #"
+      echo "# The other machine must NOT run 'gtnh takeover' yet.       #"
+      echo "# Fix connectivity and re-run 'gtnh handover' (idempotent). #"
+      echo "#############################################################"
+    } >&2
+    exit 1
+  fi
+  info "handover complete — the peer may now take over"
+  notify "🔓" "server released by $HOST_ID"
+}
+
+cmd_takeover() {
+  local force=0 state holder released
+  [ "${1:-}" = "--force" ] && force=1
+  cd "$SERVER_DIR" || die "cd failed"
+  [ -z "$(git status --porcelain)" ] \
+    || die "working tree is dirty — an inactive host should be clean; resolve manually before takeover"
+  git pull --ff-only || die "git pull --ff-only failed (history diverged?) — resolve manually"
+
+  state="$(lock_state "$LOCK_FILE" "$HOST_ID")" || true
+  case "$state" in
+    free) : ;;
+    self) info "lock already held by this host — continuing (idempotent takeover)" ;;
+    held*)
+      holder="$(printf '%s' "$state" | awk '{print $2}')"
+      released="$(printf '%s' "$state" | awk '{print $3}')"
+      if [ "$force" -eq 1 ]; then
+        confirm_typed "Lock is held by '$holder' (released_clean=$released). Forcing takeover risks SPLIT-BRAIN."
+        notify "⚠️" "FORCED takeover (lock was held by $holder)"
+      else
+        die "lock held by '$holder' (released_clean=$released) — run 'gtnh handover' there, or 'gtnh takeover --force'"
+      fi ;;
+    *) die "lock file unreadable — fix $LOCK_FILE manually" ;;
+  esac
+
+  case "$(probe_peer)" in
+    open)
+      die "peer ($PEER_HOST) is LISTENING on port $MC_PORT — split-brain prevented; aborting even though the lock allows takeover" ;;
+    closed)
+      info "peer reachable, port $MC_PORT closed — safe to proceed" ;;
+    unreachable)
+      warn "peer (${PEER_HOST:-?}) is UNREACHABLE on the tailnet — cannot verify it is not running the server."
+      confirm_typed "Verify MANUALLY that the other machine is not running the server." ;;
+    no-config)
+      warn "PEER_HOST is not set in .env — peer probe skipped."
+      confirm_typed "Verify MANUALLY that the other machine is not running the server." ;;
+    no-tool)
+      warn "nc is not installed — peer probe skipped (sudo apt install netcat-openbsd / it ships with macOS)."
+      confirm_typed "Verify MANUALLY that the other machine is not running the server." ;;
+  esac
+
+  if [ "$state" != "self" ]; then
+    lock_write "$HOST_ID" false "Takeover: claim by $HOST_ID" || die "could not commit the lock claim"
+    if ! git push; then
+      # The claim only counts once published. Undo it entirely — safe by
+      # construction: the tree was clean, the commit is ours and unpushed,
+      # and it touches only the lock file.
+      git reset --hard HEAD~1
+      notify "🔴" "takeover push FAILED on $HOST_ID — claim rolled back, server NOT started"
+      die "push failed — claim NOT published and rolled back; fix connectivity and re-run takeover"
+    fi
+  fi
+
+  "$SCRIPT_PATH" dns-update || {
+    warn "dns-update failed — players may still resolve the old IP"
+    notify "⚠️" "dns-update failed during takeover"
+  }
+  cmd_start
+  notify "🟢" "takeover completed by $HOST_ID"
+}
+
 ### ── doctor ───────────────────────────────────────────────────
 cmd_doctor() {
   local rc=0 jb v val
@@ -596,6 +705,7 @@ case "${1:-help}" in
   _rcon)          shift; rcon_cmd "${1:-}" ;;
   _staged-guard)      staged_size_guard ;;
   _clean-index-lock)  clean_stale_index_lock "${2:-}" ;;
+  _probe-peer)    probe_peer ;;
   cmd)            shift; cmd_cmd "$*" ;;
   tps)            cmd_cmd "forge tps" ;;
   start)          cmd_start "${2:-}" ;;
@@ -608,6 +718,8 @@ case "${1:-help}" in
   console)        cmd_console ;;
   clear-crashes)  cmd_clear_crashes ;;
   backup)             cmd_backup ;;
+  handover)       cmd_handover ;;
+  takeover)       cmd_takeover "${2:-}" ;;
   dns-update)     cmd_dns_update "${2:-}" ;;
   *)              usage >&2; exit 1 ;;
 esac

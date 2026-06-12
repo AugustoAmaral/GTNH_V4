@@ -127,6 +127,9 @@ t "dns rejects unknown flag" 1 env GTNH_NO_ENV=1 PATH="$TMPCURL:$PATH" \
   "$GTNH" dns-update --dry
 rm -rf "$TMPCURL"
 
+# ── Task 12: handover/takeover guards ─────────────────────────
+contains "probe without PEER_HOST says no-config" "no-config" env GTNH_NO_ENV=1 PEER_HOST= "$GTNH" _probe-peer
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]
