@@ -105,6 +105,27 @@ rm -rf "$TMPREPO"
 # ── Task 11: dns ──────────────────────────────────────────────
 t "dns-update without config fails" 1 env GTNH_NO_ENV=1 "$GTNH" dns-update --dry-run
 contains "dns-update lists missing vars" "CF_API_TOKEN" env GTNH_NO_ENV=1 "$GTNH" dns-update --dry-run
+TMPCURL="$(mktemp -d)"
+cat > "$TMPCURL/curl" <<'SHIM'
+#!/bin/sh
+# fake curl for dns tests: ipify -> fixed IP; CF GET -> record JSON; log PUTs
+case "$*" in
+  *ipify*)            echo "203.0.113.7" ;;
+  *-X\ PUT*)          echo "PUT" >> "${CURL_SHIM_LOG:?}"; echo '{"success":true}' ;;
+  *cloudflare*)       echo '{"result":{"content":"198.51.100.1"}}' ;;
+  *)                  exit 1 ;;
+esac
+SHIM
+chmod +x "$TMPCURL/curl"
+contains "dns dry-run reports would-update" "would update mc.test: 198.51.100.1 -> 203.0.113.7" \
+  env GTNH_NO_ENV=1 PATH="$TMPCURL:$PATH" CURL_SHIM_LOG="$TMPCURL/puts.log" \
+  CF_API_TOKEN=t CF_ZONE_ID=z CF_RECORD_ID=r CF_RECORD_NAME=mc.test \
+  "$GTNH" dns-update --dry-run
+t "dns dry-run never PUTs" 1 test -f "$TMPCURL/puts.log"
+t "dns rejects unknown flag" 1 env GTNH_NO_ENV=1 PATH="$TMPCURL:$PATH" \
+  CF_API_TOKEN=t CF_ZONE_ID=z CF_RECORD_ID=r CF_RECORD_NAME=mc.test \
+  "$GTNH" dns-update --dry
+rm -rf "$TMPCURL"
 
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
