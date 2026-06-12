@@ -575,7 +575,7 @@ cmd_takeover() {
   [ "${1:-}" = "--force" ] && force=1
   cd "$SERVER_DIR" || die "cd failed"
   [ -z "$(git status --porcelain)" ] \
-    || die "working tree is dirty — an inactive host should be clean. If a previous takeover died mid-claim, restore the lock with: git checkout -- state/active-host.json"
+    || die "working tree is dirty — an inactive host should be clean. If a previous takeover died mid-claim, restore the lock with: git checkout HEAD -- state/active-host.json"
   git pull --ff-only || die "git pull --ff-only failed (history diverged?) — resolve manually"
 
   state="$(lock_state "$LOCK_FILE" "$HOST_ID")" || true

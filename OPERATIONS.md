@@ -12,7 +12,9 @@ on a machine.
 - `gtnh console` — attach to the screen console (Ctrl+A, D to detach).
 - `gtnh cmd "say hi"` / `gtnh tps` — RCON.
 - Backups: hourly commit+push via systemd timer (Oracle) / launchd (Mac).
-  `gtnh backup` runs one manually. The inactive machine's timer no-ops.
+  `gtnh backup` runs one manually. The timer no-ops on a machine whose lock
+  names the OTHER host; while the lock is `none` (mid-handover) both
+  machines' timers run — harmless on a clean tree.
 - Server config changes go in `server.properties.template` (the live
   `server.properties` is rendered at start and is gitignored).
 - Weekly `gtnh maintenance` (git gc) runs from its own timer; a 🔴 Discord
@@ -33,7 +35,9 @@ update DNS -> start -> Discord.
 - If takeover's push fails: the claim is rolled back and the server is NOT
   started. Re-run after connectivity returns.
 - If takeover aborts on a dirty tree after a previous takeover died
-  mid-claim: restore the lock with `git checkout -- state/active-host.json`.
+  mid-claim: restore the lock with `git checkout HEAD -- state/active-host.json`
+  (HEAD matters: the broken claim may be staged, and plain `checkout --`
+  restores from the index, leaving you stuck).
 - `--force` (start/takeover) requires typing the host id and notifies
   Discord. Use only when you are CERTAIN the other machine is not running
   the server. Never leave a `--force` prompt sitting unanswered in a
@@ -48,10 +52,26 @@ update DNS -> start -> Discord.
 2. Find the commit: `git log --oneline | head -30` (hourly "Auto backup"
    commits). Prefer commits taken while the server was STOPPED (handover
    backups) — hot backups of a busy server can contain torn region writes.
-3. Safety branch: `git branch backup/pre-rollback-$(date +%Y%m%d)`.
-4. `git reset --hard <commit>`.
-5. `git push --force-with-lease` (never plain --force).
-6. `gtnh start`.
+3. **Check what the target commit contains.** Commits older than the gtnh
+   tooling (everything before mid-2026-06) do NOT contain `gtnh`, `state/`,
+   `deploy/` or this runbook — a full reset to one of those erases the
+   tooling from the working tree. For world-only rollback to an old commit,
+   restore just the world instead of resetting:
+   `git checkout <commit> -- World && git commit -m "Rollback World to <commit>"`
+   and skip to step 7.
+4. Safety branch: `git branch backup/pre-rollback-$(date +%Y%m%d-%H%M)`.
+   Note it is local-only; after the weekly gc it may be the only thing
+   keeping the discarded commits alive — push it if you want it safe:
+   `git push origin backup/pre-rollback-<stamp>`.
+5. `git reset --hard <commit>`.
+6. `git push --force-with-lease` (never plain --force).
+7. Restart via `gtnh takeover` (NOT plain `gtnh start`): the lock file now
+   holds whatever the target commit said — possibly `none` or the other
+   host — and `start` will refuse it. `takeover` re-claims, publishes the
+   claim, probes the peer and fixes DNS in one go.
+8. On the OTHER machine, the rewritten history will break its next
+   `git pull --ff-only`: run `git fetch && git reset --hard origin/main`
+   there (its tree is clean — it is the inactive host).
 
 ## When a backup fails
 
@@ -83,8 +103,8 @@ future push permanently. The backup aborts BEFORE committing. Then:
   minutes of the previous one; then it gives up with a 🚨 Discord alert.
 - Blind spot: a server that crashes AFTER a boot longer than 5 minutes
   resets the counter every cycle — restart-thrashing without ever tripping
-  the alert. Symptom: `restart.log` repeating "Starting server..." with
-  crash count alternating 0/1. Action: `gtnh stop`, read `crash-reports/`.
+  the alert. Symptom: `restart.log` repeating "Starting server..." with the
+  crash count stuck at 1. Action: `gtnh stop`, read `crash-reports/`.
 - An interrupted `gtnh stop` (Ctrl+C mid-way) can leave a stop sentinel
   behind; a later crash would then stop the loop silently instead of
   restarting. Re-run `gtnh stop` to completion, then `gtnh start`.
@@ -110,7 +130,9 @@ growth but does not stop it. When clone/push pain gets real, pick one:
      hang on a frozen JVM).
 3. Schedule backups + maintenance:
    - Linux: `sudo cp deploy/gtnh-backup.* deploy/gtnh-maintenance.* /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now gtnh-backup.timer gtnh-maintenance.timer`
-   - Mac: `sed "s|@SERVER_DIR@|$PWD|g" deploy/com.gtnh.backup.plist > ~/Library/LaunchAgents/com.gtnh.backup.plist && launchctl load -w ~/Library/LaunchAgents/com.gtnh.backup.plist` (repeat for `com.gtnh.maintenance.plist`).
+   - The systemd units hardcode `User=ubuntu` and `/home/ubuntu/GTNH_V4` —
+     edit them before copying if this machine differs from the Oracle box.
+   - Mac: From the repo root: `sed "s|@SERVER_DIR@|$PWD|g" deploy/com.gtnh.backup.plist > ~/Library/LaunchAgents/com.gtnh.backup.plist && launchctl load -w ~/Library/LaunchAgents/com.gtnh.backup.plist` (repeat for `com.gtnh.maintenance.plist`).
 4. mcrcon on Oracle: `git clone https://github.com/Tiiffi/mcrcon /tmp/mcrcon && make -C /tmp/mcrcon && sudo make -C /tmp/mcrcon install`.
 
 ### Mac-specific caveats
