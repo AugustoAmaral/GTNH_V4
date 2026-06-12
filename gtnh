@@ -534,7 +534,7 @@ probe_peer() { # prints: open | closed | unreachable | no-config | no-tool
     echo "open"
     return 0
   fi
-  if has tailscale && tailscale ping -c 1 --timeout 3s "$PEER_HOST" >/dev/null 2>&1; then
+  if has tailscale && tailscale ping --until-direct=false -c 1 --timeout 3s "$PEER_HOST" >/dev/null 2>&1; then
     echo "closed" # peer reachable AND port closed — as safe as a probe can establish (a BOOTING server may not have bound the port yet)
     return 0
   fi
