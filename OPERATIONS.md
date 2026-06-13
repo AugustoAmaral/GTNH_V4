@@ -171,7 +171,8 @@ growth but does not stop it. When clone/push pain gets real, pick one:
   all interfaces. It must stay firewalled: on Oracle, the OCI security list
   and iptables must NOT open 25575; on the Mac, never port-forward it.
 - DNS record TTL should stay at 60-120s (gtnh dns-update sets ttl=120).
-- The legacy scripts (`run.sh`, `server-control*.sh`, `quick-control-*.sh`,
-  `startserver*`) BYPASS the host lock entirely. They are kept only until
-  the gtnh CLI is validated — do not use them, and remove them once Phase 1
-  is signed off.
+- The old per-OS scripts (`run*.sh`, `server-control*.sh`, `quick-control-*.sh`,
+  `startserver*`, `autobackup.py`, ...) were removed once the gtnh CLI was
+  validated — they bypassed the host lock. If you ever need a bare java
+  launcher for emergency debugging, recover one from history:
+  `git show <old-commit>:startserver-java9.sh`.

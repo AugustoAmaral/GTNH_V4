@@ -116,8 +116,8 @@ carefully — follow "Rollback" in [OPERATIONS.md](OPERATIONS.md) step by step
 ## What exists and what doesn't (June 2026)
 
 - ✅ Phase 1 — this CLI, the lock system, backups, DNS, Discord, schedule
-  units, docs. Legacy scripts (`run.sh`, `server-control*.sh`, ...) still in
-  the repo but deprecated: they bypass the lock; don't use them.
+  units, docs. The old per-OS scripts it replaced have been removed
+  (recoverable from git history if you ever need a bare launcher).
 - ❌ Phase 2 — the web panel (Bun + ElysiaJS, takeover button in the
   browser) is NOT built yet. It was deliberately scoped to come after Phase 1
   is validated in real use.
