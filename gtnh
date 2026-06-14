@@ -203,7 +203,7 @@ cmd_run_loop() {
   # previous one increments the count. (The old run.sh updated last_crash_time
   # before measuring the window, so the counter never reset — this implements
   # the intended 5-in-a-5-minute-window semantics.)
-  local max_crashes=5 crash_window=300 crash_count=0 last_crash_time=0
+  local max_crashes=15 crash_window=300 crash_count=0 last_crash_time=0
   local exit_code now
   log_restart "=== gtnh run-loop starting on $HOST_ID (PID $$, java: $jb) ==="
   while true; do
@@ -247,6 +247,7 @@ cmd_run_loop() {
     crash_count=$((crash_count + 1))
     last_crash_time=$now
     log_restart "CRASH detected! Exit code: $exit_code (crash #$crash_count)"
+    notify "💥" "server CRASHED (exit code $exit_code, crash #$crash_count/$max_crashes) — restarting in 10s"
     if [ "$crash_count" -ge "$max_crashes" ]; then
       log_restart "Too many consecutive crashes ($crash_count). Auto-restart stopped."
       notify "🚨" "auto-restart gave up after $crash_count crashes — server is DOWN"
