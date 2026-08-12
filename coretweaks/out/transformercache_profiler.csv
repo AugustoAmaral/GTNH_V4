@@ -1,5 +1,5 @@
-class,name,runs,misses
-makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper,makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper@7e9882a9,0,0
-makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper,makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper@3b9a131e,0,0
-makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper,makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper@48c70b95,0,0
-makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper,makamys.coretweaks.optimization.transformercache.lite.CachedTransformerWrapper@a6b4d99,0,0
+transformer,runs,misses
+cpw.mods.fml.common.asm.transformers.SideTransformer,36985,35865
+net.minecraftforge.classloading.FluidIdTransformer,36891,35776
+cpw.mods.fml.common.asm.transformers.DeobfuscationTransformer,36725,35643
+cpw.mods.fml.common.asm.transformers.TerminalTransformer,34661,34355
