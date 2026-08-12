@@ -19237,7 +19237,13 @@
 					"index:3": 0
 				}
 			},
-			"completed:9": {}
+			"completed:9": {
+				"0:10": {
+					"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+					"claimed:1": 0,
+					"timestamp:4": 1786568468703
+				}
+			}
 		},
 		"808:10": {
 			"questIDLow:4": 1122,

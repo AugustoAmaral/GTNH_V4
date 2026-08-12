@@ -19545,12 +19545,20 @@
 			"questIDHigh:4": 7263787550099521813,
 			"tasks:9": {
 				"0:10": {
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "49e1b2a9-d73e-4a53-9726-98afa31cb8a9"
+					},
 					"taskID:8": "bq_standard:checkbox",
 					"index:3": 0
 				}
 			},
-			"completed:9": {}
+			"completed:9": {
+				"0:10": {
+					"uuid:8": "49e1b2a9-d73e-4a53-9726-98afa31cb8a9",
+					"claimed:1": 0,
+					"timestamp:4": 1786568468703
+				}
+			}
 		},
 		"808:10": {
 			"questIDLow:4": 1122,
