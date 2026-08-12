@@ -1,4 +1,5 @@
 -Dfile.encoding=UTF-8
+-Dfml.queryResult=confirm
 -Djava.system.class.loader=com.gtnewhorizons.retrofuturabootstrap.RfbSystemClassLoader
 --add-opens
 java.base/java.io=ALL-UNNAMED
