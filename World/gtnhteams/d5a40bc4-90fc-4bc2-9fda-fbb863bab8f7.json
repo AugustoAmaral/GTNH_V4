@@ -1,0 +1,26 @@
+{
+  "Members": [
+    "49e1b2a9-d73e-4a53-9726-98afa31cb8a9"
+  ],
+  "Officers": [
+    "49e1b2a9-d73e-4a53-9726-98afa31cb8a9"
+  ],
+  "Owners": [
+    "49e1b2a9-d73e-4a53-9726-98afa31cb8a9"
+  ],
+  "TeamData": {
+    "VM": {
+      "players": [
+        {
+          "uuid": "49e1b2a9-d73e-4a53-9726-98afa31cb8a9",
+          "wallet": {}
+        }
+      ],
+      "wallet": {}
+    },
+    "visualprospecting": {}
+  },
+  "TeamName": "Augustym_\u0027s Team",
+  "UUID": "d5a40bc4-90fc-4bc2-9fda-fbb863bab8f7",
+  "Version": 1
+}
