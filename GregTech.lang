@@ -66074,6 +66074,8 @@ languagefile {
     S:hatch_type_instance=INSTANCE
     S:hatch_type_module=Module
     S:hatch_type_nanitebus=NaniteBus
+    S:hatch_type_neutronaccelerator=NeutronAccelerator
+    S:hatch_type_neutronsensor=NeutronSensor
     S:hatch_type_outboundconnector=OutboundConnector
     S:hatch_type_projectmodule=ProjectModule
     S:hatch_type_radiohatch=RadioHatch
@@ -66081,6 +66083,7 @@ languagefile {
     S:hatch_type_rotor_assembly=ROTOR_ASSEMBLY
     S:hatch_type_transferhatch=TransferHatch
     S:hatch_type_ttdynamo=TTDynamo
+    S:hatch_type_ttenergy=TTEnergy
     S:hatch_type_utilityhatch=UtilityHatch
     S:hatch_type_vacuumconveyorhatch=VacuumConveyorHatch
     S:hatch_type_wirelessoutboundconnector=WirelessOutboundConnector
