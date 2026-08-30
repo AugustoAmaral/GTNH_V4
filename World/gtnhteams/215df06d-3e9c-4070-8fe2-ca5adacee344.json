@@ -1,0 +1,26 @@
+{
+  "Members": [
+    "d539d898-5648-4a3c-b9d9-e0b63400f72a"
+  ],
+  "Officers": [
+    "d539d898-5648-4a3c-b9d9-e0b63400f72a"
+  ],
+  "Owners": [
+    "d539d898-5648-4a3c-b9d9-e0b63400f72a"
+  ],
+  "TeamData": {
+    "VM": {
+      "players": [
+        {
+          "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
+          "wallet": {}
+        }
+      ],
+      "wallet": {}
+    },
+    "visualprospecting": {}
+  },
+  "TeamName": "Sazamaki\u0027s Team",
+  "UUID": "215df06d-3e9c-4070-8fe2-ca5adacee344",
+  "Version": 1
+}
