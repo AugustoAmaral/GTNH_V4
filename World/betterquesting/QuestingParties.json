@@ -9,10 +9,6 @@
 			"partyID:3": 0,
 			"members:9": {
 				"0:10": {
-					"uuid:8": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
-					"status:8": "MEMBER"
-				},
-				"1:10": {
 					"uuid:8": "6c0083a1-f577-46c1-85cd-d7b4975932c9",
 					"status:8": "OWNER"
 				}
@@ -41,6 +37,20 @@
 				"3:10": {
 					"uuid:8": "59885135-c7a2-4d45-b554-625602c74866",
 					"status:8": "MEMBER"
+				}
+			}
+		},
+		"2:10": {
+			"properties:10": {
+				"betterquesting:10": {
+					"name:8": "Sazamaki"
+				}
+			},
+			"partyID:3": 2,
+			"members:9": {
+				"0:10": {
+					"uuid:8": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
+					"status:8": "OWNER"
 				}
 			}
 		}
