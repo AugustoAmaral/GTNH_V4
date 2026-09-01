@@ -12,11 +12,14 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "4c727a19-aa35-4b7d-93cb-d8d181b0335c"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
               {
-                "amount": 14,
+                "amount": 7,
                 "currency": "adventure"
               },
               {
@@ -24,7 +27,7 @@
                 "currency": "farmer"
               },
               {
-                "amount": 50,
+                "amount": 10,
                 "currency": "survivor"
               }
             ]
@@ -41,16 +44,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788274334814L",
+          "lastTrade": "1788283826743L",
           "notificationQueued": "0B",
-          "tradeCount": 6,
+          "tradeCount": 8,
           "uuid": "b916bfb0-9525-44a7-9840-4176c2a54535"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788270432232L",
-          "notificationQueued": "0B",
-          "tradeCount": 1,
+          "lastTrade": "1788284004953L",
+          "notificationQueued": "1B",
+          "tradeCount": 2,
           "uuid": "4c727a19-aa35-4b7d-93cb-d8d181b0335c"
         }
       ],
