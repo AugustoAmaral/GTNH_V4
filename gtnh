@@ -32,6 +32,7 @@ LOCK_FILE="$SERVER_DIR/state/active-host.json"
 MC_PORT=25565
 RESTART_LOG="$SERVER_DIR/restart.log"
 STOP_SENTINEL="$SERVER_DIR/.stop-requested"
+RUN_MARKER="$SERVER_DIR/.run-marker"
 PROPERTIES_TEMPLATE="$SERVER_DIR/server.properties.template"
 PROPERTIES_FILE="$SERVER_DIR/server.properties"
 MAINTENANCE_LOG="${MAINTENANCE_LOG:-$SERVER_DIR/maintenance.log}"
@@ -192,6 +193,13 @@ cmd_start() {
 
 log_restart() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$RESTART_LOG"; }
 
+# A Minecraft crash runs the crash-report handler and then shuts down
+# gracefully, so the JVM still exits 0. The exit code alone cannot tell
+# "stopped on purpose" from "died"; a crash report written during this run can.
+crash_report_written_since() {
+  [ -n "$(find "$SERVER_DIR/crash-reports" -maxdepth 1 -name 'crash-*-server.txt' -newer "$1" -print 2>/dev/null | head -1)" ]
+}
+
 cmd_run_loop() {
   cd "$SERVER_DIR" || exit 1
   server_running && { log_restart "ERROR: server java already running — refusing to start a second instance"; exit 1; }
@@ -208,6 +216,7 @@ cmd_run_loop() {
   log_restart "=== gtnh run-loop starting on $HOST_ID (PID $$, java: $jb) ==="
   while true; do
     log_restart "Starting server... (crash count: $crash_count)"
+    : > "$RUN_MARKER"
     "$jb" \
         -Xms6G -Xmx10G \
         -XX:+UseG1GC \
@@ -237,6 +246,10 @@ cmd_run_loop() {
       log_restart "Stop requested — exiting run-loop (java exit code: $exit_code)."
       rm -f "$STOP_SENTINEL"
       break
+    fi
+    if [ "$exit_code" -eq 0 ] && crash_report_written_since "$RUN_MARKER"; then
+      log_restart "Server exited 0 but wrote a crash report during this run — treating as CRASH."
+      exit_code=101
     fi
     if [ "$exit_code" -eq 0 ]; then
       log_restart "Server exited normally. Ending run-loop."
