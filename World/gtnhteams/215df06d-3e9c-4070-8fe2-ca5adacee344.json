@@ -25,11 +25,11 @@
                 "currency": "adventure"
               },
               {
-                "amount": 66,
+                "amount": 6,
                 "currency": "farmer"
               },
               {
-                "amount": 90,
+                "amount": 50,
                 "currency": "survivor"
               }
             ]
@@ -39,16 +39,16 @@
       "tradeHistory": [
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788270391108L",
+          "lastTrade": "1788274334353L",
           "notificationQueued": "1B",
-          "tradeCount": 2,
+          "tradeCount": 4,
           "uuid": "e65474d7-73f2-4ac5-a00f-bb53e3e7954f"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788271097539L",
+          "lastTrade": "1788274334814L",
           "notificationQueued": "1B",
-          "tradeCount": 4,
+          "tradeCount": 6,
           "uuid": "b916bfb0-9525-44a7-9840-4176c2a54535"
         },
         {
