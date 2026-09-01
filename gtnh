@@ -196,8 +196,9 @@ log_restart() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$RESTART_LOG"
 # A Minecraft crash runs the crash-report handler and then shuts down
 # gracefully, so the JVM still exits 0. The exit code alone cannot tell
 # "stopped on purpose" from "died"; a crash report written during this run can.
-crash_report_written_since() {
-  [ -n "$(find "$SERVER_DIR/crash-reports" -maxdepth 1 -name 'crash-*-server.txt' -newer "$1" -print 2>/dev/null | head -1)" ]
+crash_report_written_since() { # <marker> [crash-reports-dir]
+  local dir="${2:-$SERVER_DIR/crash-reports}"
+  [ -n "$(find "$dir" -maxdepth 1 -name 'crash-*-server.txt' -newer "$1" -print 2>/dev/null | head -1)" ]
 }
 
 cmd_run_loop() {
@@ -758,6 +759,7 @@ case "${1:-help}" in
   _staged-guard)      staged_size_guard ;;
   _clean-index-lock)  clean_stale_index_lock "${2:-}" ;;
   _probe-peer)    probe_peer ;;
+  _crash-since)   crash_report_written_since "${2:?usage: gtnh _crash-since <marker> [dir]}" "${3:-}" ;;
   cmd)            shift; cmd_cmd "$*" ;;
   tps)            cmd_cmd "forge tps" ;;
   start)          cmd_start "${2:-}" ;;

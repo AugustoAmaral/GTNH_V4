@@ -145,6 +145,27 @@ chmod +x "$TMPGC/git" "$TMPGC/du"
 t "maintenance fails loudly when gc fails" 1 env GTNH_NO_ENV=1 DISCORD_WEBHOOK_URL= MAINTENANCE_LOG="$TMPGC/maintenance.log" PATH="$TMPGC:$PATH" "$GTNH" maintenance
 rm -rf "$TMPGC"
 
+# -- silent-crash detection (exit 0 + crash report) -------------
+# Fixed mtimes instead of sleeps: the suite must stay fast and deterministic.
+TMPCR="$(mktemp -d)"; mkdir -p "$TMPCR/cr"
+touch -t 202608150000 "$TMPCR/marker"
+t "no crash report: exit 0 is trusted" 1 \
+  env GTNH_NO_ENV=1 "$GTNH" _crash-since "$TMPCR/marker" "$TMPCR/cr"
+touch -t 202608200000 "$TMPCR/cr/crash-2026-08-20_00.00.00-server.txt"
+t "crash report newer than marker: it is a crash" 0 \
+  env GTNH_NO_ENV=1 "$GTNH" _crash-since "$TMPCR/marker" "$TMPCR/cr"
+touch -t 202608010000 "$TMPCR/cr/crash-2026-08-20_00.00.00-server.txt"
+t "crash report older than marker: previous run, not a crash" 1 \
+  env GTNH_NO_ENV=1 "$GTNH" _crash-since "$TMPCR/marker" "$TMPCR/cr"
+touch -t 202608200000 "$TMPCR/cr/notes.txt"
+t "file that does not match the crash pattern is ignored" 1 \
+  env GTNH_NO_ENV=1 "$GTNH" _crash-since "$TMPCR/marker" "$TMPCR/cr"
+t "missing crash-reports dir does not error" 1 \
+  env GTNH_NO_ENV=1 "$GTNH" _crash-since "$TMPCR/marker" "$TMPCR/gone"
+t "_crash-since without a marker argument fails" 1 \
+  env GTNH_NO_ENV=1 "$GTNH" _crash-since
+rm -rf "$TMPCR"
+
 echo "---"
 echo "passed: $PASS, failed: $FAIL"
 [ "$FAIL" -eq 0 ]
