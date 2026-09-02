@@ -12,9 +12,6 @@
     "VM": {
       "players": [
         {
-          "notificationQueue": [
-            "4c727a19-aa35-4b7d-93cb-d8d181b0335c"
-          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -25,6 +22,10 @@
               {
                 "amount": 6,
                 "currency": "farmer"
+              },
+              {
+                "amount": 56,
+                "currency": "smith"
               },
               {
                 "amount": 10,
@@ -52,9 +53,16 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1788351666282L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 3,
           "uuid": "4c727a19-aa35-4b7d-93cb-d8d181b0335c"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1788362011705L",
+          "notificationQueued": "0B",
+          "tradeCount": 1,
+          "uuid": "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
         }
       ],
       "wallet": {}
