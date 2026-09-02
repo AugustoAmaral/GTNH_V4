@@ -21,3 +21,4 @@ chunk_report.txt
 coretweaks/cache/
 server.properties
 .run-marker
+tools/bin/

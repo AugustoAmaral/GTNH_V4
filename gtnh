@@ -440,6 +440,46 @@ staged_size_guard() { # checks staged files in CWD repo; fails if any exceeds 90
   return 1
 }
 
+wait_region_quiet() { # wait_region_quiet <quiet-seconds> <timeout-seconds>: 0 once no .mca changed for quiet-seconds; 1 on timeout
+  local quiet="$1" limit="$2" marker start
+  marker="$(mktemp "${TMPDIR:-/tmp}/gtnh-quiet.XXXXXX")" || return 1
+  start=$(date +%s)
+  while :; do
+    touch "$marker"
+    sleep "$quiet"
+    if [ -z "$(find "$SERVER_DIR/World" -name '*.mca' -newer "$marker" 2>/dev/null | head -1)" ]; then
+      rm -f "$marker"; return 0
+    fi
+    if [ $(( $(date +%s) - start )) -ge "$limit" ]; then rm -f "$marker"; return 1; fi
+  done
+}
+
+region_scanner() { # prints the classpath dir holding a compiled tools/ScanRegions (compiles on first use); 1 if unavailable
+  local src="$SERVER_DIR/tools/ScanRegions.java" out="$SERVER_DIR/tools/bin" jb
+  jb="$(java_bin)" || return 1
+  [ -f "$src" ] && [ -x "$(dirname "$jb")/javac" ] || return 1
+  if [ ! -f "$out/ScanRegions.class" ] || [ "$src" -nt "$out/ScanRegions.class" ]; then
+    mkdir -p "$out"
+    "$(dirname "$jb")/javac" -d "$out" "$src" >/dev/null 2>&1 || return 1
+  fi
+  echo "$out"
+}
+
+validate_staged_regions() { # sets TORN_CHUNKS / TORN_DETAIL for the staged .mca files; never fails the caller
+  TORN_CHUNKS=0; TORN_DETAIL=""
+  local cp jb list out
+  cp="$(region_scanner)" || { warn "region scanner unavailable (java/javac/tools/ScanRegions.java) — skipping validation"; return 0; }
+  jb="$(java_bin)"
+  list="$(git diff --cached --name-only -- 'World/*.mca')"
+  [ -n "$list" ] || return 0
+  if ! out="$(printf '%s\n' "$list" | "$jb" -cp "$cp" ScanRegions files 2>&1)"; then
+    warn "region scan failed: $(printf '%s' "$out" | tail -1)"; return 0
+  fi
+  TORN_CHUNKS="$(printf '%s\n' "$out" | grep -c '^BAD')"
+  TORN_DETAIL="$(printf '%s\n' "$out" | grep '^BAD' | head -5)"
+  return 0
+}
+
 backup_push() { # push to origin; failure reason stays visible in the journal/terminal
   if git push; then
     info "pushed"
@@ -467,9 +507,16 @@ cmd_backup() {
   if server_running && can_rcon; then
     if rcon_cmd "save-off" >/dev/null 2>&1; then
       SAVED_OFF=1
-      # 1.7.10 ignores the 'flush' argument (it's 1.9+); harmless — the sleep below drains async IO
-      rcon_cmd "save-all flush" >/dev/null 2>&1 || true
-      sleep 15
+      # NEVER 'save-all flush' here. 1.7.10 honours 'flush': it drains the chunk
+      # write queue on the command thread while the file-IO thread drains it too.
+      # Hodgepodge 2.7.x FastChunkWrite shares one NBT buffer per chunk loader, so
+      # the two writers tear each other's chunks (NBT root without 'Level' ->
+      # provideChunk returns null -> NPE crash on next boot -> chunk regenerated as
+      # fresh terrain). Post-mortem: OPERATIONS.md 'Torn chunks'.
+      rcon_cmd "save-all" >/dev/null 2>&1 || true
+      # save-off also stops autosave and chunk unloads, so region writes settle.
+      # Wait until no .mca changed for 10s (max 120s) instead of a blind sleep.
+      wait_region_quiet 10 120 || warn "region files still changing after 120s — snapshot may be torn"
     else
       warn "save-off failed — backing up without pausing saves"
     fi
@@ -491,9 +538,16 @@ cmd_backup() {
     notify "🚨" "backup ABORTED before commit: $(printf '%s' "$guard_out" | head -1) — see OPERATIONS.md"
     die "backup aborted — changes remain staged for the next run"
   fi
-  local ts
+  validate_staged_regions
+  local ts suffix=""
   ts="$(date '+%Y-%m-%dT%H:%M')"
-  if ! git commit -m "Auto backup - $ts" >/dev/null; then
+  if [ "${TORN_CHUNKS:-0}" -gt 0 ]; then
+    suffix=" [TORN:$TORN_CHUNKS]"
+    warn "$TORN_CHUNKS torn chunk(s) in staged region files:"
+    printf '%s\n' "$TORN_DETAIL" >&2
+    notify "🟠" "backup: $TORN_CHUNKS torn chunk(s) in region files — committed anyway (they self-heal while the server keeps running; if it stops first, repair with tools/repair_chunks.py — OPERATIONS.md 'Torn chunks')"
+  fi
+  if ! git commit -m "Auto backup - $ts$suffix" >/dev/null; then
     notify "🔴" "backup commit FAILED — changes remain staged"
     die "git commit failed — changes remain staged for the next run"
   fi
