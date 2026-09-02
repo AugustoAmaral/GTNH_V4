@@ -12,11 +12,14 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "4c727a19-aa35-4b7d-93cb-d8d181b0335c"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
               {
-                "amount": 7,
+                "amount": 10,
                 "currency": "adventure"
               },
               {
@@ -48,9 +51,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788284004953L",
-          "notificationQueued": "0B",
-          "tradeCount": 2,
+          "lastTrade": "1788351666282L",
+          "notificationQueued": "1B",
+          "tradeCount": 3,
           "uuid": "4c727a19-aa35-4b7d-93cb-d8d181b0335c"
         }
       ],
