@@ -12,9 +12,6 @@
     "VM": {
       "players": [
         {
-          "notificationQueue": [
-            "96accb61-d86d-4080-ba18-6bc39f7ed9f3"
-          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -67,7 +64,7 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1788396159077L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 1,
           "uuid": "96accb61-d86d-4080-ba18-6bc39f7ed9f3"
         },
@@ -82,7 +79,7 @@
       "wallet": {}
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/03QUQbDQBSF4ZsF9Cl0Cd1LF5CnLrCUIZRSSighr6X0KZTuoAxD6fQc/R8Sjs+9ueaOiYgm/t+m1rpXCn7wqxyUjAX9P9FP9BP9nrpf1D7nqLwxY0HPnZQHvjBjQc+ddd+1VZ7KRZnR9cC+q+YaOS7cWeZH7jPRv9G/s39Wv/VuucXOZ8sV7xY/ckhWv0QBAAA\u003d",
+      "blob": "H4sIAAAAAAAA/03QUQYCURjF8W8W0FO0hrbSAnqaDUULibgMETFEDL1GRES0g7hcots5+j/McPx8Zz5zr4mIJv7PvNa6UQp+8KtslYwF/T7RJ/pE3zF3o9nf2SlvzFjQe3vlhi/MWNB7B913ZpWn0isP9HzkvJP2GjmMbC37A/c501/or5x/V79yJ6e49l3kApc+S074j/EDBrBVT1QBAAA\u003d",
       "version": 1
     }
   },
