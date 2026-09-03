@@ -12,10 +12,6 @@
     "VM": {
       "players": [
         {
-          "notificationQueue": [
-            "96accb61-d86d-4080-ba18-6bc39f7ed9f3",
-            "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
-          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -24,7 +20,7 @@
                 "currency": "adventure"
               },
               {
-                "amount": 30,
+                "amount": 20,
                 "currency": "bees"
               },
               {
@@ -32,7 +28,7 @@
                 "currency": "farmer"
               },
               {
-                "amount": 31,
+                "amount": 6,
                 "currency": "smith"
               },
               {
@@ -67,16 +63,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788440222071L",
-          "notificationQueued": "1B",
-          "tradeCount": 2,
+          "lastTrade": "1788442079422L",
+          "notificationQueued": "0B",
+          "tradeCount": 3,
           "uuid": "96accb61-d86d-4080-ba18-6bc39f7ed9f3"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788440226949L",
-          "notificationQueued": "1B",
-          "tradeCount": 2,
+          "lastTrade": "1788442078861L",
+          "notificationQueued": "0B",
+          "tradeCount": 3,
           "uuid": "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
         }
       ],
