@@ -12,12 +12,19 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "96accb61-d86d-4080-ba18-6bc39f7ed9f3"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
               {
                 "amount": 10,
                 "currency": "adventure"
+              },
+              {
+                "amount": 40,
+                "currency": "bees"
               },
               {
                 "amount": 6,
@@ -59,6 +66,13 @@
         },
         {
           "cooldownTradeCount": 1,
+          "lastTrade": "1788396159077L",
+          "notificationQueued": "1B",
+          "tradeCount": 1,
+          "uuid": "96accb61-d86d-4080-ba18-6bc39f7ed9f3"
+        },
+        {
+          "cooldownTradeCount": 1,
           "lastTrade": "1788362011705L",
           "notificationQueued": "0B",
           "tradeCount": 1,
@@ -68,7 +82,7 @@
       "wallet": {}
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/02Q0QaEQBSGT8+w9AL7WD3gEkMsyxJLRLcRXUX0BjEM0ex/9F00fD7nn2POMWZW2HWeOeeXSPjAp6hFxAn7fSAP5IG8oW5utb/zFjuOOGHv+4gZbzjihL3vq31Lt1hFKxbs9Y95nfoKub+5ctPfs89APpJPzF+UP/gf+wMFxYFWLAEAAA\u003d\u003d",
+      "blob": "H4sIAAAAAAAA/03QUQbDQBSF4ZsF9Cl0Cd1LF5CnLrCUIZRSSighr6X0KZTuoAxD6fQc/R8Sjs+9ueaOiYgm/t+m1rpXCn7wqxyUjAX9P9FP9BP9nrpf1D7nqLwxY0HPnZQHvjBjQc+ddd+1VZ7KRZnR9cC+q+YaOS7cWeZH7jPRv9G/s39Wv/VuucXOZ8sV7xY/ckhWv0QBAAA\u003d",
       "version": 1
     }
   },
