@@ -40,7 +40,7 @@
                 "currency": "smith"
               },
               {
-                "amount": 70,
+                "amount": 50,
                 "currency": "survivor"
               },
               {
@@ -61,9 +61,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788530281503L",
+          "lastTrade": "1788538724576L",
           "notificationQueued": "0B",
-          "tradeCount": 14,
+          "tradeCount": 15,
           "uuid": "b916bfb0-9525-44a7-9840-4176c2a54535"
         },
         {
