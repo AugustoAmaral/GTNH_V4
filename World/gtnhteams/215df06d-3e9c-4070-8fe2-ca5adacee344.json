@@ -12,6 +12,10 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "b916bfb0-9525-44a7-9840-4176c2a54535",
+            "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -36,11 +40,11 @@
                 "currency": "forestry"
               },
               {
-                "amount": 21,
+                "amount": 96,
                 "currency": "smith"
               },
               {
-                "amount": 110,
+                "amount": 90,
                 "currency": "survivor"
               },
               {
@@ -61,9 +65,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788481618371L",
-          "notificationQueued": "0B",
-          "tradeCount": 12,
+          "lastTrade": "1788486657141L",
+          "notificationQueued": "1B",
+          "tradeCount": 13,
           "uuid": "b916bfb0-9525-44a7-9840-4176c2a54535"
         },
         {
@@ -82,16 +86,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788454768865L",
-          "notificationQueued": "0B",
-          "tradeCount": 4,
+          "lastTrade": "1788486674323L",
+          "notificationQueued": "1B",
+          "tradeCount": 5,
           "uuid": "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
         }
       ],
       "wallet": {}
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/1XS0YcCURTH8Ts99BARsX9D9NSfkF42Pfe0/9AS+xwREaOrSBERkY1eYxUxRP9BDJeh+h19YxuOjznnzMy5d65zLnfX5ZzLi1RGpiLDmyKQD+TNm3u/6sp15Qx/ZU9+44+p8DjBKa5wq+irf4wHk/pA9yM51DifMtZ9AYtPo5bJjDHzxqzD0+9Zm6fP0zdRvcRsKQa0+lT1NjMHzNDeP1dcMcWA1rdQHPGCKQa0vqW+84EVrJqKM9pzK+Ub7E2CVl8zz4b/tv3nF3ucoM27U76GVt9T/2POE/8xkWXscC6a2OZMFF8H4gEtdj1kXAIAAA\u003d\u003d",
+      "blob": "H4sIAAAAAAAA/1XSwWYDURjF8TtdVRlK6DOErPoM3TS6zqovVELXIYRSRq6ESAklhOiQbYmUMpS8QRkuIc05+g/J8PmZ+50x38y9IYSLP10hhEtRywxzbFjVDveqRC6xbvfh/LrTWk9O8UP25RM+W1XEMU5wjqVqoPwIN5b+i+6H8lXj3FvmK7R+hfm/2YNl1oK5C/KRfOQbI7lILpIbK3fNrDUmdG6ifodvSLhDP/+m+sUaEzo3U33hFmtM6Ny73nODTWxZ1Q/6uTn74H9VofsL5lmyj+WJj/zzCj3vSuu36P4n/TVzfrOvFefFdjknbexwRvLjATkAfYx763wCAAA\u003d",
       "version": 1
     }
   },
