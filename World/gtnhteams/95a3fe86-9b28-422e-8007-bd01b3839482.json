@@ -1,0 +1,26 @@
+{
+  "Members": [
+    "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+  ],
+  "Officers": [
+    "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+  ],
+  "Owners": [
+    "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+  ],
+  "TeamData": {
+    "VM": {
+      "players": [
+        {
+          "uuid": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+          "wallet": {}
+        }
+      ],
+      "wallet": {}
+    },
+    "visualprospecting": {}
+  },
+  "TeamName": "Ravara\u0027s Team",
+  "UUID": "95a3fe86-9b28-422e-8007-bd01b3839482",
+  "Version": 1
+}
