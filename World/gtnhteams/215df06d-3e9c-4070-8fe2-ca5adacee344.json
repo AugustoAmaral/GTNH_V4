@@ -40,6 +40,10 @@
                 "currency": "smith"
               },
               {
+                "amount": 130,
+                "currency": "survivor"
+              },
+              {
                 "amount": 119,
                 "currency": "technician"
               }
@@ -57,9 +61,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788454766646L",
+          "lastTrade": "1788479429348L",
           "notificationQueued": "0B",
-          "tradeCount": 10,
+          "tradeCount": 11,
           "uuid": "b916bfb0-9525-44a7-9840-4176c2a54535"
         },
         {
@@ -87,7 +91,7 @@
       "wallet": {}
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/1XR0QYCQRTG8dkuuoglojfpHUrXXfVC0Qt0FRGr1bKKiIi0dBspIqI3iGWIre/ov9Rw/Ox3jpmx45yrvLWcc1WRy8BUvbBQeXJPbhbuf7WUjeQC93Is53iWEzmTU23XlpG+axh+DbomZ0ScF3GPmPmYu8XMxcwl6tdN+gn9hH6qfs8kT8uc/ZeqJ+bo0eZWqgs+MEePNrfWOU1TdUeb26huaPmWc3f83+zHvsl8xr0O5EfyE/e4Kh9YJhs45N062OPNwvLBPtjTsCL8AQAA",
+      "blob": "H4sIAAAAAAAA/1XS0aYCURTG8d256CLiED1DdNUbHM5N6XqueqHoBSLiEKOtSBExRBq6jRQxRG9wGDbR6VvOP2pYfmatVX3NbOfcx58u51xR5LJgqm54VwX6gb55d+/Xl3p9OcetHMiuqfI4xRkmmKqG2p/g0WT+o/uxHClGU8a6L2H530LbJFtMzpj8nn3Pf/Lsefammn+SLceANp9pHpE54A3t+xeqX8wxoO0tVSe8Yo4BbW+l36liDeum6oL2uUT9b55NhjZfk2fD+0pf7PCMM7S8O/UbaPM98wM5z7y/TFawx3loYcRZKD8PwgMY0wYQVAIAAA\u003d\u003d",
       "version": 1
     }
   },
