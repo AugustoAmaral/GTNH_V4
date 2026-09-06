@@ -15,11 +15,15 @@ Last verified: 2026-09-06, during the 2.9.0-beta-2 → 2.9.0-beta-3 update.
   [OPERATIONS.md](../OPERATIONS.md) ("Torn chunks" post-mortem, 2026-09-02):
   Hodgepodge's `FastChunkWrite` mixin shares one NBT buffer across concurrent
   writers with no synchronization.
-- `autoSaveInterval=900` (pack default). A 2026-02-18 tuning commit
-  (`064f792579`) had raised this to `6000` (45s → 5min) to cut I/O stalls, but
-  it was silently reverted back to 900 by the 2.9.0-beta-2 update
-  (`fdaff6fa43`) and nobody caught it — it has been at 900 since. Decide
-  whether to reapply `6000`.
+- `autoSaveInterval=6000` (pack default: `900`). A 2026-02-18 tuning commit
+  (`064f792579`) raised this from 900 (45s) to 6000 (5min) to cut the I/O
+  stall every autosave causes. It was silently reverted back to 900 by the
+  2.9.0-beta-2 update (`fdaff6fa43`) and stayed there, unnoticed, until the
+  2.9.0-beta-3 update (2026-09-06) caught and reapplied it. Trade-off: a
+  longer interval means more unsaved world state sits only in RAM between
+  autosaves, so a hard crash (not a graceful `gtnh stop`) loses more progress
+  since the last write — not a torn-chunk risk, that's fixed at the root by
+  `speedupChunkCompression=false` above.
 
 ## config/GregTech/Pollution.cfg
 
