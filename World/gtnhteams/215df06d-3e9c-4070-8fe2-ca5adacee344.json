@@ -12,12 +12,20 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "96b7be8a-a7f1-46c3-97b5-ae4499c82606",
+            "1d3ac49e-9cdc-4ad7-84c9-a7a8d7123fb0"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
               {
                 "amount": 23,
                 "currency": "adventure"
+              },
+              {
+                "amount": 75,
+                "currency": "bees"
               },
               {
                 "amount": 45,
@@ -44,7 +52,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 184,
+                "amount": 154,
                 "currency": "technician"
               }
             ]
@@ -58,6 +66,13 @@
           "notificationQueued": "0B",
           "tradeCount": 4,
           "uuid": "e65474d7-73f2-4ac5-a00f-bb53e3e7954f"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1788651120245L",
+          "notificationQueued": "1B",
+          "tradeCount": 1,
+          "uuid": "96b7be8a-a7f1-46c3-97b5-ae4499c82606"
         },
         {
           "cooldownTradeCount": 1,
@@ -89,9 +104,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788645994835L",
-          "notificationQueued": "0B",
-          "tradeCount": 10,
+          "lastTrade": "1788650697963L",
+          "notificationQueued": "1B",
+          "tradeCount": 11,
           "uuid": "1d3ac49e-9cdc-4ad7-84c9-a7a8d7123fb0"
         },
         {
