@@ -63,6 +63,7 @@ OPERATIONS.md                 Deep runbook — failure recovery, rollback, emerg
 |---|---|
 | **[MANUAL.md](MANUAL.md)** | Setup guide, `.env` fields explained, everyday commands, how to move the server between machines, backup & restore, troubleshooting |
 | **[OPERATIONS.md](OPERATIONS.md)** | Failure recovery (backup stuck, oversized files, RCON broken, GitHub down), world rollback procedure, crash-loop diagnosis, long-term repo growth strategy, new-machine setup with Mac-specific caveats, security notes |
+| **[docs/CUSTOM_CONFIGS.md](docs/CUSTOM_CONFIGS.md)** | Every config value that deviates from the stock modpack — must be manually re-applied after each wholesale modpack update |
 
 ## Key features
 
