@@ -52,7 +52,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 55,
+                "amount": 163,
                 "currency": "technician"
               }
             ]
@@ -97,9 +97,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788730835567L",
+          "lastTrade": "1788821433141L",
           "notificationQueued": "0B",
-          "tradeCount": 1,
+          "tradeCount": 2,
           "uuid": "6e7e8d34-7b3f-4da2-bf76-d54e10b61421"
         },
         {
