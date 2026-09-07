@@ -16,7 +16,7 @@
           "wallet": {
             "currency": [
               {
-                "amount": 23,
+                "amount": 43,
                 "currency": "adventure"
               },
               {
@@ -30,6 +30,10 @@
               {
                 "amount": 20,
                 "currency": "cook"
+              },
+              {
+                "amount": 15,
+                "currency": "darkWizard"
               },
               {
                 "amount": 22,
@@ -48,7 +52,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 86,
+                "amount": 111,
                 "currency": "technician"
               }
             ]
