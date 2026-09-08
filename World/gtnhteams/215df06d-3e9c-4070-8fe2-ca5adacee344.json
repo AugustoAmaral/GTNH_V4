@@ -12,6 +12,9 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "1d3ac49e-9cdc-4ad7-84c9-a7a8d7123fb0"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -52,7 +55,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 103,
+                "amount": 43,
                 "currency": "technician"
               }
             ]
@@ -118,16 +121,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788826804697L",
-          "notificationQueued": "0B",
-          "tradeCount": 21,
+          "lastTrade": "1788868685049L",
+          "notificationQueued": "1B",
+          "tradeCount": 22,
           "uuid": "1d3ac49e-9cdc-4ad7-84c9-a7a8d7123fb0"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788827265225L",
+          "lastTrade": "1788867566974L",
           "notificationQueued": "0B",
-          "tradeCount": 12,
+          "tradeCount": 13,
           "uuid": "908b32c9-2bc4-424c-80f2-fcfa0cce6421"
         }
       ],
