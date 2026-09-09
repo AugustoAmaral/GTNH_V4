@@ -12,10 +12,6 @@
     "VM": {
       "players": [
         {
-          "notificationQueue": [
-            "908b32c9-2bc4-424c-80f2-fcfa0cce6421",
-            "d3833aa2-61ab-4010-8e55-1f184c9115c9"
-          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -130,7 +126,7 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1788962250445L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 19,
           "uuid": "908b32c9-2bc4-424c-80f2-fcfa0cce6421"
         },
@@ -144,7 +140,7 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1788959326566L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 1,
           "uuid": "d3833aa2-61ab-4010-8e55-1f184c9115c9"
         }
