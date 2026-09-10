@@ -16,7 +16,7 @@
           "wallet": {
             "currency": [
               {
-                "amount": 43,
+                "amount": 438,
                 "currency": "adventure"
               },
               {
@@ -24,7 +24,7 @@
                 "currency": "bees"
               },
               {
-                "amount": 75,
+                "amount": 560,
                 "currency": "chemist"
               },
               {
@@ -32,7 +32,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 15,
+                "amount": 295,
                 "currency": "darkWizard"
               },
               {
@@ -40,19 +40,23 @@
                 "currency": "farmer"
               },
               {
+                "amount": 50,
+                "currency": "flower"
+              },
+              {
                 "amount": 45,
                 "currency": "forestry"
               },
               {
-                "amount": 101,
+                "amount": 236,
                 "currency": "smith"
               },
               {
-                "amount": 20,
+                "amount": 320,
                 "currency": "survivor"
               },
               {
-                "amount": 16,
+                "amount": 1411,
                 "currency": "technician"
               }
             ]
