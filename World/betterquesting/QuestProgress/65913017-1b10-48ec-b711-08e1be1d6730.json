@@ -83942,7 +83942,9 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
 					"userProgress:9": {
 						"0:10": {
@@ -83952,13 +83954,13 @@
 								1,
 								1,
 								1,
-								0,
 								1,
 								1,
 								1,
 								1,
 								1,
-								0,
+								1,
+								1,
 								1,
 								1,
 								1,

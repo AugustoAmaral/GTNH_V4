@@ -87201,7 +87201,9 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "49e1b2a9-d73e-4a53-9726-98afa31cb8a9"
+					},
 					"taskID:8": "bq_standard:retrieval",
 					"userProgress:9": {
 						"0:10": {
@@ -87211,13 +87213,13 @@
 								1,
 								1,
 								1,
-								0,
 								1,
 								1,
 								1,
 								1,
 								1,
-								0,
+								1,
+								1,
 								1,
 								1,
 								1,
