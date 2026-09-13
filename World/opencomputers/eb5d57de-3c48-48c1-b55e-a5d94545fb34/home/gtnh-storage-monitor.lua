@@ -23,13 +23,21 @@ local COLOR = {
 local gpu = assert(component.gpu, "GPU nao encontrada")
 local screenAddress = component.list("screen")()
 assert(screenAddress, "Screen nao encontrada")
+local screen = component.proxy(screenAddress)
 
 gpu.bind(screenAddress, true)
 pcall(gpu.setDepth, gpu.maxDepth())
 
 local maxWidth, maxHeight = gpu.maxResolution()
-assert(maxWidth >= 120 and maxHeight >= 35,
-  "Use uma GPU T3 e uma Screen T3")
+local blocksWide, blocksHigh = screen.getAspectRatio()
+local screenRatio = (blocksWide * 2 - 0.5) / (blocksHigh - 0.25)
+if screenRatio > maxWidth / maxHeight then
+  maxHeight = math.floor(maxWidth / screenRatio)
+else
+  maxWidth = math.floor(maxHeight * screenRatio)
+end
+assert(maxWidth >= 100 and maxHeight >= 35,
+  "Use uma GPU T3 e uma Screen T3 grande")
 gpu.setResolution(maxWidth, maxHeight)
 
 local width, height = gpu.getResolution()
@@ -102,10 +110,7 @@ end
 
 local function readFluids(me)
   local result = {}
-  if type(me.getFluidsInNetwork) ~= "function" then
-    return result, "API indisponivel"
-  end
-  local stacks = me.getFluidsInNetwork() or {}
+  local stacks = component.invoke(me.address, "getFluidsInNetwork") or {}
   for _, stack in pairs(stacks) do
     local entry = normalize(stack, "fluido")
     if entry.amount > 0 then result[#result + 1] = entry end
@@ -115,10 +120,7 @@ end
 
 local function readEssentia(me)
   local result = {}
-  if type(me.getEssentiaInNetwork) ~= "function" then
-    return result, "API indisponivel"
-  end
-  local stacks = me.getEssentiaInNetwork() or {}
+  local stacks = component.invoke(me.address, "getEssentiaInNetwork") or {}
   for _, stack in pairs(stacks) do
     local entry = normalize(stack, "aspecto")
     if entry.amount > 0 then result[#result + 1] = entry end
