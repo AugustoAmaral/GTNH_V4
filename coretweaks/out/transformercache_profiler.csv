@@ -1,5 +1,5 @@
 transformer,runs,misses
-cpw.mods.fml.common.asm.transformers.SideTransformer,37270,9
-net.minecraftforge.classloading.FluidIdTransformer,37175,14
-cpw.mods.fml.common.asm.transformers.DeobfuscationTransformer,37009,95
-cpw.mods.fml.common.asm.transformers.TerminalTransformer,34898,13
+cpw.mods.fml.common.asm.transformers.SideTransformer,37268,9
+net.minecraftforge.classloading.FluidIdTransformer,37173,14
+cpw.mods.fml.common.asm.transformers.DeobfuscationTransformer,37007,82
+cpw.mods.fml.common.asm.transformers.TerminalTransformer,34896,0
