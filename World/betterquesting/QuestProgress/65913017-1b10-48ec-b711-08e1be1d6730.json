@@ -8862,7 +8862,9 @@
 		"391:10": {
 			"tasks:9": {
 				"0:10": {
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"index:3": 0,
 					"taskID:8": "bq_standard:checkbox"
 				}
@@ -12145,13 +12147,28 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -8999941513443428594,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789427460166,
+					"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+				}
+			},
 			"questIDHigh:4": 2740387536045755369
 		},
 		"536:10": {
@@ -16970,9 +16987,18 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -7525738023791412446,
@@ -18425,9 +18451,18 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -8613513165363217437,
@@ -20696,9 +20731,18 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -7731912212106168781,
@@ -33215,13 +33259,28 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -8021557892290272573,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789427244095,
+					"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+				}
+			},
 			"questIDHigh:4": 5984119256256890810
 		},
 		"1436:10": {
@@ -36443,13 +36502,28 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -7297043836321935541,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789428225082,
+					"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+				}
+			},
 			"questIDHigh:4": 4825931368645345922
 		},
 		"1583:10": {
@@ -50359,7 +50433,20 @@
 					"index:3": 0,
 					"completeUsers:9": {},
 					"taskID:8": "bq_standard:optional_retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								0,
+								0,
+								0,
+								0,
+								0,
+								0,
+								0
+							]
+						}
+					}
 				},
 				"1:10": {
 					"index:3": 1,
@@ -56654,7 +56741,15 @@
 					"index:3": 0,
 					"completeUsers:9": {},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1,
+								0
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -8754285803236338546,
@@ -61532,13 +61627,28 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -4876966440568043552,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789427250199,
+					"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+				}
+			},
 			"questIDHigh:4": -2154417797710526036
 		},
 		"2646:10": {
@@ -65137,7 +65247,7 @@
 								0,
 								25,
 								0,
-								0,
+								3,
 								0
 							]
 						}
@@ -74390,21 +74500,29 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
 					"userProgress:9": {
 						"0:10": {
 							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
 							"data:11": [
 								1,
-								0
+								1
 							]
 						}
 					}
 				}
 			},
 			"questIDLow:4": -8562078815102132877,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789428225082,
+					"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+				}
+			},
 			"questIDHigh:4": -3273634219239584507
 		},
 		"3209:10": {
@@ -76856,9 +76974,18 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "65913017-1b10-48ec-b711-08e1be1d6730"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "65913017-1b10-48ec-b711-08e1be1d6730",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -4783772834963964792,
