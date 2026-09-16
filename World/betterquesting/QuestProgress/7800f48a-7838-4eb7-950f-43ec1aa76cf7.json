@@ -34406,7 +34406,15 @@
 					"index:3": 0,
 					"completeUsers:9": {},
 					"taskID:8": "bq_standard:optional_retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+							"data:11": [
+								0,
+								7
+							]
+						}
+					}
 				},
 				"1:10": {
 					"index:3": 1,
@@ -50874,7 +50882,19 @@
 					"index:3": 1,
 					"completeUsers:9": {},
 					"taskID:8": "bq_standard:optional_retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+							"data:11": [
+								0,
+								4,
+								0,
+								0,
+								0,
+								0
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -8548775180619194411,
@@ -62675,13 +62695,28 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": -8321971917314713709,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789569714672,
+					"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+				}
+			},
 			"questIDHigh:4": 8066762646697952752
 		},
 		"2568:10": {
@@ -78078,13 +78113,28 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+					},
 					"taskID:8": "bq_standard:retrieval",
-					"userProgress:9": {}
+					"userProgress:9": {
+						"0:10": {
+							"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7",
+							"data:11": [
+								1
+							]
+						}
+					}
 				}
 			},
 			"questIDLow:4": 2485,
-			"completed:9": {},
+			"completed:9": {
+				"0:10": {
+					"claimed:1": 0,
+					"timestamp:4": 1789567743681,
+					"uuid:8": "7800f48a-7838-4eb7-950f-43ec1aa76cf7"
+				}
+			},
 			"questIDHigh:4": 0
 		},
 		"3220:10": {
