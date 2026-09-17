@@ -13,7 +13,66 @@
       "players": [
         {
           "uuid": "49e1b2a9-d73e-4a53-9726-98afa31cb8a9",
-          "wallet": {}
+          "wallet": {
+            "currency": [
+              {
+                "amount": 17859,
+                "currency": "adventure"
+              },
+              {
+                "amount": 940,
+                "currency": "bees"
+              },
+              {
+                "amount": 9540,
+                "currency": "blood"
+              },
+              {
+                "amount": 115247,
+                "currency": "chemist"
+              },
+              {
+                "amount": 2399,
+                "currency": "cook"
+              },
+              {
+                "amount": 30687,
+                "currency": "darkWizard"
+              },
+              {
+                "amount": 14252,
+                "currency": "farmer"
+              },
+              {
+                "amount": 6500,
+                "currency": "flower"
+              },
+              {
+                "amount": 529,
+                "currency": "forestry"
+              },
+              {
+                "amount": 11811,
+                "currency": "smith"
+              },
+              {
+                "amount": 379288,
+                "currency": "space"
+              },
+              {
+                "amount": 14240,
+                "currency": "survivor"
+              },
+              {
+                "amount": 123389,
+                "currency": "technician"
+              },
+              {
+                "amount": 1525,
+                "currency": "witch"
+              }
+            ]
+          }
         }
       ],
       "wallet": {}

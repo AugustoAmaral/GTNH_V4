@@ -32,7 +32,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 295,
+                "amount": 725,
                 "currency": "darkWizard"
               },
               {
@@ -73,17 +73,45 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788651120245L",
-          "notificationQueued": "0B",
-          "tradeCount": 1,
-          "uuid": "96b7be8a-a7f1-46c3-97b5-ae4499c82606"
-        },
-        {
-          "cooldownTradeCount": 1,
           "lastTrade": "1788547186240L",
           "notificationQueued": "0B",
           "tradeCount": 16,
           "uuid": "b916bfb0-9525-44a7-9840-4176c2a54535"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1789650314579L",
+          "notificationQueued": "0B",
+          "tradeCount": 1,
+          "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1788912988153L",
+          "notificationQueued": "0B",
+          "tradeCount": 26,
+          "uuid": "1d3ac49e-9cdc-4ad7-84c9-a7a8d7123fb0"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1788962250445L",
+          "notificationQueued": "0B",
+          "tradeCount": 19,
+          "uuid": "908b32c9-2bc4-424c-80f2-fcfa0cce6421"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1788959326566L",
+          "notificationQueued": "0B",
+          "tradeCount": 1,
+          "uuid": "d3833aa2-61ab-4010-8e55-1f184c9115c9"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1788651120245L",
+          "notificationQueued": "0B",
+          "tradeCount": 1,
+          "uuid": "96b7be8a-a7f1-46c3-97b5-ae4499c82606"
         },
         {
           "cooldownTradeCount": 1,
@@ -122,31 +150,10 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788912988153L",
-          "notificationQueued": "0B",
-          "tradeCount": 26,
-          "uuid": "1d3ac49e-9cdc-4ad7-84c9-a7a8d7123fb0"
-        },
-        {
-          "cooldownTradeCount": 1,
-          "lastTrade": "1788962250445L",
-          "notificationQueued": "0B",
-          "tradeCount": 19,
-          "uuid": "908b32c9-2bc4-424c-80f2-fcfa0cce6421"
-        },
-        {
-          "cooldownTradeCount": 1,
           "lastTrade": "1788902585995L",
           "notificationQueued": "0B",
           "tradeCount": 1,
           "uuid": "e4ebd1d7-9167-42ce-83fa-134e178a0b35"
-        },
-        {
-          "cooldownTradeCount": 1,
-          "lastTrade": "1788959326566L",
-          "notificationQueued": "0B",
-          "tradeCount": 1,
-          "uuid": "d3833aa2-61ab-4010-8e55-1f184c9115c9"
         }
       ],
       "wallet": {}
