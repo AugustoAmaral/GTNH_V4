@@ -1,12 +1,18 @@
 # Custom configs — deviations from the stock GTNH pack
 
-This server's `config/`, `mods/` and `serverutilities/` are wholesale-replaced
-on every modpack update (see the "Update GTNH server to X" commits). Anything
-listed here is a deliberate deviation from the pack's shipped defaults and
-must be manually re-applied (or verified) after each such update, because a
-plain file overwrite silently reverts it.
+This server's `mods/`, `libraries/` and `journeymap/` are wholesale-replaced
+on every modpack update, and the pack's `config/` is copied over the live one
+(see the "Update GTNH server to X" commits). Anything listed here is a
+deliberate deviation from the pack's shipped defaults and must be manually
+re-applied (or verified) after each such update, because a plain file
+overwrite silently reverts it.
 
-Last verified: 2026-09-06, during the 2.9.0-beta-2 → 2.9.0-beta-3 update.
+Since the 2.9.0-RC-2 update (2026-10-04) the pack's `config/` is **overlaid**
+(`cp -a pack/config/. config/`), not wholesale-replaced: config files that
+exist only on this server (mod-generated at runtime, `config/worldedit/`, …)
+are kept. The beta-3 update had deleted 153 such files instead.
+
+Last verified: 2026-10-04, during the 2.9.0-beta-3 → 2.9.0-RC-2 update.
 
 ## config/hodgepodge.cfg
 
@@ -14,7 +20,11 @@ Last verified: 2026-09-06, during the 2.9.0-beta-2 → 2.9.0-beta-3 update.
   re-enabling this reintroduces the torn-chunk bug documented in
   [OPERATIONS.md](../OPERATIONS.md) ("Torn chunks" post-mortem, 2026-09-02):
   Hodgepodge's `FastChunkWrite` mixin shares one NBT buffer across concurrent
-  writers with no synchronization.
+  writers with no synchronization. Hodgepodge 2.7.209 (shipped since
+  2.9.0-RC-1) lists "Fix chunk NBT corruption during concurrent saves"
+  (GTNewHorizons/Hodgepodge#1002), which may be the upstream fix for this
+  bug. Not verified against our repro; the value stays `false` until someone
+  reads that PR and decides to re-enable it.
 - `autoSaveInterval=6000` (pack default: `900`). A 2026-02-18 tuning commit
   (`064f792579`) raised this from 900 (45s) to 6000 (5min) to cut the I/O
   stall every autosave causes. It was silently reverted back to 900 by the
@@ -41,25 +51,55 @@ Last verified: 2026-09-06, during the 2.9.0-beta-2 → 2.9.0-beta-3 update.
   those two mods in this world belongs to those specific blocks — revert if
   either mod is used for chunkloading elsewhere later.
 
-## config/gendustry/overrides/tuning.cfg
+## config/ae2fc.cfg
+
+- `I:maxTick=600` (pack default: `120`), in the `levelmaintainer` block. Set
+  2026-09-09: the 61 ME Level Maintainers were 17% of server CPU per tick;
+  600 cut tick cost from 40.55 to 33.68 ms (A/B/A measured). Game cost: a
+  Level Maintainer checks stock every 30 s instead of 6 s. Missing from this
+  list until the RC-2 update caught it.
+
+## config/gendustry/overrides/tuning.cfg — NOT in effect
+
+Set 2025-03-28 (`0465ed5707`) and 2025-03-23 (`9f1beba220`), then lost
+silently in some update before 2.9.0-beta-2: at `fdaff6fa43~1` and every
+commit since, the file has the pack values. This list claimed them as live
+until 2026-10-04. Not re-applied during the RC-2 update, because the server
+has been played with the pack values for months; re-enabling is an owner
+decision. The original deviations were:
 
 - `cfg Machines` (both breeding tiers): `DegradeChanceNatural=0` and
-  `DeathChanceArtificial=0` (pack defaults: 30/10 and 80/50 respectively).
-  Set 2025-03-28 (`0465ed5707`) — removes the RNG punishment on bee mutation.
-- `cfg Imprinter { Enabled=No }` (pack default: `Yes`). Set 2025-03-23
-  (`9f1beba220`).
+  `DeathChanceArtificial=0` (pack defaults: 30/10 and 80/50 respectively) —
+  removes the RNG punishment on bee mutation.
+- `cfg Imprinter { Enabled=No }` (pack default: `Yes`).
 
-## config/galacticgreg/GalacticGreg.cfg
+RC-2 also changes the pack's own value for the GregTech bee species
+`Cosmicneutronium`, `Infinitycatalyst` and `Infinity` from `DISABLED` to
+`REQUIREMENTS`; the RC-2 value was taken.
 
-Gitignored (not restorable via `git checkout` — must be copied aside before
-any wholesale `config/` replace and copied back after). All four
-`buildinmods` registers (`RegisterGalacticCraftCore/Planets/GalaxySpace/VanillaDim`)
-are `false`. Exact original rationale not in git history; treat as
-intentional until told otherwise.
+## config/galacticgreg/GalacticGreg.cfg — gone
+
+Was gitignored and listed here as a deliberate deviation (all four
+`buildinmods` registers `false`). As of 2026-10-04 neither the live server
+nor the RC-2 pack has a `config/galacticgreg/` directory, so there is
+nothing left to preserve.
+
+## mods/worldedit-v0.0.10.jar and config/worldedit/
+
+WorldEdit for GTNH (GTNewHorizons/worldedit-gtnh, release `v0.0.10`),
+installed 2026-09-12; not part of the stock pack. Tracked in git. Restore the
+jar after a `mods/` replace with `git checkout HEAD -- mods/worldedit-v0.0.10.jar`;
+`config/worldedit/` survives the config overlay.
+
+## mods/OpenSecurity/sounds/
+
+Two `.ogg` alarm sounds the OpenSecurity mod writes at runtime; not in the
+pack zip. Restored from git after the `mods/` replace so the tree does not
+churn; the mod would recreate them anyway.
 
 ## mods/ic2/EJML-core-0.26.jar
 
-Not part of the stock pack (absent from the 2.9.0-beta-3 zip). Tracked in
+Not part of the stock pack (absent from the 2.9.0-beta-3 and RC-2 zips). Tracked in
 git. A wholesale `rm -rf mods/` + pack copy will drop it unless restored with
 `git checkout HEAD -- mods/ic2`.
 
