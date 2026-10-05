@@ -1406,6 +1406,8 @@ languagefile {
     S:Material.lanthaniumchloride=Lanthanium Chloride
     S:Material.lanthaniumchloride.ChemicalFormula=LaCl₃
     S:Material.lanthanum=Lanthanum
+    S:Material.lanthanumchloride=Lanthanum Chloride
+    S:Material.lanthanumchloride.ChemicalFormula=LaCl₃
     S:Material.lanthanumchlorideconcentrate=Lanthanum Chloride Concentrate
     S:Material.lanthanumchlorideconcentrate.ChemicalFormula=LaCl??
     S:Material.lanthanumextractingnanoresin=Lanthanum Extracting Nano Resin
@@ -2359,7 +2361,7 @@ languagefile {
     S:Material.uraniumtetrafluoride=Uranium Tetrafluoride
     S:Material.uraniumtriplatinid=Superconductor Base EV
     S:Material.uuamplifier=UU-Amplifier
-    S:Material.uuamplifier.ChemicalFormula=Accelerates the Mass Fabricator
+    S:Material.uuamplifier.ChemicalFormula=Mass Fabricator Eff/Speed Bonus: x4
     S:Material.uumatter=UU-Matter
     S:Material.uvarovite=Uvarovite
     S:Material.vanadio-oxy-dravite=Vanadio-Oxy-Dravite
