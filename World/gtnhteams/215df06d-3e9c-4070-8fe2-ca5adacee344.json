@@ -94,6 +94,13 @@
         },
         {
           "cooldownTradeCount": 1,
+          "lastTrade": "1791903294807L",
+          "notificationQueued": "0B",
+          "tradeCount": 2,
+          "uuid": "7dc6f73c-d303-4172-8c4a-bc1aae13aa00"
+        },
+        {
+          "cooldownTradeCount": 1,
           "lastTrade": "1788912988153L",
           "notificationQueued": "0B",
           "tradeCount": 26,
@@ -169,7 +176,7 @@
       "blob": ""
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/3WVUUcEURiGZ2tZYhPRb4iuon/QTem6q2666290GdF1RMQwOlpWh2EYDkfL3kaKWKKrGJZhGIadvm/3GU3sLsczO+d73/ecs9+xQRCs1/IJgmBTkAu7sC8shB3Yhc37baWMCs5klNSXrVHBWetZWQX/Pxfy7lb4DF+Ed8IreKOUYeAADmEKRzLupf4JviuZf5Dvj0oZGZzCHBawhBXU9YeyvSMl+hB9iD5EH6IP0YfoI8nfgP0FOydK/CL8Ivwi/CL8Ivwi/Ax+Br2h3lBvqDfUD6R+i7PLYA4LWMIKqm4oulPOOoNTmMMClrCCqrfoLDqLzqKz6Cy6WMYH/IY/MINTmMMCllB9Eln3DtyFe0oZX7CAqktl/pBemUCtc+zD09+jFs/qRc9NoK5nLO/3oc6PWfeYdb9S/8b+PunzCfdKeY2mgPP7JO+Pof4eM+0j7o/ez6ZPm/NvzmO+T6npyTiX50vWcc8+mvtg+G7wU/bqVp/RP+1+6sAu7K3onw7swh7cWNYv1FvqLfWWesv9saxnVR9Z/GL8Yvxi/GL8YvxW9VGMT4JPgk+CT4JPgk/CupQHnH++pN+Spk/xT/FP8U/xT/FP8U/x1/78gRnMYQFLWEHNceQ4chw5jhxHjiPHkePIcfSPI8+R58hz5Ln6/73x5HnyPHmePE+e5x54cj25nlxPrifXk+vJ9eSOmB8xr2z+d9bqvz6e/y6/MgLy9wwHAAA\u003d",
+      "blob": "H4sIAAAAAAAA/3WVUUcEURiGZ2tZYhXRb4iuon/QTem6q2666290GdF1RMQwOorVYRiGw9Gyt5EiluhqGZZhGIadvm/3GU3sLsfTnvO973vO2e8oCIL1Wj5BEGwKcmEX9oWFsAO7sJnfVsqo4ExGSX3ZGhXU9Yr1qrWmc+3PhczdCl/gq/BOeAVvlDIMfIYDmMKhjHupf4IfStYf5PujUkYGpzCHBSxhBfUcoRzjSIk+RB+iD9GH6EP0IfpI8jdgf8HOiRK/CL8Ivwi/CL8Ivwg/g59Bb6g31BvqDfXPUr/F3WUwhwUsYQVVNxDdKXedwSnMYQFLWEHVW3QWnUVn0Vl0Fl0s4xP+wAnM4BTmsIAlVJ9E9r0Dd+GeUsY3LKDqUlk/pFfGUOsc5/D08bDFs3rRc2Oo+xnJ/D7U9RH7HrHvN+rfOd8XfT7mfSmv0RRw/q5k/hjq7zHTPuL96Dtt+rS5/+Y+5ueUmp6Mc/n7kn3cc47mPRi+G/yUvbrVZ/RPu586sAt7K/qnA7uwBzeW9Qv1lnpLvaXe8n4s+1nVRxa/GL8Yvxi/GL8Yv1V9FOOT4JPgk+CT4JPgk7Av5QH3ny/pt6TpU/xT/FP8U/xT/FP8U/y1PycwgzksYAkrqDmOHEeOI8eR48hx5DhyHDmO/nHkOfIceY48V/9/N548T54nz5PnyfO8A0+uJ9eT68n15HpyPbme3CHrQ9aVzf+dtfqvj+e/yy+vD9RvFAcAAA\u003d\u003d",
       "version": 1
     }
   },
