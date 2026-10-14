@@ -56,7 +56,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 1951,
+                "amount": 1931,
                 "currency": "technician"
               }
             ]
@@ -150,9 +150,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788821433141L",
+          "lastTrade": "1791933065092L",
           "notificationQueued": "0B",
-          "tradeCount": 2,
+          "tradeCount": 3,
           "uuid": "6e7e8d34-7b3f-4da2-bf76-d54e10b61421"
         },
         {
@@ -180,7 +180,7 @@
       "wallet": {}
     },
     "gt.powerfails": {
-      "blob": ""
+      "blob": "H4sIAAAAAAAA/2NgYGBkgAIALNKubAwAAAA\u003d"
     },
     "visualprospecting": {
       "blob": "H4sIAAAAAAAA/3WVUUcEURiGZ2tZYhXRb4iuon/QTem6q2667Gd0GdF1RMQwOorVYRiGw9Gyt5EiluhqGZZhGIadvm/3GU3sLseze873vu85M9+xQRCs1/IJgmBTkAu7sC8shB3Yhc38tlJGBWcySurL1qigrlesV601nWt/LmTuVvgCX4V3wit4o5Rh4DMcwBQOZdxL/RP8ULL+IL8flTIyOIU5LGAJK6jnCOUYR0r0IfoQfYg+RB+iD9FHkr8B+wt2TpT4RfhF+EX4RfhF+EX4GfwMekO9od5Qb6h/lvotnl0Gc1jAElZQdQPRnfKsMziFOSxgCSuoeovOorPoLDqLzqKLZXzCHziBGZzCHBawhOqTyL534C7cU8r4hgVUXSrrh/TKGGqd4xyePh62eFYvem4MdT8jmd+Huj5i3yP2PcLvDd075/yi38fcM+U12gLO75fMH0N9LzPtJ+6R3temX5v30DyX+XmlpifjXL5fsp97ztPcC8Nvg5+yV7f6jT5q91UHdmFvRR91YBf24MayvqHeUm+pt9Rb7pFlP6v6yeIX4xfjF+MX4xfjt6qfYnwSfBJ8EnwSfBJ8EvalPOD550v6Lmn6Ff8U/xT/FP8U/xT/FH/t0wnMYA4LWMIKao4jx5HjyHHkOHIcOY4cR46jfxx5jjxHniPP1f/vjyfPk+fJ8+R58jz3wJPryfXkenI9uZ5cT64nd8j6kHVl8/+zVv/18fy9/ALKS+bCHAcAAA\u003d\u003d",
