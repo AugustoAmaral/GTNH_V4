@@ -12,11 +12,6 @@
     "VM": {
       "players": [
         {
-          "notificationQueue": [
-            "d59b3bee-192d-451e-942e-51779a075ebd",
-            "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08",
-            "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
-          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -100,14 +95,14 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1792083622879L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 3,
           "uuid": "d59b3bee-192d-451e-942e-51779a075ebd"
         },
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1792083614171L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 4,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
@@ -170,7 +165,7 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1792083622218L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 7,
           "uuid": "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
         },
@@ -195,7 +190,7 @@
       "blob": "H4sIAAAAAAAA/2NgYGBkgAIALNKubAwAAAA\u003d"
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/32VUUcEURTHZ2tZYhXRZ4ieom/QS+m5p176AH2IHiN6jogYRleRLsMwXK6WZZ8iRSzRUwzLMAzDTufs/kYTbcPx27n3nP//3jvn2iAIlmt5giBYFeTCLuwLC2EHdmEzvq6UqOBUoiS/bEUFdb5ivmrN6Vj7OZGxS+EjfBJeCc/ghVLCwHv4AFM4kLiW/Dv4qmRemUncyPitsnmXmMAcFrCEFdT9hLKdPSX1IfUh9SH1IfUh9SH1kfivwP6cnQMlehF6EXoRehF6EXoRegY9Q70h35BvyDfk30v+GmeYwRwWsIQV1LoHqTvkzDM4gTksYAkrqPWWOkudpc5SZ6mz1MUSb/ATfsEMTmAOC1hC1Ulk3RtwE24pJT5gAUuodank7dbz3hlDzXfsx9PXgxaP6nkPjqGuayjj21Dnh6x/yPqH6I1Yx4h1PKPzwv7fuQ9j7qHyHK0Czu6fjO9D/V5T7TPumd7npo+b79Oc1+wcJKcncSy/T1nfNftr7ovh3aCn7NWtPqS/2v3WgV3YW9BfHdiFPbjyVz+Rb8m35FvyLffLsp5FfWbRi9GL0YvRi9GL0VvUZzE6CToJOgk6CToJOgnrUu5w/vk//Zign6Kfop+in6Kfop+ir337BTOYwwKWsILq4/Bx+Dh8HD4OH4ePw8fh4+gfh5/Dz+Hn8HP17/vk8fP4efw8fh4/zz3w+Hp8Pb4eX4+vx9fj6/EdMD9gXtn8Py3VP308+y7feKPvyTwHAAA\u003d",
+      "blob": "H4sIAAAAAAAA/32VUUcEURTHZ2tZIkX0GaKn6Bv0Unqtp176An2HHiN6jogYRleRLsMwXK6WZZ8iRSzRUwzLMAzDTufs/kYTbcvx2733nP//3JlzbRAEi7V8giBYEeTCLlwWFsIO7MJmfU0pUcGJREl+2YoK6n7FftXa07X250TWLoWP8El4JTyDF0oJA+/hA0xhX+Ja8u/gq5J9ZSZxI+u3yua3xBjmsIAlrKCeJ5Tj7MIDJTohOiE6ITohOiE6ITqR9LEEl2fs7CvRi9CL0IvQi9CL0IvQM+gZ6g35hnxDviH/XvJXeZYZzGEBS1hBrXuQukOefQbHMIcFLGEFtd5SZ6mz1FnqLHWWuljiDX7CL5jBMcxhAUuoOon0vQ434KZS4gMWsIRal0reTj2boRHUfMd5PPPdb/Gons3iCGpfA1nfgro/oP8B/Q/QG9LHkD6e0Xnh/O/cixH3UXmOVgGn91DW96C+r4nOGfdN73Uzz837aZ7X9DlITk/iWL6f0t8152vujeG3QU/Zq1tzyHy1560Du7A3Z746sAt7cOmveSLfkm/Jt+Rb7peln3lzZtGL0YvRi9GL0YvRmzdnMToJOgk6CToJOgk6CX0pt3n++T/zmKCfop+in6Kfop+in6Kvc/sFM5jDApawgurj8HH4OHwcPg4fh4/Dx+HjmB+Hn8PP4efwc/Xv++Tx8/h5/Dx+Hj/PPfD4enw9vh5fj6/H1+Pr8e2z32df2fxPLdQ/czx9L9+yL1nuRAcAAA\u003d\u003d",
       "version": 1
     }
   },
