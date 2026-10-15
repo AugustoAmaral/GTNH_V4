@@ -12,6 +12,11 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "d59b3bee-192d-451e-942e-51779a075ebd",
+            "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08",
+            "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -32,7 +37,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 685,
+                "amount": 665,
                 "currency": "darkWizard"
               },
               {
@@ -48,7 +53,7 @@
                 "currency": "forestry"
               },
               {
-                "amount": 236,
+                "amount": 211,
                 "currency": "smith"
               },
               {
@@ -56,7 +61,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 1931,
+                "amount": 1881,
                 "currency": "technician"
               }
             ]
@@ -94,16 +99,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1791925831998L",
-          "notificationQueued": "0B",
-          "tradeCount": 2,
+          "lastTrade": "1792083622879L",
+          "notificationQueued": "1B",
+          "tradeCount": 3,
           "uuid": "d59b3bee-192d-451e-942e-51779a075ebd"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1789680705818L",
-          "notificationQueued": "0B",
-          "tradeCount": 3,
+          "lastTrade": "1792083614171L",
+          "notificationQueued": "1B",
+          "tradeCount": 4,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
         {
@@ -164,9 +169,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788530281684L",
-          "notificationQueued": "0B",
-          "tradeCount": 6,
+          "lastTrade": "1792083622218L",
+          "notificationQueued": "1B",
+          "tradeCount": 7,
           "uuid": "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
         },
         {
