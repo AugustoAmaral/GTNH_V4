@@ -12,11 +12,14 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "99bb559d-df60-4d08-9350-8fbfbd13edf2"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
               {
-                "amount": 438,
+                "amount": 358,
                 "currency": "adventure"
               },
               {
@@ -70,6 +73,13 @@
           "notificationQueued": "0B",
           "tradeCount": 4,
           "uuid": "e65474d7-73f2-4ac5-a00f-bb53e3e7954f"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1792071582840L",
+          "notificationQueued": "1B",
+          "tradeCount": 1,
+          "uuid": "99bb559d-df60-4d08-9350-8fbfbd13edf2"
         },
         {
           "cooldownTradeCount": 1,
@@ -183,7 +193,7 @@
       "blob": "H4sIAAAAAAAA/2NgYGBkgAIALNKubAwAAAA\u003d"
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/32VUUcEURTHZ2tZYhXRZ4ieom/QS+m5p15670v0GNFzRMQwuorVZRiGy9Wy9BQpYomeYliGYRh2Omf3N5poW47f7r3n/P/3zpxjgyBYruUTBMGqIBd2YV9YCDuwC5v1daVEBacSJfllKyqo+xX7VWtP19qfE1m7FD7AR+GV8AxeKCUMvIcDmMKhxLXk38FXJfvKTOJG1m+VzW+JCcxhAUtYQb1PKNfZU1IfUh9SH1IfUh9SH1Ifif8K7M/ZOVCiF6EXoRehF6EXoRehZ9Az1BvyDfmGfEP+veSv8QwzmMMClrCCWjeQukOeeQYnMIcFLGEFtd5SZ6mz1FnqLHWWuljiDX7CL5jBCcxhAUuoOomcewNuwi2lxAcsYAm1LpW83XreO2Oo+Y77ePp62OJRPe/BMdRzjWR9G+r+iPOPOP8IvSfO8Uz9C/d+Zw7GzJ/yHI0CzuZO1vehvqep9hfzpXPc9G/zXprnNLu/5PQkjuX7Kee65l7NnBh+G/SUvbrVf/RVu886sAt7C/qqA7uwB1f+6iPyLfmWfEu+Za4s51nUXxa9GL0YvRi9GL0YvUX9FaOToJOgk6CToJOgk3Au5Q7PP/+nDxP0U/RT9FP0U/RT9FP0tV+/YAZzWMASVlB9HD4OH4ePw8fh4/Bx+Dh8HP3j8HP4Ofwcfq7+PUceP4+fx8/j5/HzzIHH1+Pr8fX4enw9vh5fj++Q/SH7yuZ/aan+6ePZe/kGjVDMvTQHAAA\u003d",
+      "blob": "H4sIAAAAAAAA/32VUUcEURTHZ2tZYhXRZ4ieom/QS+m5p176AH2IHiN6jogYRleRLsMwXK6WZZ8iRSzRUwzLMAzDTufs/kYTbcPx27n3nP//3jvn2iAIlmt5giBYFeTCLuwLC2EHdmEzvq6UqOBUoiS/bEUFdb5ivmrN6Vj7OZGxS+EjfBJeCc/ghVLCwHv4AFM4kLiW/Dv4qmRemUncyPitsnmXmMAcFrCEFdT9hLKdPSX1IfUh9SH1IfUh9SH1kfivwP6cnQMlehF6EXoRehF6EXoRegY9Q70h35BvyDfk30v+GmeYwRwWsIQV1LoHqTvkzDM4gTksYAkrqPWWOkudpc5SZ6mz1MUSb/ATfsEMTmAOC1hC1Ulk3RtwE24pJT5gAUuodank7dbz3hlDzXfsx9PXgxaP6nkPjqGuayjj21Dnh6x/yPqH6I1Yx4h1PKPzwv7fuQ9j7qHyHK0Czu6fjO9D/V5T7TPumd7npo+b79Oc1+wcJKcncSy/T1nfNftr7ovh3aCn7NWtPqS/2v3WgV3YW9BfHdiFPbjyVz+Rb8m35FvyLffLsp5FfWbRi9GL0YvRi9GL0VvUZzE6CToJOgk6CToJOgnrUu5w/vk//Zign6Kfop+in6Kfop+ir337BTOYwwKWsILq4/Bx+Dh8HD4OH4ePw8fh4+gfh5/Dz+Hn8HP17/vk8fP4efw8fh4/zz3w+Hp8Pb4eX4+vx9fj6/EdMD9gXtn8Py3VP308+y7feKPvyTwHAAA\u003d",
       "version": 1
     }
   },
