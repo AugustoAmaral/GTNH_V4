@@ -12,6 +12,9 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "e4ebd1d7-9167-42ce-83fa-134e178a0b35"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -24,7 +27,7 @@
                 "currency": "bees"
               },
               {
-                "amount": 535,
+                "amount": 510,
                 "currency": "chemist"
               },
               {
@@ -32,7 +35,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 665,
+                "amount": 645,
                 "currency": "darkWizard"
               },
               {
@@ -48,7 +51,7 @@
                 "currency": "forestry"
               },
               {
-                "amount": 211,
+                "amount": 186,
                 "currency": "smith"
               },
               {
@@ -56,7 +59,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 1881,
+                "amount": 1791,
                 "currency": "technician"
               }
             ]
@@ -80,6 +83,13 @@
         },
         {
           "cooldownTradeCount": 1,
+          "lastTrade": "1792171249183L",
+          "notificationQueued": "0B",
+          "tradeCount": 1,
+          "uuid": "08702d0a-20ae-43d8-97ca-767f46ee7d77"
+        },
+        {
+          "cooldownTradeCount": 1,
           "lastTrade": "1788547186240L",
           "notificationQueued": "0B",
           "tradeCount": 16,
@@ -94,16 +104,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792083622879L",
+          "lastTrade": "1792171253797L",
           "notificationQueued": "0B",
-          "tradeCount": 3,
+          "tradeCount": 4,
           "uuid": "d59b3bee-192d-451e-942e-51779a075ebd"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792083614171L",
+          "lastTrade": "1792171251453L",
           "notificationQueued": "0B",
-          "tradeCount": 4,
+          "tradeCount": 5,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
         {
@@ -164,9 +174,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792083622218L",
+          "lastTrade": "1792171254562L",
           "notificationQueued": "0B",
-          "tradeCount": 7,
+          "tradeCount": 8,
           "uuid": "5e70b21b-94b5-4146-b128-cb7ecaa46eb0"
         },
         {
@@ -178,9 +188,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1788902585995L",
-          "notificationQueued": "0B",
-          "tradeCount": 1,
+          "lastTrade": "1792173232338L",
+          "notificationQueued": "1B",
+          "tradeCount": 2,
           "uuid": "e4ebd1d7-9167-42ce-83fa-134e178a0b35"
         }
       ],
