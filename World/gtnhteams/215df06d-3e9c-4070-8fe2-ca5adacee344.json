@@ -12,10 +12,6 @@
     "VM": {
       "players": [
         {
-          "notificationQueue": [
-            "d59b3bee-192d-451e-942e-51779a075ebd",
-            "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
-          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -106,14 +102,14 @@
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1792194673551L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 6,
           "uuid": "d59b3bee-192d-451e-942e-51779a075ebd"
         },
         {
           "cooldownTradeCount": 1,
           "lastTrade": "1792194671235L",
-          "notificationQueued": "1B",
+          "notificationQueued": "0B",
           "tradeCount": 7,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
@@ -201,7 +197,7 @@
       "blob": ""
     },
     "visualprospecting": {
-      "blob": "H4sIAAAAAAAA/32VUYcbURTHJ9sQQrSU/QylT0u/wb602qdqWfYD9Gm/Qx+Xss+lhGUYvRqil8swXK4dQp5KbSmh9CkMYZgahkzPSX6jU3YTjl9y7zn//5m550oURQ9a+URR9FBQCodwIqyEAziE3fpjpUQDtxI1+XUvGqj7DftNb0/X+p8LWfso/ApvhJ+El/BKKWHgDM5hBnOJqeR/gbdK9pWFxLWsf1Z2vyU2sIQVrGED9XlieZzn8I0SnRidGJ0YnRidGJ0YnUT6GMPJnoOXSvQS9BL0EvQS9BL0EvQMeoZ6Q74h35BvyJ9J/iPeZQFLWMEaNlDr5lL3lndfwA0sYQVr2ECtt9RZ6ix1ljpLnaXOSfyAv+EaFnADS1jBGqpOKn0fwyfwqVLiF6xgDbUuk7zTdj9DK6j5nucJzHfe43m7n8UV1L4Wsn4CdX9B/wv6X6C3pI8lfXxD5zvP/5N7seI+Kj+gVcHdPZT1F1DPa6tzRo9/JFrudzfX3Tl17233PiRnJPFOvr+nzyka3f0x/DboKUdtbx6Zs/7cDeAQju6ZswEcwhEc3zVX5FvyLfmWfMs9s/SjfAVfw7MDc2jxcfg4fBw+Dh+Hj8PHMXeO83ecy31z6vBJ8UnxSfFJ8UnxSfFRPuPcygPznKKfoZ+hn6GfoZ+hn6Gvc7+GBSxhBWvYQPXx+Hh8PD4eH4+Px8fj4/HxzJ3Hz+Pn8fP4+fb/+xjwC/gF/AJ+Ab/APQr4BnwDvgHfgG/AN+Ab8M3Zz9lXdv9zR+2/+d+dy1/dvH+chAcAAA\u003d\u003d",
+      "blob": "H4sIAAAAAAAA/3WVUWccURTHZ9tlCaGEkNc8hT6FfoO8tJqnaAj5DH3oa5/ytEppXkMIZRi9MqxeLsNwubIseSrREJbQp7Asw9QwZHLO7m/aDbvL8du995z//9yZc20URS8b+URR9EpQCLtwXVgKO7AL2/UNpUQNHyUq8quFqKHu1+zXC3u6tqb60fPPR9k7E/6EV8Jz4Rf4TSlhYAoHMIdDiQvJv4S/lewrJxLfZf2Hsv0tMYUFLGEFa6jniuVYb+EHJToxOjE6MToxOjE6MTqJPgu4PmfnvRK9BL0EvQS9BL0EvQQ9g56h3pBvyDfkG/JT5iAlP8UnpS6lLqUupW4gdYc8+wmcwgKWsII11HpLnaXOUmeps9RZ6pzELfwDH+AETmEBS1hB1cmk7024A18rJe5hCSuodbnk7TXzGRpDzfecJzDnwwUeN/NZHEPtayTru1D3R/Q/ov8Retf0cU0fv9C54fx33Isx91L5Fa0Szu6jrL+D+r4edc7o8a9Ewz1v57p9T+1zmz0PyelJfJLvn5nTE12DOm8n9N9nvU9fp+hf4NneN8Nvw76h7t/8MpeLc9qBXdiD+jyXzWcHdmEPrsHdZXNJnaXOUmeps5zf0p9yC27DfXgAj5rVc23xdfg6fB2+Dl+Hr8PXMceOczje86q5d/hk+GT4ZPhk+GT4ZPgo3zAHRbP6fmTo5+jn6Ofo5+jn6Ofo6z16gBNYwBJWsIbq4/Hx+Hh8PD4eH4+Px8fj45lXj5/Hz+Pn8fPN8/sd8Av4BfwCfgG/wPwHfAO+Ad+Ab8A34BvwDfgO2R+yr6z5v3zR/L8fs/fyBOGpsD/cBwAA",
       "version": 1
     }
   },
