@@ -12,6 +12,10 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "d59b3bee-192d-451e-942e-51779a075ebd",
+            "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -32,7 +36,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 625,
+                "amount": 605,
                 "currency": "darkWizard"
               },
               {
@@ -56,7 +60,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 1741,
+                "amount": 1691,
                 "currency": "technician"
               }
             ]
@@ -101,16 +105,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792187129935L",
-          "notificationQueued": "0B",
-          "tradeCount": 5,
+          "lastTrade": "1792194673551L",
+          "notificationQueued": "1B",
+          "tradeCount": 6,
           "uuid": "d59b3bee-192d-451e-942e-51779a075ebd"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792187127945L",
-          "notificationQueued": "0B",
-          "tradeCount": 6,
+          "lastTrade": "1792194671235L",
+          "notificationQueued": "1B",
+          "tradeCount": 7,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
         {
