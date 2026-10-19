@@ -12,6 +12,9 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -32,7 +35,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 668,
+                "amount": 648,
                 "currency": "darkWizard"
               },
               {
@@ -108,9 +111,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792359378818L",
-          "notificationQueued": "0B",
-          "tradeCount": 14,
+          "lastTrade": "1792417720147L",
+          "notificationQueued": "1B",
+          "tradeCount": 15,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
         {
