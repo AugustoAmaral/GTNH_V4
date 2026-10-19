@@ -32,7 +32,7 @@
                 "currency": "cook"
               },
               {
-                "amount": 588,
+                "amount": 568,
                 "currency": "darkWizard"
               },
               {
@@ -108,9 +108,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792424445250L",
+          "lastTrade": "1792435080756L",
           "notificationQueued": "0B",
-          "tradeCount": 18,
+          "tradeCount": 19,
           "uuid": "5f7d66c3-d29e-4b37-8bcd-04f3f687fb08"
         },
         {
