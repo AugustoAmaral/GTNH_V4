@@ -12,6 +12,9 @@
     "VM": {
       "players": [
         {
+          "notificationQueue": [
+            "d59b3bee-192d-451e-942e-51779a075ebd"
+          ],
           "uuid": "d539d898-5648-4a3c-b9d9-e0b63400f72a",
           "wallet": {
             "currency": [
@@ -24,7 +27,7 @@
                 "currency": "bees"
               },
               {
-                "amount": 435,
+                "amount": 410,
                 "currency": "chemist"
               },
               {
@@ -56,7 +59,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 1641,
+                "amount": 1591,
                 "currency": "technician"
               }
             ]
@@ -94,16 +97,16 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792531212342L",
+          "lastTrade": "1792838895990L",
           "notificationQueued": "0B",
-          "tradeCount": 3,
+          "tradeCount": 4,
           "uuid": "02c0c7ed-78be-42fb-b91d-6335c83a1f78"
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792531206248L",
-          "notificationQueued": "0B",
-          "tradeCount": 7,
+          "lastTrade": "1792838894079L",
+          "notificationQueued": "1B",
+          "tradeCount": 8,
           "uuid": "d59b3bee-192d-451e-942e-51779a075ebd"
         },
         {
