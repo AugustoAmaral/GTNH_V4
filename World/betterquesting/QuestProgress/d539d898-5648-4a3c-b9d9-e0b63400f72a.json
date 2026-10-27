@@ -33926,7 +33926,9 @@
 			"tasks:9": {
 				"0:10": {
 					"index:3": 0,
-					"completeUsers:9": {},
+					"completeUsers:9": {
+						"0:8": "d539d898-5648-4a3c-b9d9-e0b63400f72a"
+					},
 					"taskID:8": "bq_standard:optional_retrieval",
 					"userProgress:9": {
 						"0:10": {
@@ -33934,7 +33936,7 @@
 							"data:11": [
 								2,
 								2,
-								0,
+								1,
 								2
 							]
 						}
