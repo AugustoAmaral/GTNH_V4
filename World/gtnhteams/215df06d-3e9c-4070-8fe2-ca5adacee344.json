@@ -24,7 +24,7 @@
                 "currency": "bees"
               },
               {
-                "amount": 410,
+                "amount": 385,
                 "currency": "chemist"
               },
               {
@@ -94,9 +94,9 @@
         },
         {
           "cooldownTradeCount": 1,
-          "lastTrade": "1792838895990L",
+          "lastTrade": "1793369413587L",
           "notificationQueued": "0B",
-          "tradeCount": 4,
+          "tradeCount": 5,
           "uuid": "02c0c7ed-78be-42fb-b91d-6335c83a1f78"
         },
         {
