@@ -16,47 +16,51 @@
           "wallet": {
             "currency": [
               {
-                "amount": 358,
+                "amount": 11577,
                 "currency": "adventure"
               },
               {
-                "amount": 75,
+                "amount": 340,
                 "currency": "bees"
               },
               {
-                "amount": 335,
+                "amount": 4985,
                 "currency": "chemist"
               },
               {
-                "amount": 20,
+                "amount": 281,
                 "currency": "cook"
               },
               {
-                "amount": 548,
+                "amount": 13340,
                 "currency": "darkWizard"
               },
               {
-                "amount": 46,
+                "amount": 884,
                 "currency": "farmer"
               },
               {
-                "amount": 50,
+                "amount": 1050,
                 "currency": "flower"
               },
               {
-                "amount": 45,
+                "amount": 67,
                 "currency": "forestry"
               },
               {
-                "amount": 186,
+                "amount": 923,
                 "currency": "smith"
               },
               {
-                "amount": 320,
+                "amount": 1400,
+                "currency": "space"
+              },
+              {
+                "amount": 10297,
                 "currency": "survivor"
               },
               {
-                "amount": 1591,
+                "amount": 14749,
                 "currency": "technician"
               }
             ]
@@ -84,6 +88,13 @@
           "notificationQueued": "0B",
           "tradeCount": 1,
           "uuid": "08702d0a-20ae-43d8-97ca-767f46ee7d77"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1793632661293L",
+          "notificationQueued": "0B",
+          "tradeCount": 7,
+          "uuid": "69b8c2d0-993d-41ff-8143-d7486309b909"
         },
         {
           "cooldownTradeCount": 1,
@@ -119,6 +130,13 @@
           "notificationQueued": "0B",
           "tradeCount": 2,
           "uuid": "7dc6f73c-d303-4172-8c4a-bc1aae13aa00"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1793632719836L",
+          "notificationQueued": "0B",
+          "tradeCount": 34,
+          "uuid": "3521d095-fdc4-49c1-bfd2-372c53f49c51"
         },
         {
           "cooldownTradeCount": 1,
@@ -185,10 +203,24 @@
         },
         {
           "cooldownTradeCount": 1,
+          "lastTrade": "1793632704390L",
+          "notificationQueued": "0B",
+          "tradeCount": 39,
+          "uuid": "9f691f2e-9505-4b5a-8ce4-aacd41d2e2bf"
+        },
+        {
+          "cooldownTradeCount": 1,
           "lastTrade": "1792626419401L",
           "notificationQueued": "0B",
           "tradeCount": 3,
           "uuid": "e4ebd1d7-9167-42ce-83fa-134e178a0b35"
+        },
+        {
+          "cooldownTradeCount": 1,
+          "lastTrade": "1793632699036L",
+          "notificationQueued": "0B",
+          "tradeCount": 24,
+          "uuid": "3517c86d-0c00-4a54-a3de-ad6db7de145d"
         }
       ],
       "wallet": {}
