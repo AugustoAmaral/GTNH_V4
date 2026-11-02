@@ -16,7 +16,7 @@
           "wallet": {
             "currency": [
               {
-                "amount": 11577,
+                "amount": 11677,
                 "currency": "adventure"
               },
               {
@@ -48,11 +48,11 @@
                 "currency": "forestry"
               },
               {
-                "amount": 923,
+                "amount": 1023,
                 "currency": "smith"
               },
               {
-                "amount": 1400,
+                "amount": 1500,
                 "currency": "space"
               },
               {
@@ -60,7 +60,7 @@
                 "currency": "survivor"
               },
               {
-                "amount": 14749,
+                "amount": 14849,
                 "currency": "technician"
               }
             ]
