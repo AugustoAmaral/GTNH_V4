@@ -51,6 +51,20 @@ Last verified: 2026-10-04, during the 2.9.0-beta-3 → 2.9.0-RC-2 update.
   those two mods in this world belongs to those specific blocks — revert if
   either mod is used for chunkloading elsewhere later.
 
+## config/ThaumicExploration.cfg
+
+- `B:"Enable Soul Brazier Chunkloading"=false` (pack default: `true`), in the
+  `miscellaneous` block. Set 2026-11-14: required by the forgeChunkLoading
+  zero above. With chunkloading enabled, a lit Soul Brazier calls
+  `ForgeChunkManager.requestTicket`, gets `null` (ticket count 0) and
+  dereferences it (`TileEntitySoulBrazier.addTicket`, NPE "newTicket is
+  null"), crashing the server on every tick of its chunk. Sazamaki lit one at
+  (-174,67,6) in the overworld (spawn chunks), which crash-looped the server
+  from 17:44 UTC. The two "ThaumicExploration warp blocks" of the 2026-09-04
+  note are Soul Braziers too (`warpChunk` ticket data), so re-enabling the
+  mod's tickets instead would bring back that lag. The brazier still stores
+  warp; it just no longer chunkloads.
+
 ## config/ae2fc.cfg
 
 - `I:maxTick=600` (pack default: `120`), in the `levelmaintainer` block. Set
