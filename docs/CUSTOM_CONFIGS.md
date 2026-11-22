@@ -12,7 +12,9 @@ Since the 2.9.0-RC-2 update (2026-10-04) the pack's `config/` is **overlaid**
 exist only on this server (mod-generated at runtime, `config/worldedit/`, …)
 are kept. The beta-3 update had deleted 153 such files instead.
 
-Last verified: 2026-10-04, during the 2.9.0-beta-3 → 2.9.0-RC-2 update.
+Last verified: 2026-11-22, during the 2.9.0-RC-2 → 2.9.1 update. The
+deviations below are re-applied by `tools/reapply-custom.py <cold-copy-dir>`
+(each edit must match exactly once, or it aborts before writing).
 
 ## config/hodgepodge.cfg
 
@@ -72,6 +74,14 @@ Last verified: 2026-10-04, during the 2.9.0-beta-3 → 2.9.0-RC-2 update.
   600 cut tick cost from 40.55 to 33.68 ms (A/B/A measured). Game cost: a
   Level Maintainer checks stock every 30 s instead of 6 s. Missing from this
   list until the RC-2 update caught it.
+
+## config/personalspace.cfg
+
+- `chisel:nucrete:0-15` added to the first `allowedblocks` list (right after
+  `chisel:factoryblock2:0-3`). Set 2026-11-03 at Sazamaki's request: lets
+  players use Chisel's Structural Concrete (all 16 variants) as layers in
+  personal dimensions. Missing from this list until the 2.9.1 update caught
+  it; the pack's file does not have the line.
 
 ## config/gendustry/overrides/tuning.cfg — NOT in effect
 
